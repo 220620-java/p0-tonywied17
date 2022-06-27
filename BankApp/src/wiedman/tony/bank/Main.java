@@ -7,12 +7,13 @@ import wiedman.tony.bank.ds.ArrayList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
 	static Scanner scanner = new Scanner(System.in);
-
+	static DecimalFormat deciFormat = new DecimalFormat();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		bankApp();
@@ -40,23 +41,34 @@ public class Main {
 
 		while (userContinue) {
 
-			System.out.println("/-------------------------------------------/\n"
-					+ "* Welcome To Big Bucks Bank\n"
-					+ "/-------------------------------------------/\n"
-					+ "1.] Login\n"
+			System.out.println(
+					"/-------------------------------------------/"
+					+ "\n"
+					+ "* Welcome To Big Bucks Bank"
+					+ "\n"
+					+ "/-------------------------------------------/"
+					+ "\n"
+					+ "1.] Login"
+					+ "\n"
 					+ "2.] Create Account"
-					+ "\n\n"
+					+ "\n"
+					+ "\n"
 					+ "[Press anything else to exit]"
-					+ "\n/-------------------------------------------/");
+					+ "\n/"
+					+ "-------------------------------------------/");
 			String input = scanner.nextLine();
 
 			switch (input) {
 			case "1":
 				// login
 				
-				System.out.println("/-------------------------------------------/\n"
-						+ "* Big Bucks Bank - Login\n"
-						+ "/-------------------------------------------/\n"
+				System.out.println(""
+						+ "/-------------------------------------------/"
+						+ "\n"
+						+ "* Big Bucks Bank - Login"
+						+ "\n"
+						+ "/-------------------------------------------/"
+						+ "\n"
 						+ "Username: ");
 				String username = scanner.nextLine();
 				System.out.println("Password: ");
@@ -72,9 +84,10 @@ public class Main {
 				String username1 = scanner.nextLine();
 				System.out.println("Enter a password: ");
 				String password1 = scanner.nextLine();
-
+				System.out.println("Confirm your password: ");
+				String password2 = scanner.nextLine();
 				// new user object
-				User newUser = new User(name, username1, password1);
+				User newUser = new User(name, username1, password1, password2);
 
 				users.addUser(newUser);
 				fileAccessObject.saveObjects(file, users);
@@ -93,11 +106,20 @@ public class Main {
 		User CheckCreds = new User(username, password);
 
 		boolean userContinue = true;
-		System.out.println("/-------------------------------------------/\n"
+		System.out.println(
+				"/-------------------------------------------/"
+				+ "\n"
 				+ "* Big Bucks Bank - Account - " + username + "\n"
-				+ "/-------------------------------------------/\n"
-				+ "Balance:" + CheckCreds.getBalance() + "\n"
-				+ "1.] Make Deposit\n2.] Make Withdrawal\n\n3.]Logout\n"
+				+ "/-------------------------------------------/"
+				+ "\n"
+				+ "Balance: $" + CheckCreds.getBalance() + "\n\n"
+				+ "1.] Make Deposit"
+				+ "\n"
+				+ "2.] Make Withdrawal"
+				+ "\n"
+				+ "\n"
+				+ "3.] Logout"
+				+ "\n"
 				+ "/-------------------------------------------/\n");
 		while (userContinue) {
 
@@ -108,6 +130,7 @@ public class Main {
 				// make a deposit
 				System.out.println("Enter Amount:");
 				double depositAmount = scanner.nextDouble();
+				
 				CheckCreds.depositBalance(depositAmount);
 				break;
 			case "2":
@@ -121,11 +144,20 @@ public class Main {
 				bankApp();
 				break;
 			default:
-				System.out.println("/-------------------------------------------/\n"
+				System.out.println(
+						"/-------------------------------------------/"
+						+ "\n"
 						+ "* Big Bucks Bank - Account - " + username + "\n"
-						+ "/-------------------------------------------/\n"
-						+ "Balance:" + CheckCreds.getBalance() + "\n"
-						+ "1.] Make Deposit\n2.] Make Withdrawal\n\n3.]Logout\n"
+						+ "/-------------------------------------------/"
+						+ "\n"
+						+ "Balance: $" + CheckCreds.getBalance() + "\n\n"
+						+ "1.] Make Deposit"
+						+ "\n"
+						+ "2.] Make Withdrawal"
+						+ "\n"
+						+ "\n"
+						+ "3.]Logout"
+						+ "\n"
 						+ "/-------------------------------------------/\n");
 				break;
 			}
