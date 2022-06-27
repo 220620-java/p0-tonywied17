@@ -40,13 +40,24 @@ public class Main {
 
 		while (userContinue) {
 
-			System.out.println("1.] Login\n2.] Create Account\n\n[Press anything else to exit]");
+			System.out.println("/-------------------------------------------/\n"
+					+ "* Welcome To Big Bucks Bank\n"
+					+ "/-------------------------------------------/\n"
+					+ "1.] Login\n"
+					+ "2.] Create Account"
+					+ "\n\n"
+					+ "[Press anything else to exit]"
+					+ "\n/-------------------------------------------/");
 			String input = scanner.nextLine();
 
 			switch (input) {
 			case "1":
 				// login
-				System.out.println("Username: ");
+				
+				System.out.println("/-------------------------------------------/\n"
+						+ "* Big Bucks Bank - Login\n"
+						+ "/-------------------------------------------/\n"
+						+ "Username: ");
 				String username = scanner.nextLine();
 				System.out.println("Password: ");
 				String password = scanner.nextLine();
@@ -82,7 +93,12 @@ public class Main {
 		User CheckCreds = new User(username, password);
 
 		boolean userContinue = true;
-		System.out.println("1.] Make Deposit\n2.] Make Withdrawal\n\n3.]Logout");
+		System.out.println("/-------------------------------------------/\n"
+				+ "* Big Bucks Bank - Account - " + username + "\n"
+				+ "/-------------------------------------------/\n"
+				+ "Balance:" + CheckCreds.getBalance() + "\n"
+				+ "1.] Make Deposit\n2.] Make Withdrawal\n\n3.]Logout\n"
+				+ "/-------------------------------------------/\n");
 		while (userContinue) {
 
 			String input = scanner.nextLine();
@@ -105,7 +121,12 @@ public class Main {
 				bankApp();
 				break;
 			default:
-				System.out.println("1.] Make Deposit\n2.] Make Withdrawal\n\n3.]Logout");
+				System.out.println("/-------------------------------------------/\n"
+						+ "* Big Bucks Bank - Account - " + username + "\n"
+						+ "/-------------------------------------------/\n"
+						+ "Balance:" + CheckCreds.getBalance() + "\n"
+						+ "1.] Make Deposit\n2.] Make Withdrawal\n\n3.]Logout\n"
+						+ "/-------------------------------------------/\n");
 				break;
 			}
 		}
