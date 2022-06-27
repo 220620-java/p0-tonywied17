@@ -1,21 +1,11 @@
 package wiedman.tony.bank;
 
-import java.util.Arrays;
-import wiedman.tony.bank.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DecimalFormat;
-import java.util.Random;
 import java.util.Scanner;
-import wiedman.tony.bank.data.PostgreSQLJDBC;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class Main {
 	static Scanner scanner = new Scanner(System.in);
@@ -81,10 +71,11 @@ public class Main {
 
 	public static void loginMenu(String username, String password) {
 
-
+		// Create user object
 		User checkedCreds = new User();
-		// TODO Auto-generated constructor stub
 
+		// Check that the table exists, if not create it.
+		checkedCreds.checkTable();
 
 		Connection c = null;
 		Statement stmt = null;
@@ -119,23 +110,13 @@ public class Main {
 
 					while (userContinue) {
 
-						System.out.println(
-		        				"/-------------------------------------------/"
-		        				+ "\n"
-		        				+ "* Big Bucks Bank - Account# " + checkedCreds.getId() + " - " + checkedCreds.getUsername() + "\n"
-		        				+ "/-------------------------------------------/"
-		        				+ "\n"
-		        				+ "Balance: $" + checkedCreds.getBalance() + "\n\n"
-		        				+ "1.] Make Deposit"
-		        				+ "\n"
-		        				+ "2.] Make Withdrawal"
-		        				+ "\n"
-		        				+ "\n"
-		        				+ "3.] Logout"
-		        				+ "\n"
-		        				+ "/-------------------------------------------/\n");
+						System.out.println("/-------------------------------------------/" + "\n"
+								+ "* Big Bucks Bank - Account# " + checkedCreds.getId() + " - "
+								+ checkedCreds.getUsername() + "\n" + "/-------------------------------------------/"
+								+ "\n" + "Balance: $" + checkedCreds.getBalance() + "\n\n" + "1.] Make Deposit" + "\n"
+								+ "2.] Make Withdrawal" + "\n" + "\n" + "3.] Logout" + "\n"
+								+ "/-------------------------------------------/\n");
 						String input = scanner.nextLine();
-					
 
 						switch (input) {
 						case "1":
@@ -148,7 +129,7 @@ public class Main {
 							// make a withdrawal
 							System.out.println("Enter Amount:");
 							double withdrawAmount = scanner.nextDouble();
-							checkedCreds.withdrawBalance(withdrawAmount);
+							checkedCreds.withdrawBalance(withdrawAmount, idDB);
 							break;
 						case "3":
 							userContinue = false;
@@ -156,10 +137,8 @@ public class Main {
 							break;
 						}
 					}
-					
-					
-					
-				} 
+
+				}
 
 			}
 			rs.close();
@@ -171,7 +150,6 @@ public class Main {
 			System.exit(0);
 		}
 
-		
 	}
 
 }

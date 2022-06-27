@@ -1,13 +1,8 @@
 package wiedman.tony.bank;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Scanner;
-import wiedman.tony.bank.data.PostgreSQLJDBC;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class User implements Serializable {
@@ -20,12 +15,12 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private double balance;
-	
+
 	static final String DB_URL = "jdbc:postgresql://bankapp.cwhrhowdulyu.us-east-1.rds.amazonaws.com:5432/postgres";
 	static final String USER = "postgres";
 	static final String PASS = "Q!w2e3r4t5";
-	
-	//check table if not create
+
+	// check table if not create
 	public void checkTable() {
 		Connection c = null;
 		Statement stmt = null;
@@ -35,12 +30,9 @@ public class User implements Serializable {
 
 			stmt = c.createStatement();
 
-			String sql = "CREATE TABLE IF NOT EXISTS ACCOUNT" + 
-			"(NAME           varchar(255)    NOT NULL, " + 
-			" USERNAME       varchar(255)    NOT NULL, " + 
-			" PASSWORD       varchar(255)    NOT NULL, " + 
-			" BALANCE		 varchar(255)	 NOT NULL," +
-			" ID  SERIAL PRIMARY KEY)";
+			String sql = "CREATE TABLE IF NOT EXISTS ACCOUNT" + "(NAME           varchar(255)    NOT NULL, "
+					+ " USERNAME       varchar(255)    NOT NULL, " + " PASSWORD       varchar(255)    NOT NULL, "
+					+ " BALANCE		 varchar(255)	 NOT NULL," + " ID  SERIAL PRIMARY KEY)";
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.close();
@@ -52,9 +44,9 @@ public class User implements Serializable {
 
 	// create account constructor
 	public User(String name, String username, String password, String confirmPassword) {
-		
+
 		checkTable();
-		
+
 		if (name != null) {
 			this.setName(name);
 		} else {
@@ -74,7 +66,7 @@ public class User implements Serializable {
 		} else {
 			System.out.println("You must enter a password!");
 		}
-		
+
 		Connection c = null;
 		Statement stmt = null;
 		try {
@@ -82,10 +74,10 @@ public class User implements Serializable {
 			c = DriverManager.getConnection(DB_URL, USER, PASS);
 			c.setAutoCommit(false);
 			System.out.println("Opened database successfully");
-			String stringBalance=String.valueOf(getBalance()); 
+			String stringBalance = String.valueOf(getBalance());
 			stmt = c.createStatement();
-			String sql = "INSERT INTO ACCOUNT (NAME, USERNAME, PASSWORD, BALANCE)" + 
-			"VALUES ('" + name + "', '" + username + "', '" + password + "', '" + stringBalance + "');";
+			String sql = "INSERT INTO ACCOUNT (NAME, USERNAME, PASSWORD, BALANCE)" + "VALUES ('" + name + "', '"
+					+ username + "', '" + password + "', '" + stringBalance + "');";
 			stmt.executeUpdate(sql);
 
 			stmt.close();
@@ -96,82 +88,10 @@ public class User implements Serializable {
 			System.exit(0);
 		}
 		System.out.println("Account opened successfully");
-		
-		
+
 	}
 
 	// login constructor
-	public User(String username2, String password2) {
-		PostgreSQLJDBC sql = new PostgreSQLJDBC();
-		// TODO Auto-generated constructor stub
-		checkTable();
-		
-		
-		Connection c = null;
-	      Statement stmt = null;
-	      try {
-	         Class.forName("org.postgresql.Driver");
-	         c = DriverManager.getConnection(DB_URL, USER, PASS);
-	         c.setAutoCommit(false);
-
-	         stmt = c.createStatement();
-	         ResultSet rs = stmt.executeQuery( "SELECT * FROM ACCOUNT;" );
-
-	         
-	         String compareInp = getUsername() + ":" + getPassword();
-	         
-	         while ( rs.next() ) {
-	            int idDB = rs.getInt("id");
-	            double balanceDB = rs.getDouble("BALANCE");
-	            String nameDB  = rs.getString("NAME");
-	            String usernameDB  = rs.getString("USERNAME");
-	            String  passwordDB = rs.getString("PASSWORD");
-	            String compareDB = usernameDB + ":" + passwordDB;
-	            
-	            if(compareDB.equals(compareInp)) {
-	            	
-	            	System.out.println(
-	        				"/-------------------------------------------/"
-	        				+ "\n"
-	        				+ "* Big Bucks Bank - Account# " + this.getId() + " - " + this.getUsername() + "\n"
-	        				+ "/-------------------------------------------/"
-	        				+ "\n"
-	        				+ "Balance: $" + this.getBalance() + "\n\n"
-	        				+ "1.] Make Deposit"
-	        				+ "\n"
-	        				+ "2.] Make Withdrawal"
-	        				+ "\n"
-	        				+ "\n"
-	        				+ "3.] Logout"
-	        				+ "\n"
-	        				+ "/-------------------------------------------/\n");
-
-	            	//assign db account properties to User if user found
-	            	this.setId(idDB);
-	            	this.setName(nameDB);
-	            	this.setUsername(usernameDB);
-	            	this.setPassword(passwordDB);
-	            	this.setBalance(balanceDB);
-	            	
-	            }else {
-	            	System.out.println("No matching credentials found!");
-	            }
-	            
-	            
-	         }
-	         rs.close();
-	         stmt.close();
-	         c.close();
-	         
-	      } catch ( Exception e ) {
-	         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-	         System.exit(0);
-	      }
-		
-		
-		
-	}
-
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
@@ -184,14 +104,50 @@ public class User implements Serializable {
 
 	// Setting the balance method
 	public void setBalance(double amount, int id) {
-		PostgreSQLJDBC sql = new PostgreSQLJDBC();
 		double roundedAmount = Math.round(amount * 100.0) / 100.0;
-		
-		
-		
+
 	}
 
-	public void withdrawBalance(double amount) {
+	public void withdrawBalance(double amount, int sqlid) {
+		double newBalance = this.balance - amount;
+		Connection c = null;
+		Statement stmt = null;
+
+		if (amount > this.getBalance()) {
+			System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
+					+ getUsername() + "\n" + "/-------------------------------------------/" + "\n"
+					+ "Overdraft not enabled.\n\n" + "Withdrawal for '$" + amount + "' could not be approved." + "\n"
+					+ "\n" + "/-------------------------------------------/\n");
+		} else {
+			try {
+				Class.forName("org.postgresql.Driver");
+				c = DriverManager.getConnection(DB_URL, USER, PASS);
+				c.setAutoCommit(false);
+				stmt = c.createStatement();
+				String sql = "UPDATE ACCOUNT set BALANCE = " + newBalance + " where ID=" + sqlid + ";";
+				stmt.executeUpdate(sql);
+				c.commit();
+				stmt.close();
+				c.close();
+				this.balance = newBalance;
+				this.setBalance(newBalance, getId());
+
+				System.out.println("/-------------------------------------------/" + "\n"
+						+ "* Big Bucks Bank - Account - " + getUsername() + "\n"
+						+ "/-------------------------------------------/" + "\n" + "\n" + "Withdrawal for '$" + amount
+						+ "' completed!" + "\n" + "\n" + "/-------------------------------------------/\n");
+
+				System.out.println("/-------------------------------------------/" + "\n"
+						+ "* Big Bucks Bank - Account# " + this.getId() + " - " + this.getUsername() + "\n"
+						+ "/-------------------------------------------/" + "\n" + "Balance: $" + this.balance + "\n\n"
+						+ "1.] Make Deposit" + "\n" + "2.] Make Withdrawal" + "\n" + "\n" + "3.] Logout" + "\n"
+						+ "/-------------------------------------------/\n");
+			} catch (Exception e) {
+				System.err.println(e.getClass().getName() + ": " + e.getMessage());
+				System.exit(0);
+			}
+
+		}
 
 		if (amount > this.getBalance()) {
 			System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
@@ -216,51 +172,41 @@ public class User implements Serializable {
 	public void depositBalance(double amount, int sqlid) {
 
 		Connection c = null;
-	      Statement stmt = null;
-	      try {
-	         Class.forName("org.postgresql.Driver");
-	         c = DriverManager.getConnection(DB_URL, USER, PASS);
-	         c.setAutoCommit(false);
-	         double newBalance = this.balance + amount;
-	         stmt = c.createStatement();
-	         String sql = "UPDATE ACCOUNT set BALANCE = "+newBalance+" where ID="+sqlid+";";
-	         stmt.executeUpdate(sql);
-	         c.commit();
-	         stmt.close();
-	         c.close();
-	         this.balance = newBalance;
-	         this.setBalance(getBalance() + amount, getId());
-	         System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
-	 				+ getUsername() + "\n" + "/-------------------------------------------/" + "\n" + "\n" + "Deposit for '$"
-	 				+ amount + "' completed!" + "\n" + "\n" + "/-------------------------------------------/\n");
-	         
-	         System.out.println(
-     				"/-------------------------------------------/"
-     				+ "\n"
-     				+ "* Big Bucks Bank - Account# " + this.getId() + " - " + this.getUsername() + "\n"
-     				+ "/-------------------------------------------/"
-     				+ "\n"
-     				+ "Balance: $" + this.balance + "\n\n"
-     				+ "1.] Make Deposit"
-     				+ "\n"
-     				+ "2.] Make Withdrawal"
-     				+ "\n"
-     				+ "\n"
-     				+ "3.] Logout"
-     				+ "\n"
-     				+ "/-------------------------------------------/\n");
-	         
-	      } catch ( Exception e ) {
-	         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-	         System.exit(0);
-	      }
+		Statement stmt = null;
+		try {
+			Class.forName("org.postgresql.Driver");
+			c = DriverManager.getConnection(DB_URL, USER, PASS);
+			c.setAutoCommit(false);
+			double newBalance = this.balance + amount;
+			stmt = c.createStatement();
+			String sql = "UPDATE ACCOUNT set BALANCE = " + newBalance + " where ID=" + sqlid + ";";
+			stmt.executeUpdate(sql);
+			c.commit();
+			stmt.close();
+			c.close();
+			this.balance = newBalance;
+			this.setBalance(getBalance() + amount, getId());
+			System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
+					+ getUsername() + "\n" + "/-------------------------------------------/" + "\n" + "\n"
+					+ "Deposit for '$" + amount + "' completed!" + "\n" + "\n"
+					+ "/-------------------------------------------/\n");
+
+			System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account# "
+					+ this.getId() + " - " + this.getUsername() + "\n" + "/-------------------------------------------/"
+					+ "\n" + "Balance: $" + this.balance + "\n\n" + "1.] Make Deposit" + "\n" + "2.] Make Withdrawal"
+					+ "\n" + "\n" + "3.] Logout" + "\n" + "/-------------------------------------------/\n");
+
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
 
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + getId() + ", name=" + getName() + ", username=" + getUsername() + ", password=" + getPassword() + ", balance="
-				+ getBalance() + "]";
+		return "User [id=" + getId() + ", name=" + getName() + ", username=" + getUsername() + ", password="
+				+ getPassword() + ", balance=" + getBalance() + "]";
 	}
 
 	public int getId() {
@@ -297,8 +243,7 @@ public class User implements Serializable {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
-		
-		
+
 	}
 
 }
