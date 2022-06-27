@@ -1,5 +1,6 @@
 package wiedman.tony.bank;
 
+
 import java.util.Arrays;
 import wiedman.tony.bank.*;
 import wiedman.tony.bank.data.FileAccessObject;
@@ -22,21 +23,7 @@ public class Main {
 	}
 
 	public static void bankApp() {
-
-		ArrayList<User> users = null;
-		FileAccessObject fileAccessObject = new FileAccessObject();
-		File file = new File("users.dat");
-
-		try {
-			users = (ArrayList<User>) fileAccessObject.readObjects(file);
-			if (users == null) {
-				users = new ArrayList<>();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 		boolean userContinue = true;
 
 		while (userContinue) {
@@ -86,11 +73,9 @@ public class Main {
 				String password1 = scanner.nextLine();
 				System.out.println("Confirm your password: ");
 				String password2 = scanner.nextLine();
-				// new user object
+				
+				// new user overloaded constructor
 				User newUser = new User(name, username1, password1, password2);
-
-				users.addUser(newUser);
-				fileAccessObject.saveObjects(file, users);
 				break;
 			default:
 				userContinue = false;
@@ -106,21 +91,7 @@ public class Main {
 		User CheckCreds = new User(username, password);
 
 		boolean userContinue = true;
-		System.out.println(
-				"/-------------------------------------------/"
-				+ "\n"
-				+ "* Big Bucks Bank - Account - " + username + "\n"
-				+ "/-------------------------------------------/"
-				+ "\n"
-				+ "Balance: $" + CheckCreds.getBalance() + "\n\n"
-				+ "1.] Make Deposit"
-				+ "\n"
-				+ "2.] Make Withdrawal"
-				+ "\n"
-				+ "\n"
-				+ "3.] Logout"
-				+ "\n"
-				+ "/-------------------------------------------/\n");
+		
 		while (userContinue) {
 
 			String input = scanner.nextLine();
@@ -144,21 +115,8 @@ public class Main {
 				bankApp();
 				break;
 			default:
-				System.out.println(
-						"/-------------------------------------------/"
-						+ "\n"
-						+ "* Big Bucks Bank - Account - " + username + "\n"
-						+ "/-------------------------------------------/"
-						+ "\n"
-						+ "Balance: $" + CheckCreds.getBalance() + "\n\n"
-						+ "1.] Make Deposit"
-						+ "\n"
-						+ "2.] Make Withdrawal"
-						+ "\n"
-						+ "\n"
-						+ "3.]Logout"
-						+ "\n"
-						+ "/-------------------------------------------/\n");
+				userContinue = false;
+				bankApp();
 				break;
 			}
 		}
