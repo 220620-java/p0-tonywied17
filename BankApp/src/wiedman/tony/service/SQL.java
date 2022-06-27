@@ -1,4 +1,4 @@
-package wiedman.tony.bank;
+package wiedman.tony.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

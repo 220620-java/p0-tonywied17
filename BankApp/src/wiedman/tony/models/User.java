@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
-import wiedman.tony.bank.SQL;
+import wiedman.tony.service.SQL;
 
 public class User {
 	// Private User variables
@@ -19,7 +19,9 @@ public class User {
 	static final String DB_URL = "jdbc:postgresql://bankapp.cwhrhowdulyu.us-east-1.rds.amazonaws.com:5432/postgres";
 	static final String USER = "postgres";
 	static final String PASS = "Q!w2e3r4t5";
+	
 	static SQL sql = new SQL();
+	
 	static Scanner scanner = new Scanner(System.in);
 	static DecimalFormat deciFormat = new DecimalFormat();
 
