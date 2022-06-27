@@ -1,8 +1,10 @@
 package wiedman.tony.bank;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Scanner;
+import wiedman.tony.bank.data.PostgreSQLJDBC;
 
 public class User implements Serializable {
 	/**
@@ -14,10 +16,14 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private double balance;
-
+	
 
 	// create account constructor
 	public User(String name, String username, String password, String confirmPassword) {
+		PostgreSQLJDBC sql = new PostgreSQLJDBC();
+		
+		sql.checkTable();
+		
 		if (name != null) {
 			this.name = name;
 		} else {
@@ -32,24 +38,25 @@ public class User implements Serializable {
 
 		if (password != null) {
 			this.password = password;
-		} else if (password != confirmPassword) {
+		} else if (!password.equals(confirmPassword)) {
 			System.out.println("Passwords do not match!");
 		} else {
 			System.out.println("You must enter a password!");
 		}
-
+		
+		sql.insertValue(name, username, password, 25.00);
 		// initial balance
 		this.setBalance(25.00);
+		
 	}
 
 	// login constructor
 	public User(String username2, String password2) {
+		PostgreSQLJDBC sql = new PostgreSQLJDBC();
 		// TODO Auto-generated constructor stub
-		this.username = username2;
-		this.password = password2;
-
-		// for example purposes for now
-		this.balance = 25.00;
+		sql.checkTable();
+		sql.getCreds(username2, password2);
+		
 	}
 
 	// getting the balance method
