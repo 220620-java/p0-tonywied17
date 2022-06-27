@@ -142,8 +142,7 @@ public class Main {
 							// make a deposit
 							System.out.println("Enter Amount:");
 							double depositAmount = scanner.nextDouble();
-
-							checkedCreds.depositBalance(depositAmount);
+							checkedCreds.depositBalance(depositAmount, checkedCreds.getId());
 							break;
 						case "2":
 							// make a withdrawal
@@ -152,10 +151,6 @@ public class Main {
 							checkedCreds.withdrawBalance(withdrawAmount);
 							break;
 						case "3":
-							userContinue = false;
-							bankApp();
-							break;
-						default:
 							userContinue = false;
 							bankApp();
 							break;

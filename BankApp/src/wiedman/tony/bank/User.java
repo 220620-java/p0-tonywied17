@@ -213,14 +213,48 @@ public class User implements Serializable {
 
 	}
 
-	public void depositBalance(double amount) {
+	public void depositBalance(double amount, int sqlid) {
 
-		// set the new balance
-		this.setBalance(getBalance() + amount, getId());
+		Connection c = null;
+	      Statement stmt = null;
+	      try {
+	         Class.forName("org.postgresql.Driver");
+	         c = DriverManager.getConnection(DB_URL, USER, PASS);
+	         c.setAutoCommit(false);
+	         double newBalance = this.balance + amount;
+	         stmt = c.createStatement();
+	         String sql = "UPDATE ACCOUNT set BALANCE = "+newBalance+" where ID="+sqlid+";";
+	         stmt.executeUpdate(sql);
+	         c.commit();
+	         stmt.close();
+	         c.close();
+	         this.balance = newBalance;
+	         this.setBalance(getBalance() + amount, getId());
+	         System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
+	 				+ getUsername() + "\n" + "/-------------------------------------------/" + "\n" + "\n" + "Deposit for '$"
+	 				+ amount + "' completed!" + "\n" + "\n" + "/-------------------------------------------/\n");
+	         
+	         System.out.println(
+     				"/-------------------------------------------/"
+     				+ "\n"
+     				+ "* Big Bucks Bank - Account# " + this.getId() + " - " + this.getUsername() + "\n"
+     				+ "/-------------------------------------------/"
+     				+ "\n"
+     				+ "Balance: $" + this.balance + "\n\n"
+     				+ "1.] Make Deposit"
+     				+ "\n"
+     				+ "2.] Make Withdrawal"
+     				+ "\n"
+     				+ "\n"
+     				+ "3.] Logout"
+     				+ "\n"
+     				+ "/-------------------------------------------/\n");
+	         
+	      } catch ( Exception e ) {
+	         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+	         System.exit(0);
+	      }
 
-		System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
-				+ getUsername() + "\n" + "/-------------------------------------------/" + "\n" + "\n" + "Deposit for '$"
-				+ amount + "' completed!" + "\n" + "\n" + "/-------------------------------------------/\n");
 	}
 
 	@Override
@@ -263,6 +297,8 @@ public class User implements Serializable {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
+		
+		
 	}
 
 }
