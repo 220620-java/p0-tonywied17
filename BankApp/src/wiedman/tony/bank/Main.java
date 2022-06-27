@@ -15,9 +15,10 @@ public class Main {
 	static final String PASS = "Q!w2e3r4t5";
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		//initialize the application
 		bankApp();
-
+		
+		//close static scanner
 		scanner.close();
 	}
 
@@ -99,7 +100,7 @@ public class Main {
 				String compareDB = usernameDB + ":" + passwordDB;
 
 				if (compareDB.equals(compareInp)) {
-					// assign db account properties to User if user found
+					// assign db account properties to the checkedCreds User object if a user with matching credentials are found
 					checkedCreds.setId(idDB);
 					checkedCreds.setName(nameDB);
 					checkedCreds.setUsername(usernameDB);

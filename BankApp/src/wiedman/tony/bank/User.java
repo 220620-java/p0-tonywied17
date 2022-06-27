@@ -100,19 +100,9 @@ public class User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	// getting the balance method
-	public double getBalance() {
-		double roundedAmount = Math.round(balance * 100.0) / 100.0;
-		return roundedAmount;
-	}
 
-	// Setting the balance method
-	public void setBalance(double amount, int id) {
-		double roundedAmount = Math.round(amount * 100.0) / 100.0;
-		this.balance = roundedAmount;
 
-	}
-
+	// Withdrawal method
 	public void withdrawBalance(double amount, int sqlid) {
 		double newBalance = this.balance - amount;
 		Connection c = null;
@@ -157,6 +147,7 @@ public class User implements Serializable {
 
 	}
 
+	// Deposit method
 	public void depositBalance(double amount, int sqlid) {
 
 		Connection c = null;
@@ -190,12 +181,22 @@ public class User implements Serializable {
 
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + getId() + ", name=" + getName() + ", username=" + getUsername() + ", password="
-				+ getPassword() + ", balance=" + getBalance() + "]";
+	
+	
+	
+	// Getters and setters
+	
+	public double getBalance() {
+		double roundedAmount = Math.round(balance * 100.0) / 100.0;
+		return roundedAmount;
 	}
 
+	public void setBalance(double amount, int id) {
+		double roundedAmount = Math.round(amount * 100.0) / 100.0;
+		this.balance = roundedAmount;
+
+	}
+	
 	public int getId() {
 		return id;
 	}
