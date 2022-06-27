@@ -42,11 +42,13 @@ public class User implements Serializable {
 		}
 	}
 
-	// create account constructor
+	// create account constructor (overloaded)
 	public User(String name, String username, String password, String confirmPassword) {
 
+		// Run check table method to ensure that the table exists and connection can be established.
 		checkTable();
 
+		// User validation logic
 		if (name != null) {
 			this.setName(name);
 		} else {
@@ -67,6 +69,8 @@ public class User implements Serializable {
 			System.out.println("You must enter a password!");
 		}
 
+		
+		// Use SQL to insert new account row into database table
 		Connection c = null;
 		Statement stmt = null;
 		try {
@@ -105,6 +109,7 @@ public class User implements Serializable {
 	// Setting the balance method
 	public void setBalance(double amount, int id) {
 		double roundedAmount = Math.round(amount * 100.0) / 100.0;
+		this.balance = roundedAmount;
 
 	}
 
@@ -113,6 +118,7 @@ public class User implements Serializable {
 		Connection c = null;
 		Statement stmt = null;
 
+		// Withdrawal request exceeds available balance
 		if (amount > this.getBalance()) {
 			System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
 					+ getUsername() + "\n" + "/-------------------------------------------/" + "\n"
@@ -120,6 +126,7 @@ public class User implements Serializable {
 					+ "\n" + "/-------------------------------------------/\n");
 		} else {
 			try {
+				// There was enough balance to make the withdrawal
 				Class.forName("org.postgresql.Driver");
 				c = DriverManager.getConnection(DB_URL, USER, PASS);
 				c.setAutoCommit(false);
@@ -129,7 +136,6 @@ public class User implements Serializable {
 				c.commit();
 				stmt.close();
 				c.close();
-				this.balance = newBalance;
 				this.setBalance(newBalance, getId());
 
 				System.out.println("/-------------------------------------------/" + "\n"
@@ -149,24 +155,6 @@ public class User implements Serializable {
 
 		}
 
-		if (amount > this.getBalance()) {
-			System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
-					+ getUsername() + "\n" + "/-------------------------------------------/" + "\n"
-					+ "Overdraft not enabled.\n\n" + "Withdrawal for '$" + amount + "' could not be approved." + "\n"
-					+ "\n" + "/-------------------------------------------/\n");
-		} else {
-
-			// set the new balance
-			this.setBalance(getBalance() - amount, getId());
-
-			System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
-					+ getUsername() + "\n" + "/-------------------------------------------/" + "\n" + "\n"
-					+ "Withdrawal for '$" + amount + "' completed!" + "\n" + "\n"
-					+ "/-------------------------------------------/\n");
-
-			System.out.println("Your current balance: $" + this.getBalance());
-		}
-
 	}
 
 	public void depositBalance(double amount, int sqlid) {
@@ -184,7 +172,6 @@ public class User implements Serializable {
 			c.commit();
 			stmt.close();
 			c.close();
-			this.balance = newBalance;
 			this.setBalance(getBalance() + amount, getId());
 			System.out.println("/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Account - "
 					+ getUsername() + "\n" + "/-------------------------------------------/" + "\n" + "\n"
