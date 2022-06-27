@@ -9,6 +9,7 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
+	// Private User variables
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
@@ -16,11 +17,12 @@ public class User implements Serializable {
 	private String password;
 	private double balance;
 
+	// Private database connection variables
 	static final String DB_URL = "jdbc:postgresql://bankapp.cwhrhowdulyu.us-east-1.rds.amazonaws.com:5432/postgres";
 	static final String USER = "postgres";
 	static final String PASS = "Q!w2e3r4t5";
 
-	// check table if not create
+	// check table if it does not then create the ACCOUNT table and fields
 	public void checkTable() {
 		Connection c = null;
 		Statement stmt = null;
@@ -63,7 +65,7 @@ public class User implements Serializable {
 
 		if (password != null) {
 			this.setPassword(password);
-		} else if (!password.equals(confirmPassword)) {
+		} else if (password.equals(confirmPassword)) {
 			System.out.println("Passwords do not match!");
 		} else {
 			System.out.println("You must enter a password!");
@@ -95,7 +97,7 @@ public class User implements Serializable {
 
 	}
 
-	// login constructor
+	// login constructor (no-params)
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
