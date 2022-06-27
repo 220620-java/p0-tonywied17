@@ -64,6 +64,7 @@ public class User implements Serializable {
 		}
 		this.username = username;
 		this.password = password;
+		//initial balance
 		this.setBalance(25.00);
 	}
 
