@@ -30,7 +30,7 @@ public class Main {
 			System.out.println("/-------------------------------------------/" + "\n" + "* Welcome To Big Bucks Bank"
 					+ "\n" + "/-------------------------------------------/" + "\n" + "1.] Login" + "\n"
 					+ "2.] Create Account" + "\n" + "\n" + "[Press anything else to exit]" + "\n/"
-					+ "-------------------------------------------/");
+					+ "-------------------------------------------/\nType an option:");
 			String input = scanner.nextLine();
 
 			switch (input) {
@@ -115,7 +115,7 @@ public class Main {
 								+ checkedCreds.getUsername() + "\n" + "/-------------------------------------------/"
 								+ "\n" + "Balance: $" + checkedCreds.getBalance() + "\n\n" + "1.] Make Deposit" + "\n"
 								+ "2.] Make Withdrawal" + "\n" + "\n" + "3.] Logout" + "\n"
-								+ "/-------------------------------------------/\n");
+								+ "/-------------------------------------------/\nType an option:");
 						String input = scanner.nextLine();
 
 						switch (input) {
