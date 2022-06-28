@@ -60,93 +60,18 @@ public class User {
 		sql.insertValue(name, username, password, balance);
 	}
 
-	// Login constructor
+	// Login and get account balance
 	public User(String username, String password) {
 
-		sql.checkTable();
+		int returnVal = sql.loginUser(username, password);
 
-		Connection c = null;
-		Statement stmt = null;
-
-		try {
-			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection(DB_URL, USER, PASS);
-			c.setAutoCommit(false);
-
-			stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM ACCOUNT;");
-
-			String compareInp = username + ":" + password;
-
-			while (rs.next()) {
-
-				int idDB = rs.getInt("ID");
-				double balanceDB = rs.getDouble("BALANCE");
-				String nameDB = rs.getString("NAME");
-				String usernameDB = rs.getString("USERNAME");
-				String passwordDB = rs.getString("PASSWORD");
-				String compareDB = usernameDB + ":" + passwordDB;
-
-				if (compareDB.equals(compareInp)) {
-					this.setId(idDB);
-					this.setName(nameDB);
-					this.setUsername(usernameDB);
-					this.setPassword(passwordDB);
-					this.setBalance(balanceDB, idDB);
-
-					boolean userContinue = true;
-
-					while (userContinue) {
-
-						System.out.println("/-------------------------------------------/" + "\n"
-								+ "* Big Bucks Bank - Account# " + this.getId() + " - " + this.getUsername() + "\n"
-								+ "/-------------------------------------------/" + "\n" + "Balance: $"
-								+ this.getBalance() + "\n\n" + "1.] Make Deposit" + "\n" + "2.] Make Withdrawal" + "\n"
-								+ "\n" + "3.] Logout" + "\n"
-								+ "/-------------------------------------------/\nType an option:");
-						String input = scanner.nextLine();
-
-						switch (input) {
-						case "1":
-							// make a deposit
-							System.out.println("Enter Amount:");
-							double depositAmount = scanner.nextDouble();
-
-							this.setBalance(getBalance() + depositAmount, idDB);
-							break;
-						case "2":
-							// make a withdrawal
-							System.out.println("Enter Amount:");
-							double withdrawAmount = scanner.nextDouble();
-							if (withdrawAmount > this.getBalance()) {
-								System.out.println("************Insufficient Funds*************");
-							} else {
-								this.setBalance(getBalance() - withdrawAmount, idDB);
-							}
-							break;
-						case "3":
-							userContinue = false;
-
-							break;
-						}
-					}
-
-				}
-
-			}
-			rs.close();
-			stmt.close();
-			c.close();
-
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
+		if(returnVal == 0) {
+			System.out.println("Account not found!");
+		}else {
+			System.out.println("Account Balance:");
+			sql.selectBalance("BALANCE", returnVal);
+			this.setBalance(returnVal, returnVal);
 		}
-
-		this.username = username;
-		this.password = password;
-
-		this.balance = 25.00;
 	}
 
 	public int getId() {

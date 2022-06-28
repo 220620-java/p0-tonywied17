@@ -25,22 +25,39 @@ public class Main {
 		User user = null;
 		while (usingBank) {
 			if (user == null) {
-				System.out.println("/-------------------------------------------/" + "\n" + "* Welcome To Big Bucks Bank"
-						+ "\n" + "/-------------------------------------------/" + "\n" + "1.] Login" + "\n"
-						+ "2.] Open Account" + "\n" + "\n" + "3.] Leave the Bank" + "\n/"
-						+ "-------------------------------------------/\nType an option:");
+				System.out.println(
+						"1.] Login" 
+						+ "\n"
+						+ "2.] Open Account" 
+						+ "\n" 
+						+ "\n" 
+						+ "3.] Leave the Bank" 
+						+ "\n/"
+						+ "\nType an option:");
 				String input = scanner.nextLine();
 				
 				switch (input) {
 				case "1":
-					System.out.println(
-							"" + "/-------------------------------------------/" + "\n" + "* Big Bucks Bank - Login" + "\n"
-									+ "/-------------------------------------------/" + "\n" + "Username: ");
+					System.out.println("Username: ");
 					String username = scanner.nextLine();
 					System.out.println("Password: ");
 					String password = scanner.nextLine();
+					scanner.close();
+					
 					
 					User checkCreds = new User(username, password);
+					System.out.println(
+							"1.] Make Deposit" 
+							+ "\n"
+							+ "2.] Open Account" 
+							+ "\n" 
+							+ "\n" 
+							+ "3.] Leave the Bank" 
+							+ "\n/"
+							+ "\nType an option:");
+					String username = scanner.nextLine();
+					
+					
 					break;
 				case "2":
 					// add a new user
