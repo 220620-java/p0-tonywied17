@@ -26,7 +26,7 @@ public class SQL {
 			statement = connection.createStatement();
 
 			// create table if it doesn't exist
-			String sql = "CREATE TABLE IF NOT EXISTS ACCOUNT" + "(NAME           varchar(255)    NOT NULL, "
+			String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" + "(NAME           varchar(255)    NOT NULL, "
 					+ " USERNAME       varchar(255)    NOT NULL, " + " PASSWORD       varchar(255)    NOT NULL, "
 					+ " BALANCE		 varchar(255)	 NOT NULL," + " ID  SERIAL PRIMARY KEY)";
 
@@ -48,7 +48,7 @@ public class SQL {
 			System.out.println("Opened database successfully");
 			statement = connection.createStatement();
 
-			String sql = "INSERT INTO ACCOUNT (NAME, USERNAME, PASSWORD, BALANCE)" + "VALUES ('" + user.getName()
+			String sql = "INSERT INTO bank.accounts (NAME, USERNAME, PASSWORD, BALANCE)" + "VALUES ('" + user.getName()
 					+ "', '" + user.getUsername() + "', '" + user.getPassword() + "', " + user.getBalance() + ");";
 
 			statement.executeUpdate(sql);
@@ -60,7 +60,7 @@ public class SQL {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Account opened successfully");
+		System.out.println("Account opened successfully\n\nWelcome to MyBank Inc.");
 		return user;
 	}
 
@@ -72,7 +72,7 @@ public class SQL {
 			statement = connection.createStatement();
 
 			ResultSet result = statement
-					.executeQuery("SELECT * FROM ACCOUNT WHERE USERNAME='" + user.getUsername() + "'");
+					.executeQuery("SELECT * FROM bank.accounts WHERE USERNAME='" + user.getUsername() + "'");
 
 			while (result.next()) {
 				String nameDB = result.getString("NAME");
@@ -82,7 +82,6 @@ public class SQL {
 				int idDB = result.getInt("ID");
 
 				if (Main.user.getPassword().equals(passwordDB)) {
-					System.out.println("Account Found!");
 					user.setName(nameDB);
 					user.setUsername(usernameDB);
 					user.setPassword(passwordDB);
@@ -118,7 +117,7 @@ public class SQL {
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
 			
-			String sql = "UPDATE ACCOUNT set BALANCE = " + roundedBalance + " where ID=" + id + ";";
+			String sql = "UPDATE bank.accounts set BALANCE = " + roundedBalance + " where ID=" + id + ";";
 			
 			statement.executeUpdate(sql);
 			
