@@ -72,22 +72,25 @@ public class SQL {
 			statement = connection.createStatement();
 
 			ResultSet result = statement
-					.executeQuery("SELECT * FROM bank.accounts WHERE USERNAME='" + user.getUsername() + "'");
+					.executeQuery("SELECT * FROM bank.accounts");
 
 			while (result.next()) {
+				
+				//pull data from database and assign to variables
 				String nameDB = result.getString("NAME");
 				String usernameDB = result.getString("USERNAME");
 				String passwordDB = result.getString("PASSWORD");
 				double balanceDB = result.getDouble("BALANCE");
 				int idDB = result.getInt("ID");
 
-				if (user.getPassword().equals(passwordDB)) {
+				if ((user.getUsername().equals(usernameDB)) && (user.getPassword().equals(passwordDB))) {
 					user.setName(nameDB);
 					user.setUsername(usernameDB);
 					user.setPassword(passwordDB);
 					user.setBalance(balanceDB);
 					user.setId(idDB);
 					user.setLoggedin(true);
+					user.setFailed(false);
 				} else {
 					user.setFailed(true);
 					user.setLoggedin(false);
