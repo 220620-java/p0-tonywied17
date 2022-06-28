@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 // My packages
 import wiedman.tony.models.User;
+//import wiedman.tony.service.SQL;
 
 public class Main {
 
@@ -18,8 +19,8 @@ public class Main {
 	public static void main(String[] args) {
 
 		// Create a database from the SQL service if needed. (Too lazy for DB Beaver)
-		// SQL sql = new SQL();
-		// sql.checkTable();
+		//SQL sql = new SQL();
+		//sql.checkTable();
 
 		// welcome to the bank (Begin main menu prompts)
 		boolean usingBank = true;

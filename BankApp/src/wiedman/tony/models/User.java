@@ -28,7 +28,7 @@ public class User {
 	// Make a deposit
 	public void makeDeposit(User user, double amount) {
 		double adjustedBalance = user.getBalance() + amount;
-		sql.updateFunds(adjustedBalance);
+		sql.updateFunds(user, adjustedBalance);
 	}
 	
 	//Make a withdrawal
@@ -37,7 +37,7 @@ public class User {
 			System.out.println("************Insufficient Funds*************");
 		} else {
 			double adjustedBalance = getBalance() - amount;
-			sql.updateFunds(adjustedBalance);
+			sql.updateFunds(user, adjustedBalance);
 		}
 	}
 	
