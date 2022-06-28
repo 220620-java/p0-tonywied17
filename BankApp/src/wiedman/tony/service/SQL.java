@@ -27,11 +27,12 @@ public class SQL {
 			System.out.println("Opened database successfully");
 			statement = connection.createStatement();
 
-			String sql = "INSERT INTO bank.accounts (NAME, USERNAME, PASSWORD, BALANCE)" + "VALUES ('" + user.getName()
-					+ "', '" + user.getUsername() + "', '" + user.getPassword() + "', " + user.getBalance() + ");";
+			String sql = "INSERT INTO bank.users (NAME, USERNAME, PASSWORD)" + "VALUES ('" + user.getName() + "', '" + user.getUsername() + "', '" + user.getPassword() + "');";
+			
+			String sql2 = "INSERT INTO bank.accounts (USERNAME, BALANCE)" + "VALUES ('" + user.getUsername() + "', '" + user.getBalance() + "');";
 
 			statement.executeUpdate(sql);
-
+			statement.executeUpdate(sql2);
 			statement.close();
 			connection.commit();
 			connection.close();
@@ -51,7 +52,7 @@ public class SQL {
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
 
-			ResultSet result = statement.executeQuery("SELECT * FROM bank.accounts");
+			ResultSet result = statement.executeQuery("SELECT * FROM bank.users");
 
 			while (result.next()) {
 
@@ -59,14 +60,14 @@ public class SQL {
 				String nameDB = result.getString("NAME");
 				String usernameDB = result.getString("USERNAME");
 				String passwordDB = result.getString("PASSWORD");
-				double balanceDB = result.getDouble("BALANCE");
+				
 				int idDB = result.getInt("ID");
 
 				if ((user.getUsername().equals(usernameDB)) && (user.getPassword().equals(passwordDB))) {
+					selectBalance(user);
 					user.setName(nameDB);
 					user.setUsername(usernameDB);
 					user.setPassword(passwordDB);
-					user.setBalance(balanceDB);
 					user.setId(idDB);
 					user.setFailed(false);
 					user.setLoggedin(true);
@@ -89,14 +90,41 @@ public class SQL {
 	}
 
 	
+	// get balance
+	public User selectBalance(User user) {
+		try {
+			Class.forName("org.postgresql.Driver");
+			connection = DriverManager.getConnection(DB_URL, USER, PASS);
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+
+			ResultSet result = statement.executeQuery("SELECT * FROM bank.accounts WHERE username='"+user.getUsername()+"'");
+
+			while (result.next()) {
+
+				// pull data from database and assign to variable
+				double balanceDB = result.getDouble("BALANCE");
+
+				user.setBalance(balanceDB);
+
+			}
+			result.close();
+			statement.close();
+			connection.close();
+
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+		return user;
+	}
+	
 	// SQL method for processing deposits and withdrawals and updating the balance in the database.
-	public void updateFunds(double amount) {
+	public void updateFunds(User user, double amount) {
 
 		DecimalFormat decim = new DecimalFormat("#.00");
 
 		double roundedBalance = Double.parseDouble(decim.format(amount));
-
-		int id = Main.user.getId();
 
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -104,16 +132,15 @@ public class SQL {
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
 
-			String sql = "UPDATE bank.accounts set BALANCE = " + roundedBalance + " where ID=" + id + ";";
-
+			String sql = "UPDATE bank.accounts SET balance='"+roundedBalance+"' WHERE username='"+user.getUsername()+"'";
+			
 			statement.executeUpdate(sql);
-
 			connection.commit();
 			statement.close();
 			connection.close();
 
 			System.out.println("Deposit of: $ " + amount + " has been received.");
-			Main.user.setBalance(roundedBalance);
+			user.setBalance(roundedBalance);
 
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -128,11 +155,12 @@ public class SQL {
 				Class.forName("org.postgresql.Driver");
 				connection = DriverManager.getConnection(DB_URL, USER, PASS);
 				statement = connection.createStatement();
-
+				//connection.createStatement().execute("CREATE SCHEMA accounts");
 				// create table if it doesn't exist
-				String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" + "(NAME           varchar(255)    NOT NULL, "
-						+ " USERNAME       varchar(255)    NOT NULL, " + " PASSWORD       varchar(255)    NOT NULL, "
-						+ " BALANCE		 varchar(255)	 NOT NULL," + " ID  SERIAL PRIMARY KEY)";
+				String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" 
+				+ "(USERNAME           varchar(255)    NOT NULL, "
+				+ " BALANCE		 varchar(255)	 NOT NULL," 
+				+ " ID  SERIAL PRIMARY KEY)";
 
 				statement.executeUpdate(sql);
 
