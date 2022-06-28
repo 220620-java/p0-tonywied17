@@ -14,10 +14,10 @@ public class Main {
 	// Our scanner for field inputs
 	static Scanner scanner = new Scanner(System.in);
 
-	// main method (the initialization of the program)
+
 	public static void main(String[] args) {
 
-		// Make sure the account table exists in the database on program initialization
+		// Create a database from the SQL service if needed. (Too lazy for DB Beaver)
 		// SQL sql = new SQL();
 		// sql.checkTable();
 
