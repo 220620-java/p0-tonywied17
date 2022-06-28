@@ -10,6 +10,7 @@ public class User {
 	private String username;
 	private String password;
 	private double balance;
+	
 	private boolean failed = false;
 	private boolean loggedin = false;
 	
@@ -19,12 +20,15 @@ public class User {
 
 
 	public void userLogin(User user) {
+		user.setFailed(failed);
 		sql.selectUser(user);
 	}
+	
 	public void makeDeposit(User user, double amount) {
 		double adjustedBalance = user.getBalance() + amount;
 		sql.updateFunds(adjustedBalance);
 	}
+	
 	public void makeWithdraw(User user, double amount) {
 		if (amount > user.getBalance()) {
 			System.out.println("************Insufficient Funds*************");
@@ -33,6 +37,7 @@ public class User {
 			sql.updateFunds(adjustedBalance);
 		}
 	}
+	
 	public void createAccount(User user) {
 		sql.insertUser(user);
 	}
