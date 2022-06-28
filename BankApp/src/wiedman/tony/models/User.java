@@ -1,9 +1,6 @@
 package wiedman.tony.models;
 
 import java.text.DecimalFormat;
-import java.util.Scanner;
-
-import wiedman.tony.bank.Main;
 import wiedman.tony.service.SQL;
 
 public class User {
@@ -13,22 +10,20 @@ public class User {
 	private String username;
 	private String password;
 	private double balance;
+	private boolean failed;
 	
-	
-
+	// SQL object for calling methods from the SQL service
 	static SQL sql = new SQL();
-	
-	static Scanner scanner = new Scanner(System.in);
 
 
 	public void userLogin(User user) {
-		sql.loginUser(Main.user);
+		sql.loginUser(user);
 	}
 	public void makeDeposit(User user, double amount) {
 		sql.setDeposit(amount);
 	}
 	public void createAccount(User user) {
-		System.out.println("not yet implemented");
+		sql.createUser(user);
 	}
 	
 	public User(){
@@ -76,6 +71,13 @@ public class User {
 	public void setBalance(double balance) {
 		this.balance = balance;
 
+	}
+	public boolean isFailed() {
+		return failed;
+	}
+	public boolean setFailed(boolean failed) {
+		this.failed = failed;
+		return failed;
 	}
 
 }

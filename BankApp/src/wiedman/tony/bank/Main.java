@@ -5,25 +5,35 @@ import java.util.Scanner;
 
 // My packages
 import wiedman.tony.models.User;
+import wiedman.tony.service.*;
 
 
 public class Main {
+	
+	//Our main User object. This will act as a "session" object.
 	public static User user = new User();
+	
+	//Our scanner for field inputs
 	static Scanner scanner = new Scanner(System.in);
 	
 
+	//main method (the initialization of the program)
 	public static void main(String[] args) {
-		boolean usingBank = true;
-
 		
+		// Make sure the account table exists in the database on program initialization
+		SQL sql = new SQL();
+		sql.checkTable();
+		
+		//welcome to the bank (Begin main menu prompts)
+		boolean usingBank = true;
 		while (usingBank) {
-			if (Main.user.getName() == null) {
+			if (user.getName() == null) {
 				System.out.println(
-						" Bank Company\n" 
+						" Banking Company Inc.\n" 
 						+ "---------------------\n"
 						+ " 1.] Login" 
 						+ "\n"
-						+ " 2.] Open Account" 
+						+ " 2.] Open Account ($25 Deposit)" 
 						+ "\n" 
 						+ "\n" 
 						+ " 3.] Leave the Bank" 
@@ -33,24 +43,25 @@ public class Main {
 				
 				switch (input) {
 				case "1":	
-					Main.user = logIn();
+					// Open the login menu
+					user = logIn();
 					break;
 				case "2":
+					// Open the account registration menu
 					openAccount();
 					break;
 				default:
 					usingBank = false;
-					System.out.println("Thank you for using Big Bucks Banks!");
+					System.out.println("Thank you for banking with Banking Company Inc.");
 				}
 			}
 			
-			//logged in
-			
-			if (Main.user.getName() != null) {
+			// The menu displayed when user has succesfully logged in.
+			if (user.getName() != null) {
 				System.out.println(
-						" Bank Company\n" 
+						" Banking Company Inc.\n" 
 						+ "---------------------\n"
-						+"\nAccount Balance: $" + Main.user.getBalance() + "\n\n"
+						+"\nAccount Balance: $" + user.getBalance() + "\n\n"
 						+ "1.] Make Deposit" 
 						+ "\n"
 						+ "2.] Make Withdrawal" 
@@ -64,15 +75,18 @@ public class Main {
 				
 				switch (input) {
 				case "1":
-					System.out.println("Amount: ");
+					System.out.println("Enter Deposit Amount: ");
 					double depositAmount = scanner.nextDouble();
-					Main.user.makeDeposit(user, depositAmount);
+					user.makeDeposit(user, depositAmount);
 					break;
 				case "2":
-					
+					System.out.println("Enter Withdrawal Amount: ");
+					double withdrawAmount = scanner.nextDouble();
+					System.out.println("Not yet implemented.");
+					//Main.user.makeWithdrawal(user, withdrawAmount);
 					break;
 				case "3":
-					Main.user.setName(null);
+					user.setName(null);
 					System.out.println("Logging out.");
 				}
 			}
@@ -84,32 +98,31 @@ public class Main {
 	}
 	
 	
+	// The login menu
 	public static User logIn() {
 		
 		boolean loggingIn = true;
-		
-		
 		while (loggingIn) {
 		System.out.println("Username: ");
 		String username = scanner.nextLine();
 		System.out.println("Password: ");
 		String password = scanner.nextLine();
 		
-		Main.user.setUsername(username);
-		Main.user.setPassword(password);
+		user.setUsername(username);
+		user.setPassword(password);
 		
-		Main.user.userLogin(Main.user);
+		user.userLogin(user);
 		
-		if (user==null) {
-			System.out.println("Hmm, we couldn't find a user matching those credentials.");
-			System.out.println("Do you want to try again? y/n");
+		if (user.isFailed()) {
+			System.out.println("Wrong username or password entered.");
+			System.out.println("Try again? y/n");
 			String input = scanner.nextLine().toLowerCase();
-			// if they did not say "yes" to trying again
+			
 			if (!("y".equals(input))) {
 				loggingIn = false;
 			}
 		} else {
-			return Main.user;
+			return user;
 		}
 
 	}
@@ -130,26 +143,25 @@ public class Main {
 		String pass = scanner.nextLine();
 
 		
-		System.out.println("Type \"y\" to confirm, \"n\" to try again, or something "
-				+ "else to go back.");
+		System.out.println("Type \"y\" to confirm, \"n\" to reset registration, any other key to return.");
 		String input = scanner.nextLine().toLowerCase();
 
 		switch (input) {
 		case "y":
-				Main.user.setName(name);
-				Main.user.setUsername(usern);
-				Main.user.setPassword(pass);
-				Main.user.setBalance(0);
+				user.setName(name);
+				user.setUsername(usern);
+				user.setPassword(pass);
+				user.setBalance(25.00);
 				
 				// new user overloaded constructor
-				Main.user.createAccount(Main.user);
+				user.createAccount(user);
 				openingAccount = false;
 			break;
 		case "n":
-			System.out.println("Okay, let's try again.");
+			System.out.println("Starting account application over.");
 			break;
 		default:
-			System.out.println("Okay, let's go back.");
+			System.out.println("Returning to main menu.");
 			openingAccount = false;
 		}
 
