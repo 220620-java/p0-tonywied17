@@ -83,6 +83,8 @@ public class SQL {
 	public void setDeposit(double amount) {
 		
 		double newBalance = Main.user.getBalance() + amount;
+		DecimalFormat decim = new DecimalFormat("#.00");
+		double roundedBalance = Double.parseDouble(decim.format(newBalance));
 		int id = Main.user.getId();
 		
 		try {
@@ -91,13 +93,13 @@ public class SQL {
 	         c.setAutoCommit(false);
 
 	         statement = c.createStatement();
-	         String sql = "UPDATE ACCOUNT set BALANCE = "+amount+" where ID="+id+";";
+	         String sql = "UPDATE ACCOUNT set BALANCE = "+roundedBalance+" where ID="+id+";";
 	         statement.executeUpdate(sql);
 	         c.commit();
 	         statement.close();
 	         c.close();
 	         System.out.println("Deposit of: $ " + amount + " has been received.");
-	         Main.user.setBalance(newBalance);
+	         Main.user.setBalance(roundedBalance);
 
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());

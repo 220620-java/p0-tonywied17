@@ -1,17 +1,10 @@
 package wiedman.tony.bank;
 
 // Java packages
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.Scanner;
 
-import wiedman.tony.exception.UsernameTakenException;
 // My packages
 import wiedman.tony.models.User;
-import wiedman.tony.service.Lib;
 
 
 public class Main {
@@ -55,10 +48,12 @@ public class Main {
 			
 			if (Main.user.getName() != null) {
 				System.out.println(
-						"\nAccount Balance: $" + Main.user.getBalance() + "\n\n"
+						" Bank Company\n" 
+						+ "---------------------\n"
+						+"\nAccount Balance: $" + Main.user.getBalance() + "\n\n"
 						+ "1.] Make Deposit" 
 						+ "\n"
-						+ "2.] Open Account" 
+						+ "2.] Make Withdrawal" 
 						+ "\n" 
 						+ "\n" 
 						+ "3.] Logout" 
