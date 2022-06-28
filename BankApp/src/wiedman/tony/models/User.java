@@ -17,13 +17,13 @@ public class User {
 
 
 	public void userLogin(User user) {
-		sql.loginUser(user);
+		sql.selectUser(user);
 	}
 	public void makeDeposit(User user, double amount) {
 		sql.setDeposit(amount);
 	}
 	public void createAccount(User user) {
-		sql.createUser(user);
+		sql.insertUser(user);
 	}
 	
 	public User(){
