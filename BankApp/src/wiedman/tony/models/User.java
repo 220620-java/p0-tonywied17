@@ -12,7 +12,7 @@ public class User {
 	private String name;
 	private String username;
 	private String password;
-	private String amount;
+	private double balance;
 	
 	
 
@@ -77,16 +77,5 @@ public class User {
 		this.balance = balance;
 
 	}
-	public String getAmount() {
-		return amount;
-	}
-
-
-
-	public void setAmount(String amount) {
-		this.amount = amount;
-	}
-
-	private double balance;
 
 }
