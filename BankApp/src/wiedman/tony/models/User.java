@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+import wiedman.tony.bank.Main;
 import wiedman.tony.service.SQL;
 
 public class User {
@@ -16,22 +17,21 @@ public class User {
 	private String name;
 	private String username;
 	private String password;
-	static final String DB_URL = "jdbc:postgresql://bankapp.cwhrhowdulyu.us-east-1.rds.amazonaws.com:5432/postgres";
-	static final String USER = "postgres";
-	static final String PASS = "Q!w2e3r4t5";
+	private String amount;
 	
+	
+
 	static SQL sql = new SQL();
 	
 	static Scanner scanner = new Scanner(System.in);
 	static DecimalFormat deciFormat = new DecimalFormat();
 
 	// Account Creation Constructor
-	public User(String name, String username, String password, String confirm) {
+	public User(String name, String username, String password) {
 		sql.checkTable();
 
 		// User validation logic
 		if (name != null) {
-			
 			//set
 			this.setName(name);
 		} else {
@@ -39,7 +39,6 @@ public class User {
 		}
 
 		if (username != null) {
-			
 			//set
 			this.setUsername(username);
 		} else {
@@ -47,31 +46,29 @@ public class User {
 		}
 
 		if (password != null) {
-			
 			//set
 			this.setPassword(password);
 			
-		} else if (password.equals(confirm)) {
-			System.out.println("Passwords do not match!");
 		} else {
 			System.out.println("You must enter a password!");
 		}
 		
-		sql.insertValue(name, username, password, balance);
 	}
 
-	// Login and get account balance
-	public User(String username, String password) {
 
-		int returnVal = sql.loginUser(username, password);
 
-		if(returnVal == 0) {
-			System.out.println("Account not found!");
-		}else {
-			System.out.println("Account Balance:");
-			sql.selectBalance("BALANCE", returnVal);
-			this.setBalance(returnVal, returnVal);
-		}
+	public void userLogin(User user) {
+		sql.loginUser(Main.user);
+	}
+	public void makeDeposit(User user, double amount) {
+		sql.setDeposit(amount);
+	}
+	public void createAccount(User user) {
+		System.out.println("not yet implemented");
+	}
+	
+	public User(){
+		
 	}
 
 	public int getId() {
@@ -111,11 +108,18 @@ public class User {
 		return roundedAmount;
 	}
 
-	public void setBalance(double balance, int id) {
-
+	public void setBalance(double balance) {
 		this.balance = balance;
-		sql.updateValue("BALANCE", balance, id);
 
+	}
+	public String getAmount() {
+		return amount;
+	}
+
+
+
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 
 	private double balance;
