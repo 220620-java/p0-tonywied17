@@ -43,7 +43,7 @@ public class Main {
 					break;
 				default:
 					usingBank = false;
-					System.out.println("Thank you for banking with Banking Company Inc.");
+					System.out.println("Thank you for banking with MyBank Inc.");
 				}
 			}
 
