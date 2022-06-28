@@ -10,7 +10,9 @@ public class User {
 	private String username;
 	private String password;
 	private double balance;
-	private boolean failed;
+	private boolean failed = false;
+	private boolean loggedin = false;
+	
 	
 	// SQL object for calling methods from the SQL service
 	static SQL sql = new SQL();
@@ -20,7 +22,16 @@ public class User {
 		sql.selectUser(user);
 	}
 	public void makeDeposit(User user, double amount) {
-		sql.setDeposit(amount);
+		double adjustedBalance = user.getBalance() + amount;
+		sql.updateFunds(adjustedBalance);
+	}
+	public void makeWithdraw(User user, double amount) {
+		if (amount > user.getBalance()) {
+			System.out.println("************Insufficient Funds*************");
+		} else {
+			double adjustedBalance = getBalance() - amount;
+			sql.updateFunds(adjustedBalance);
+		}
 	}
 	public void createAccount(User user) {
 		sql.insertUser(user);
@@ -75,9 +86,14 @@ public class User {
 	public boolean isFailed() {
 		return failed;
 	}
-	public boolean setFailed(boolean failed) {
+	public void setFailed(boolean failed) {
 		this.failed = failed;
-		return failed;
+	}
+	public boolean isLoggedin() {
+		return loggedin;
+	}
+	public void setLoggedin(boolean loggedin) {
+		this.loggedin = loggedin;
 	}
 
 }
