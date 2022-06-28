@@ -40,7 +40,7 @@ public class SQL {
 		}
 	}
 
-	public User createUser(User user) {
+	public User insertUser(User user) {
 		try {
 			Class.forName("org.postgresql.Driver");
 			connection = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -64,7 +64,7 @@ public class SQL {
 		return user;
 	}
 
-	public User loginUser(User user) {
+	public User selectUser(User user) {
 		try {
 			Class.forName("org.postgresql.Driver");
 			connection = DriverManager.getConnection(DB_URL, USER, PASS);
