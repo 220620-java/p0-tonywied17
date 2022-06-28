@@ -15,44 +15,47 @@ public class SQL {
 	static final String DB_URL = "jdbc:postgresql://bankapp.cwhrhowdulyu.us-east-1.rds.amazonaws.com:5432/postgres";
 	static final String USER = "postgres";
 	static final String PASS = "Q!w2e3r4t5";
-	Connection c = null;
+	Connection connection = null;
 	Statement statement = null;
 
-	// 
+	//
 	public void checkTable() {
 		try {
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection(DB_URL, USER, PASS);
-			statement = c.createStatement();
+			connection = DriverManager.getConnection(DB_URL, USER, PASS);
+			statement = connection.createStatement();
 
 			// create table if it doesn't exist
 			String sql = "CREATE TABLE IF NOT EXISTS ACCOUNT" + "(NAME           varchar(255)    NOT NULL, "
 					+ " USERNAME       varchar(255)    NOT NULL, " + " PASSWORD       varchar(255)    NOT NULL, "
 					+ " BALANCE		 varchar(255)	 NOT NULL," + " ID  SERIAL PRIMARY KEY)";
+
 			statement.executeUpdate(sql);
+
 			statement.close();
-			c.close();
+			connection.close();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
 	}
-	
+
 	public User createUser(User user) {
 		try {
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection(DB_URL, USER, PASS);
-			c.setAutoCommit(false);
+			connection = DriverManager.getConnection(DB_URL, USER, PASS);
+			connection.setAutoCommit(false);
 			System.out.println("Opened database successfully");
-	
-			statement = c.createStatement();
-			String sql = "INSERT INTO ACCOUNT (NAME, USERNAME, PASSWORD, BALANCE)" + 
-			"VALUES ('" + user.getName() + "', '" + user.getUsername() + "', '" + user.getPassword() + "', " + user.getBalance() + ");";
+			statement = connection.createStatement();
+
+			String sql = "INSERT INTO ACCOUNT (NAME, USERNAME, PASSWORD, BALANCE)" + "VALUES ('" + user.getName()
+					+ "', '" + user.getUsername() + "', '" + user.getPassword() + "', " + user.getBalance() + ");";
+
 			statement.executeUpdate(sql);
 
 			statement.close();
-			c.commit();
-			c.close();
+			connection.commit();
+			connection.close();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
@@ -64,9 +67,10 @@ public class SQL {
 	public User loginUser(User user) {
 		try {
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection(DB_URL, USER, PASS);
-			c.setAutoCommit(false);
-			statement = c.createStatement();
+			connection = DriverManager.getConnection(DB_URL, USER, PASS);
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+
 			ResultSet result = statement
 					.executeQuery("SELECT * FROM ACCOUNT WHERE USERNAME='" + user.getUsername() + "'");
 
@@ -92,7 +96,7 @@ public class SQL {
 			}
 			result.close();
 			statement.close();
-			c.close();
+			connection.close();
 
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -103,25 +107,27 @@ public class SQL {
 	}
 
 	public void setDeposit(double amount) {
-		
-		double newBalance = Main.user.getBalance() + amount;
 		DecimalFormat decim = new DecimalFormat("#.00");
+		double newBalance = Main.user.getBalance() + amount;
 		double roundedBalance = Double.parseDouble(decim.format(newBalance));
 		int id = Main.user.getId();
-		
+
 		try {
 			Class.forName("org.postgresql.Driver");
-	         c = DriverManager.getConnection(DB_URL, USER, PASS);
-	         c.setAutoCommit(false);
-
-	         statement = c.createStatement();
-	         String sql = "UPDATE ACCOUNT set BALANCE = "+roundedBalance+" where ID="+id+";";
-	         statement.executeUpdate(sql);
-	         c.commit();
-	         statement.close();
-	         c.close();
-	         System.out.println("Deposit of: $ " + amount + " has been received.");
-	         Main.user.setBalance(roundedBalance);
+			connection = DriverManager.getConnection(DB_URL, USER, PASS);
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			
+			String sql = "UPDATE ACCOUNT set BALANCE = " + roundedBalance + " where ID=" + id + ";";
+			
+			statement.executeUpdate(sql);
+			
+			connection.commit();
+			statement.close();
+			connection.close();
+			
+			System.out.println("Deposit of: $ " + amount + " has been received.");
+			Main.user.setBalance(roundedBalance);
 
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
