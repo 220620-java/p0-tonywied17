@@ -18,28 +18,7 @@ public class SQL {
 	Connection connection = null;
 	Statement statement = null;
 
-	//
-	public void checkTable() {
-		try {
-			Class.forName("org.postgresql.Driver");
-			connection = DriverManager.getConnection(DB_URL, USER, PASS);
-			statement = connection.createStatement();
-
-			// create table if it doesn't exist
-			String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" + "(NAME           varchar(255)    NOT NULL, "
-					+ " USERNAME       varchar(255)    NOT NULL, " + " PASSWORD       varchar(255)    NOT NULL, "
-					+ " BALANCE		 varchar(255)	 NOT NULL," + " ID  SERIAL PRIMARY KEY)";
-
-			statement.executeUpdate(sql);
-
-			statement.close();
-			connection.close();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		}
-	}
-
+	//SQL method for creating a new user in the database
 	public User insertUser(User user) {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -64,6 +43,7 @@ public class SQL {
 		return user;
 	}
 
+	//SQL method for logging in and checking credentials
 	public User selectUser(User user) {
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -71,12 +51,11 @@ public class SQL {
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
 
-			ResultSet result = statement
-					.executeQuery("SELECT * FROM bank.accounts");
+			ResultSet result = statement.executeQuery("SELECT * FROM bank.accounts");
 
 			while (result.next()) {
-				
-				//pull data from database and assign to variables
+
+				// pull data from database and assign to variables
 				String nameDB = result.getString("NAME");
 				String usernameDB = result.getString("USERNAME");
 				String passwordDB = result.getString("PASSWORD");
@@ -89,8 +68,8 @@ public class SQL {
 					user.setPassword(passwordDB);
 					user.setBalance(balanceDB);
 					user.setId(idDB);
-					user.setLoggedin(true);
 					user.setFailed(false);
+					user.setLoggedin(true);
 				} else {
 					user.setFailed(true);
 					user.setLoggedin(false);
@@ -109,12 +88,14 @@ public class SQL {
 
 	}
 
+	
+	// SQL method for processing deposits and withdrawals and updating the balance in the database.
 	public void updateFunds(double amount) {
-		
+
 		DecimalFormat decim = new DecimalFormat("#.00");
-		
+
 		double roundedBalance = Double.parseDouble(decim.format(amount));
-		
+
 		int id = Main.user.getId();
 
 		try {
@@ -122,15 +103,15 @@ public class SQL {
 			connection = DriverManager.getConnection(DB_URL, USER, PASS);
 			connection.setAutoCommit(false);
 			statement = connection.createStatement();
-			
+
 			String sql = "UPDATE bank.accounts set BALANCE = " + roundedBalance + " where ID=" + id + ";";
-			
+
 			statement.executeUpdate(sql);
-			
+
 			connection.commit();
 			statement.close();
 			connection.close();
-			
+
 			System.out.println("Deposit of: $ " + amount + " has been received.");
 			Main.user.setBalance(roundedBalance);
 
@@ -139,5 +120,28 @@ public class SQL {
 			System.exit(0);
 		}
 	}
+	
+	
+	//SQL method for checking if the table exists and if not create it (not used anymore good for initializing a table)
+		public void checkTable() {
+			try {
+				Class.forName("org.postgresql.Driver");
+				connection = DriverManager.getConnection(DB_URL, USER, PASS);
+				statement = connection.createStatement();
+
+				// create table if it doesn't exist
+				String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" + "(NAME           varchar(255)    NOT NULL, "
+						+ " USERNAME       varchar(255)    NOT NULL, " + " PASSWORD       varchar(255)    NOT NULL, "
+						+ " BALANCE		 varchar(255)	 NOT NULL," + " ID  SERIAL PRIMARY KEY)";
+
+				statement.executeUpdate(sql);
+
+				statement.close();
+				connection.close();
+			} catch (Exception e) {
+				System.err.println(e.getClass().getName() + ": " + e.getMessage());
+				System.exit(0);
+			}
+		}
 
 }
