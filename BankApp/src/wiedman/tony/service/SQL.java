@@ -81,15 +81,16 @@ public class SQL {
 				double balanceDB = result.getDouble("BALANCE");
 				int idDB = result.getInt("ID");
 
-				if (Main.user.getPassword().equals(passwordDB)) {
+				if (user.getPassword().equals(passwordDB)) {
 					user.setName(nameDB);
 					user.setUsername(usernameDB);
 					user.setPassword(passwordDB);
 					user.setBalance(balanceDB);
 					user.setId(idDB);
+					user.setLoggedin(true);
 				} else {
-					System.out.println("No account found with those credentials");
 					user.setFailed(true);
+					user.setLoggedin(false);
 				}
 
 			}
@@ -105,10 +106,12 @@ public class SQL {
 
 	}
 
-	public void setDeposit(double amount) {
+	public void updateFunds(double amount) {
+		
 		DecimalFormat decim = new DecimalFormat("#.00");
-		double newBalance = Main.user.getBalance() + amount;
-		double roundedBalance = Double.parseDouble(decim.format(newBalance));
+		
+		double roundedBalance = Double.parseDouble(decim.format(amount));
+		
 		int id = Main.user.getId();
 
 		try {

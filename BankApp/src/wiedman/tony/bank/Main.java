@@ -26,10 +26,14 @@ public class Main {
 		//welcome to the bank (Begin main menu prompts)
 		boolean usingBank = true;
 		while (usingBank) {
-			if (user.getName() == null) {
+			if (!user.isLoggedin()) {
+
+				String statusReturn = user.isFailed() ? "Failed to login with those credentials" : "Welcome";
+				
+				
 				System.out.println(
 						  "----------------------------\n"
-						+ " | MyBank Inc.\n" 
+						+ " | MyBank Inc. - "+statusReturn+"\n" 
 						+ "----------------------------\n\n"
 						+ " 1.] Login to MyBank" 
 						+ "\n"
@@ -57,7 +61,7 @@ public class Main {
 			}
 			
 			// The menu displayed when user has succesfully logged in.
-			if (user.getName() != null) {
+			if (user.isLoggedin()) {
 				System.out.println(
 						  "----------------------------\n"
 						+ " | MyBank Inc.\n" 
@@ -84,11 +88,11 @@ public class Main {
 				case "2":
 					System.out.println("Enter Withdrawal Amount: ");
 					double withdrawAmount = scanner.nextDouble();
-					System.out.println("Not yet implemented.");
-					//Main.user.makeWithdrawal(user, withdrawAmount);
+					user.makeWithdraw(user, withdrawAmount);
 					break;
 				case "3":
 					user.setName(null);
+					user.setLoggedin(false);
 					System.out.println("Logging out.");
 				}
 			}
