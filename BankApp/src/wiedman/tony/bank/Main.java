@@ -33,7 +33,8 @@ public class Main {
 						+ "\n" 
 						+ "\n" 
 						+ " 3.] Exit Bank" 
-						+ "\n"
+						+ "\n\n"
+						+ "----------------------------------------------------\n" 
 						+ "\n Type an option:");
 				
 					String input = scanner.nextLine();
@@ -58,20 +59,22 @@ public class Main {
 			else {
 				
 				System.out.println(	
-					"----------------------------------------------------\n" 
-					+ " * MyBank Inc. - Your Account\n"
+					  " Welcome back, " + user.getName()+"\n" 
 					+ "----------------------------------------------------\n" 
-					+ " Welcome back, " + user.getName()+"\n" 
-					+ "\n Account No: "+user.getAccountNumber()+" - "+user.getAccountType()+" Account\n"
-					+ "\n Account Balance: $" + user.getBalance() 
+					+ " * MyBank Inc. - "+user.getAccountType()+" Account\n"
+					+ "----------------------------------------------------\n" 
+					+ " Account No: "+user.getAccountNumber()+"\n"
+					+ "----------------------------------------------------\n" 
+					+ "	Account Balance: $" + user.getBalance() 
 					+ "\n\n" 
-					+ " 1.] Make Deposit" 
+					+ "	1.] Make Deposit" 
 					+ "\n"
-					+ " 2.] Make Withdrawal"
+					+ "	2.] Make Withdrawal"
 					+ "\n" 
 					+ "\n" 
-					+ " 3.] Logout" 
+					+ "	3.] Logout" 
 					+ "\n" 
+					+ "----------------------------------------------------\n" 
 					+ "\nType an option:");
 
 				String input = scanner.nextLine();
@@ -115,8 +118,7 @@ public class Main {
 		
 		boolean loggingIn = true;
 		
-			while (loggingIn) {
-				
+			do {
 					System.out.println("Username: ");
 				String username = scanner.nextLine();
 				
@@ -131,13 +133,11 @@ public class Main {
 						if (!user.isFailed()) {
 							loggingIn = false;			
 						} else {				
-							loggingIn = false;
-							
 							System.out.println("Could not find an account with supplied credentials.\n[Press anything to return to home]");
 							scanner.nextLine();
 						}
 						
-			}
+			} while (loggingIn);
 			
 		}
 	
@@ -148,7 +148,7 @@ public class Main {
 		
 		boolean openingAccount = true;
 		
-			while (openingAccount) {
+			do {
 				
 				System.out.println(
 					"Account Type: \n"
@@ -202,7 +202,7 @@ public class Main {
 							openingAccount = false;
 					}
 					
-			}
+			} while (openingAccount);
 
 	}
 	
