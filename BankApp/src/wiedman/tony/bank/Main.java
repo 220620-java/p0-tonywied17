@@ -129,16 +129,12 @@ public class Main {
 					user.userLogin(user);
 			
 						if (!user.isFailed()) {
-						
-							loggingIn = false;
-						
-						} else {
-							
+							loggingIn = false;			
+						} else {				
 							loggingIn = false;
 							
 							System.out.println("Could not find an account with supplied credentials.\n[Press anything to return to home]");
 							scanner.nextLine();
-							
 						}
 						
 			}
