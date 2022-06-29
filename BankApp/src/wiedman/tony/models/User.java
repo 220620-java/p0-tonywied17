@@ -58,7 +58,6 @@ public class User {
 	}
 
 	//Getters and Setters
-	
 	public double getBalance() {
 		DecimalFormat decim = new DecimalFormat("#.00");
 		double roundedAmount = Double.parseDouble(decim.format(balance));
