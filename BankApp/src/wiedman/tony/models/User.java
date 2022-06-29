@@ -1,5 +1,6 @@
 package wiedman.tony.models;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import wiedman.tony.service.SQL;
 
@@ -43,7 +44,12 @@ public class User {
 	
 	//Pass the Main.user values to the SQL service to store them in the database (create an account)
 	public void createAccount(User user) {
-		sql.insertUser(user);
+		try {
+			sql.insertUser(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	// Default no args constructor for instantiating the static Main.user

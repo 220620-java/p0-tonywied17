@@ -48,7 +48,7 @@ public class Main {
 				}
 			}
 
-			// The menu displayed when user has succesfully logged in.
+			// The menu displayed when user has successfully logged in.
 			else {
 				System.out.println("----------------------------\n" + " | MyBank Inc. - Your Account\n"
 						+ "----------------------------\n\n" + " Welcome back, " + user.getName() + "\n"
