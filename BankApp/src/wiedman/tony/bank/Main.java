@@ -15,11 +15,11 @@ public class Main {
 	static Scanner scanner = new Scanner(System.in);
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		// Create a database from the SQL service if needed. (Too lazy for DB Beaver)
 
-		//SQL.checkTable();
+		//SQL.createTable();
 
 		// welcome to the bank (Begin main menu prompts)
 		boolean usingBank = true;
@@ -28,7 +28,7 @@ public class Main {
 				System.out.flush();
 				System.out.println(
 				  "----------------------------------------------------\n" 
-				+ " | MyBank Inc. - Home\n"
+				+ " * MyBank Inc. - Welcome Back!\n"
 				+ "----------------------------------------------------\n\n" 
 				+ " 1.] Login to MyBank" + "\n"
 				+ " 2.] Open an Account ($25 Min. Deposit)" 
@@ -59,7 +59,7 @@ public class Main {
 				System.out.flush();
 				System.out.println(	
 			    "----------------------------------------------------\n" 
-			  + " | MyBank Inc. - Your Account\n"
+			  + " * MyBank Inc. - Your Account\n"
 			  + "----------------------------------------------------\n" 
 			  + " Welcome back, " + user.getName()+"\n" 
 			  + "\n Account No: "+user.getAccountNumber()+" - "+user.getAccountType()+" Account\n"
@@ -97,7 +97,7 @@ public class Main {
 		scanner.close();
 	}
 	// The login menu
-	public static User logIn() {
+	public static User logIn() throws Exception {
 		boolean loggingIn = true;
 		while (loggingIn) {
 			System.out.flush();
@@ -120,7 +120,7 @@ public class Main {
 		return user;
 	}
 	// Create/open account menu
-	public static void openAccount() {
+	public static void openAccount() throws Exception {
 		boolean openingAccount = true;
 		while (openingAccount) {
 			// add a new user
