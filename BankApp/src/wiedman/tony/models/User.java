@@ -16,8 +16,7 @@ public class User {
 	// LOGIN METHOD
 	public void userLogin(User user) throws Exception {
 		
-			SQL.selectUser(user);
-		
+		SQL.selectUser(user);
 	}
 	
 	
@@ -35,15 +34,11 @@ public class User {
 	public void makeWithdraw(User user, double amount) throws Exception {
 		
 		if (amount > user.getBalance()) {
-			
 			System.out.println("Insufficient Funds! No Overdrafting Allowed!");
-			
 		} else {
-			
 			double adjustedBalance = getBalance() - amount;
 			
 				SQL.updateFunds(user, adjustedBalance);
-			
 		}
 	}
 	
@@ -52,7 +47,7 @@ public class User {
 	// CREATE BANK ACCOUNT METHOD
 	public void createAccount(User user) throws Exception {
 		
-				SQL.insertUser(user);
+		SQL.insertUser(user);
 	}
 	
 	
