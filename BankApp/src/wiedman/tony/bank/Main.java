@@ -119,23 +119,23 @@ public class Main {
 		boolean loggingIn = true;
 		
 			do {
-					System.out.println("Username: ");
+				System.out.println("Username: ");
 				String username = scanner.nextLine();
 				
 					user.setUsername(username);
 					
-					System.out.println("Password: ");
+				System.out.println("Password: ");
 				String password = scanner.nextLine();
 				
 					user.setPassword(password);
 					user.userLogin(user);
 			
-						if (!user.isFailed()) {
-							loggingIn = false;			
-						} else {				
-							System.out.println("Could not find an account with supplied credentials.\n[Press anything to return to home]");
-							scanner.nextLine();
-						}
+				if (!user.isFailed()) {
+					loggingIn = false;			
+				} else {				
+					System.out.println("Could not find an account with supplied credentials.\n[Press anything to return to home]");
+					scanner.nextLine();
+				}
 						
 			} while (loggingIn);
 			
@@ -149,7 +149,6 @@ public class Main {
 		boolean openingAccount = true;
 		
 			do {
-				
 				System.out.println(
 					"Account Type: \n"
 					+ " 1.] Checking\n"
