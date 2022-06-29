@@ -9,7 +9,7 @@ import wiedman.tony.models.User;
 public class SQL {
 	public static DB db = new DB();
 	// SQL method for creating a new user in the database
-	public User insertUser(User user) throws SQLException {
+	public static User insertUser(User user) throws SQLException {
 		db.connectDB();
 		Statement statement = db.connection.createStatement();
 		// insert into bank.users table
@@ -25,7 +25,7 @@ public class SQL {
 		return user;
 	}
 	// SQL method for logging in and checking credentials
-	public User selectUser(User user) {
+	public static User selectUser(User user) {
 		try {
 			db.connectDB();
 			Statement statement = db.connection.createStatement();
@@ -62,7 +62,7 @@ public class SQL {
 	}
 
 	// get the users balance from the DB and apply it to their user object
-	public User selectBalance(User user) {
+	public static User selectBalance(User user) {
 		try {
 			db.connectDB();
 			Statement statement = db.connection.createStatement();
@@ -82,7 +82,7 @@ public class SQL {
 	}
 	// SQL method for processing deposits and withdrawals and updating the balance
 	// in the database.
-	public void updateFunds(User user, double amount) {
+	public static void updateFunds(User user, double amount) {
 		// decimal formatter
 		DecimalFormat decim = new DecimalFormat("#.00");
 		// apply format
@@ -103,7 +103,7 @@ public class SQL {
 	}
 	// SQL method for checking if the table exists and if not create it (not used
 	// anymore good for initializing a table)
-	public void checkTable() {
+	public static void checkTable() {
 		try {
 			db.connectDB();
 			Statement statement = db.connection.createStatement();
