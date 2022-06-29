@@ -5,21 +5,15 @@ import wiedman.tony.service.SQL;
 
 public class User {
 	
-	// Private User Object Variables
+	// USER PROPERTIES
 	private int id;
-	private String name;
-	private String username;
-	private String password;
+	private String name, username, password, accountNumber, accountType;
+	private boolean failed = false, loggedin = false;
 	private double balance;
-	private String accountNumber;
-	private String accountType;
-	private boolean failed = false;
-	private boolean loggedin = false;
 
 	
 	
-	// Pass Main.user values (user name and password) to the SQL service for a credential check 
-	// and if  passed reassign Main.user's (static user) variables with the DB values
+	// LOGIN METHOD
 	public void userLogin(User user) throws Exception {
 		
 			SQL.selectUser(user);
@@ -28,7 +22,7 @@ public class User {
 	
 	
 	
-	// Make a deposit
+	// DEPOSIT BALANCE METHOD
 	public void makeDeposit(User user, double amount) throws Exception {
 		double adjustedBalance = user.getBalance() + amount;
 		
@@ -37,7 +31,7 @@ public class User {
 	
 	
 	
-	//Make a withdrawal
+	// WITHDRAWAL METHOD
 	public void makeWithdraw(User user, double amount) throws Exception {
 		
 		if (amount > user.getBalance()) {
@@ -55,7 +49,7 @@ public class User {
 	
 	
 	
-	//Pass the Main.user values to the SQL service to store them in the database (create an account)
+	// CREATE BANK ACCOUNT METHOD
 	public void createAccount(User user) throws Exception {
 		
 				SQL.insertUser(user);
@@ -63,14 +57,16 @@ public class User {
 	
 	
 	
-	// Default no argument constructor for instantiating the static Main.user
+	// DEFAULT NO-ARGS USER METHOD
 	public User(){
 		
 	}
 
 	
 	
-	//Getters and Setters
+	// GETTERS AND SETTERS
+
+	// BALANCE
 	public double getBalance() {
 		
 		DecimalFormat decim = new DecimalFormat("#.00");
@@ -80,8 +76,6 @@ public class User {
 		
 	}
 
-	
-	
 	public void setBalance(double balance) {
 		
 		this.balance = balance;
@@ -90,6 +84,7 @@ public class User {
 	
 	
 	
+	// USER ID
 	public int getId() {
 		
 		return id;
@@ -102,6 +97,7 @@ public class User {
 
 	
 	
+	// NAME
 	public String getName() {
 		return name;
 	}
@@ -112,6 +108,7 @@ public class User {
 
 	
 	
+	// USERNAME
 	public String getUsername() {
 		return username;
 	}
@@ -122,6 +119,7 @@ public class User {
 
 	
 	
+	// PASSWORD
 	public String getPassword() {
 		return password;
 	}
@@ -132,6 +130,7 @@ public class User {
 
 	
 	
+	// FAILED
 	public boolean isFailed() {
 		return failed;
 	}
@@ -141,6 +140,7 @@ public class User {
 	
 	
 	
+	// LOGGED IN
 	public boolean isLoggedin() {
 		return loggedin;
 	}
@@ -150,6 +150,7 @@ public class User {
 
 	
 	
+	// ACCOUNT NUMBER
 	public String getAccountNumber() {
 		return accountNumber;
 	}
@@ -160,6 +161,7 @@ public class User {
 
 	
 	
+	// ACCOUNT TYPE
 	public String getAccountType() {
 		return accountType;
 	}
