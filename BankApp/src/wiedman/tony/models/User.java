@@ -1,5 +1,6 @@
 package wiedman.tony.models;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import wiedman.tony.service.SQL;
 
@@ -18,7 +19,7 @@ public class User {
 	static SQL sql = new SQL();
 
 	
-	// Pass Main.user values (username and password) to the SQL service for a credential check 
+	// Pass Main.user values (user name and password) to the SQL service for a credential check 
 	// and if  passed reassign Main.user's (static user) variables with the DB values
 	public void userLogin(User user) {
 		user.setFailed(failed);
@@ -34,7 +35,7 @@ public class User {
 	//Make a withdrawal
 	public void makeWithdraw(User user, double amount) {
 		if (amount > user.getBalance()) {
-			System.out.println("************Insufficient Funds*************");
+			System.out.println("Insufficient Funds! No Overdrafting Allowed!");
 		} else {
 			double adjustedBalance = getBalance() - amount;
 			sql.updateFunds(user, adjustedBalance);
@@ -43,16 +44,31 @@ public class User {
 	
 	//Pass the Main.user values to the SQL service to store them in the database (create an account)
 	public void createAccount(User user) {
-		sql.insertUser(user);
+		try {
+			sql.insertUser(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	// Default no args constructor for instantiating the static Main.user
+	// Default no argument constructor for instantiating the static Main.user
 	public User(){
 		
 	}
 
-	
 	//Getters and Setters
+	
+	public double getBalance() {
+		DecimalFormat decim = new DecimalFormat("#.00");
+		double roundedAmount = Double.parseDouble(decim.format(balance));
+		return roundedAmount;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -85,17 +101,6 @@ public class User {
 		this.password = password;
 	}
 
-	//Format the balance to 2 decimal places
-	public double getBalance() {
-		DecimalFormat decim = new DecimalFormat("#.00");
-		double roundedAmount = Double.parseDouble(decim.format(balance));
-		return roundedAmount;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-
-	}
 	public boolean isFailed() {
 		return failed;
 	}
