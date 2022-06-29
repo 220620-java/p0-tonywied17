@@ -60,7 +60,6 @@ public class SQL {
 		}
 		return user;
 	}
-
 	// get the users balance from the DB and apply it to their user object
 	public static User selectBalance(User user) {
 		try {

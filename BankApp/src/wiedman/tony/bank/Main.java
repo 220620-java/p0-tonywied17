@@ -2,7 +2,6 @@ package wiedman.tony.bank;
 
 // Java packages
 import java.util.Scanner;
-
 // My packages
 import wiedman.tony.models.User;
 //import wiedman.tony.service.SQL;
@@ -26,6 +25,7 @@ public class Main {
 		boolean usingBank = true;
 		while (usingBank) {
 			if (!user.isLoggedin()) {
+				System.out.flush();
 				System.out.println(
 				"----------------------------\n" 
 				+ " | MyBank Inc. - Home\n"
@@ -56,6 +56,7 @@ public class Main {
 			}
 			// The menu displayed when user has successfully logged in.
 			else {
+				System.out.flush();
 				System.out.println(	
 			    "----------------------------\n" 
 			  + " | MyBank Inc. - Your Account\n"
@@ -99,6 +100,7 @@ public class Main {
 	public static User logIn() {
 		boolean loggingIn = true;
 		while (loggingIn) {
+			System.out.flush();
 			System.out.println("Username: ");
 			String username = scanner.nextLine();
 			user.setUsername(username);
@@ -153,3 +155,5 @@ public class Main {
 
 	}
 }
+
+
