@@ -11,13 +11,14 @@ public class User {
 	private String username;
 	private String password;
 	private double balance;
+	private String accountNumber;
+	private String accountType;
 	private boolean failed = false;
 	private boolean loggedin = false;
 
 	// Pass Main.user values (user name and password) to the SQL service for a credential check 
 	// and if  passed reassign Main.user's (static user) variables with the DB values
 	public void userLogin(User user) {
-		user.setFailed(failed);
 		SQL.selectUser(user);
 	}
 	
@@ -39,12 +40,12 @@ public class User {
 	
 	//Pass the Main.user values to the SQL service to store them in the database (create an account)
 	public void createAccount(User user) {
-		try {
-			SQL.insertUser(user);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				SQL.insertUser(user);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 	// Default no argument constructor for instantiating the static Main.user
@@ -108,4 +109,21 @@ public class User {
 		this.loggedin = loggedin;
 	}
 
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	
 }

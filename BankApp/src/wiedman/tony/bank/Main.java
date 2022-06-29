@@ -18,8 +18,8 @@ public class Main {
 	public static void main(String[] args) {
 
 		// Create a database from the SQL service if needed. (Too lazy for DB Beaver)
-		//SQL sql = new SQL();
-		//sql.checkTable();
+
+		//SQL.checkTable();
 
 		// welcome to the bank (Begin main menu prompts)
 		boolean usingBank = true;
@@ -27,9 +27,9 @@ public class Main {
 			if (!user.isLoggedin()) {
 				System.out.flush();
 				System.out.println(
-				"----------------------------\n" 
+				  "----------------------------------------------------\n" 
 				+ " | MyBank Inc. - Home\n"
-				+ "----------------------------\n\n" 
+				+ "----------------------------------------------------\n\n" 
 				+ " 1.] Login to MyBank" + "\n"
 				+ " 2.] Open an Account ($25 Min. Deposit)" 
 				+ "\n" 
@@ -58,11 +58,11 @@ public class Main {
 			else {
 				System.out.flush();
 				System.out.println(	
-			    "----------------------------\n" 
+			    "----------------------------------------------------\n" 
 			  + " | MyBank Inc. - Your Account\n"
-			  + "----------------------------\n\n" 
-			  + " Welcome back, " + user.getName() 
-			  + "\n"
+			  + "----------------------------------------------------\n" 
+			  + " Welcome back, " + user.getName()+"\n" 
+			  + "\n Account No: "+user.getAccountNumber()+" - "+user.getAccountType()+" Account\n"
 			  + "\n Account Balance: $" + user.getBalance() 
 			  + "\n\n" 
 			  + " 1.] Make Deposit" 
@@ -124,7 +124,22 @@ public class Main {
 		boolean openingAccount = true;
 		while (openingAccount) {
 			// add a new user
-			System.out.println("Your full name: ");
+			System.out.println("Account Type: \n"
+					+ " 1.] Checking\n"
+					+ " 2.] Savings");
+			
+			String type = scanner.nextLine();
+			
+			
+			switch (type) {
+			case "1":
+				user.setAccountType("Checking");
+				break;
+			case "2":
+				user.setAccountType("Savings");
+				break;
+			}
+			System.out.println("Enter your full name:");
 			String name = scanner.nextLine();
 			System.out.println("Enter a username: ");
 			String usern = scanner.nextLine();

@@ -4,19 +4,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.util.Random;
+
 import wiedman.tony.models.User;
 
 public class SQL {
+	
 	public static DB db = new DB();
+	
 	// SQL method for creating a new user in the database
 	public static User insertUser(User user) throws SQLException {
 		db.connectDB();
 		Statement statement = db.connection.createStatement();
+		String accountNumber = getSaltString();
+		
 		// insert into bank.users table
 		String usersQuery = "INSERT INTO bank.users (NAME, USERNAME, PASSWORD)" 
 		+ "VALUES ('" + user.getName() + "', '" + user.getUsername() + "', '" + user.getPassword() + "');";
+		
 		// insert into bank.accounts table
-		String accountQuery = "INSERT INTO bank.accounts (USERNAME, BALANCE)" + "VALUES ('" + user.getUsername() + "', '" + user.getBalance() + "');";
+		String accountQuery = 
+		  "INSERT INTO bank.accounts (USERNAME, BALANCE, ACCOUNT_NUM, ACCOUNT_TYPE)" 
+		+ "VALUES ('" + user.getUsername() + "', '" + user.getBalance() + "', '"+accountNumber+"', '"+user.getAccountType()+"');";
+		
 		statement.executeUpdate(usersQuery);
 		statement.executeUpdate(accountQuery);
 		db.connection.commit();
@@ -29,13 +39,14 @@ public class SQL {
 		try {
 			db.connectDB();
 			Statement statement = db.connection.createStatement();
-			ResultSet result = statement.executeQuery("SELECT * FROM bank.users");
+			ResultSet result = statement.executeQuery("SELECT * FROM bank.users WHERE username='"+user.getUsername()+"'");
 			while (result.next()) {
 				// pull data from database and assign to variables
 				String nameDB = result.getString("NAME");
 				String usernameDB = result.getString("USERNAME");
 				String passwordDB = result.getString("PASSWORD");
 				int idDB = result.getInt("ID");
+				
 				if ((user.getUsername().equals(usernameDB)) && (user.getPassword().equals(passwordDB))) {
 					// account was found now lets apply the DB data to the objects variables
 					selectBalance(user);
@@ -50,6 +61,7 @@ public class SQL {
 					user.setFailed(true);
 					user.setLoggedin(false);
 				}
+				
 			}
 			result.close();
 			statement.close();
@@ -68,7 +80,12 @@ public class SQL {
 			ResultSet result = statement.executeQuery("SELECT * FROM bank.accounts WHERE username='" + user.getUsername() + "'");
 			while (result.next()) {
 				double balanceDB = result.getDouble("BALANCE");
+				String accountNumDB = result.getString("ACCOUNT_NUM");
+				String accountTypeDB = result.getString("ACCOUNT_TYPE");
+			
 				user.setBalance(balanceDB);
+				user.setAccountNumber(accountNumDB);
+				user.setAccountType(accountTypeDB);
 			}
 			result.close();
 			statement.close();
@@ -110,15 +127,30 @@ public class SQL {
 			// create table if it doesn't exist
 			String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" 
 					   + "(USERNAME     varchar(255)    NOT NULL, "
-					   + " BALANCE		varchar(255)	 NOT NULL," 
+					   + " BALANCE		varchar(255)	NOT NULL," 
+					   + " ACCOUNT_NUM	varchar(255)	NOT NULL,"
+					   + " ACCOUNT_TYPE varchar(255)	NOT NULL,"
 					   + " ID  SERIAL PRIMARY KEY)";
 			statement.executeUpdate(sql);
+			db.connection.commit();
 			statement.close();
 			db.closeDB();
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
+	}
+	protected static String getSaltString() {
+	    String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	    StringBuilder salt = new StringBuilder();
+	    Random rnd = new Random();
+	    while (salt.length() < 18) { // length of the random string.
+	        int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+	        salt.append(SALTCHARS.charAt(index));
+	    }
+	    String saltStr = salt.toString();
+	    return saltStr;
+
 	}
 
 }
