@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Random;
-
 import wiedman.tony.models.User;
 
 public class SQL {

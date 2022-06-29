@@ -2,26 +2,21 @@ package wiedman.tony.bank;
 
 // Java packages
 import java.util.Scanner;
-// My packages
 import wiedman.tony.models.User;
 //import wiedman.tony.service.SQL;
 
 public class Main {
 
-	// Our main User object. This will act as a "session" object.
 	public static User user = new User();
-
-	// Our scanner for field inputs
 	static Scanner scanner = new Scanner(System.in);
-
+	
 
 	public static void main(String[] args) throws Exception {
 
-		// Create a database from the SQL service if needed. (Too lazy for DB Beaver)
+		// Table creator
+		// SQL.createTable();
 
-		//SQL.createTable();
-
-		// welcome to the bank (Begin main menu prompts)
+		// Not logged in - Main Screen
 		boolean usingBank = true;
 		while (usingBank) {
 			if (!user.isLoggedin()) {
@@ -96,6 +91,9 @@ public class Main {
 		}
 		scanner.close();
 	}
+	
+	
+	
 	// The login menu
 	public static User logIn() throws Exception {
 		boolean loggingIn = true;
@@ -119,6 +117,9 @@ public class Main {
 		}
 		return user;
 	}
+	
+	
+	
 	// Create/open account menu
 	public static void openAccount() throws Exception {
 		boolean openingAccount = true;
@@ -169,6 +170,9 @@ public class Main {
 		}
 
 	}
+	
+	
+	
 }
 
 
