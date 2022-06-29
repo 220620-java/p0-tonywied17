@@ -8,31 +8,23 @@ import wiedman.tony.models.User;
 //import wiedman.tony.service.DB;
 
 public class SQL {
-
 	public static DB db = new DB();
-
 	// SQL method for creating a new user in the database
 	public User insertUser(User user) throws SQLException {
-
 		db.connectDB();
 		Statement statement = db.connection.createStatement();
-
 		// insert into bank.users table
-		String usersQuery = "INSERT INTO bank.users (NAME, USERNAME, PASSWORD)" + "VALUES ('" + user.getName() + "', '"
-				+ user.getUsername() + "', '" + user.getPassword() + "');";
+		String usersQuery = "INSERT INTO bank.users (NAME, USERNAME, PASSWORD)" 
+		+ "VALUES ('" + user.getName() + "', '" + user.getUsername() + "', '" + user.getPassword() + "');";
 		// insert into bank.accounts table
-		String accountQuery = "INSERT INTO bank.accounts (USERNAME, BALANCE)" + "VALUES ('" + user.getUsername()
-				+ "', '" + user.getBalance() + "');";
-
+		String accountQuery = "INSERT INTO bank.accounts (USERNAME, BALANCE)" + "VALUES ('" + user.getUsername() + "', '" + user.getBalance() + "');";
 		statement.executeUpdate(usersQuery);
 		statement.executeUpdate(accountQuery);
-
 		db.connection.commit();
 		statement.close();
 		db.closeDB();
 		return user;
 	}
-
 	// SQL method for logging in and checking credentials
 	public User selectUser(User user) {
 		try {
@@ -45,7 +37,6 @@ public class SQL {
 				String usernameDB = result.getString("USERNAME");
 				String passwordDB = result.getString("PASSWORD");
 				int idDB = result.getInt("ID");
-
 				if ((user.getUsername().equals(usernameDB)) && (user.getPassword().equals(passwordDB))) {
 					// account was found now lets apply the DB data to the objects variables
 					selectBalance(user);
@@ -74,7 +65,6 @@ public class SQL {
 	// get the users balance from the DB and apply it to their user object
 	public User selectBalance(User user) {
 		try {
-			Class.forName("org.postgresql.Driver");
 			db.connectDB();
 			Statement statement = db.connection.createStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM bank.accounts WHERE username='" + user.getUsername() + "'");
@@ -91,7 +81,6 @@ public class SQL {
 		}
 		return user;
 	}
-
 	// SQL method for processing deposits and withdrawals and updating the balance
 	// in the database.
 	public void updateFunds(User user, double amount) {
@@ -99,7 +88,6 @@ public class SQL {
 		DecimalFormat decim = new DecimalFormat("#.00");
 		// apply format
 		double formattedBalance = Double.parseDouble(decim.format(amount));
-
 		try {
 			db.connectDB();
 			Statement statement = db.connection.createStatement();
@@ -114,12 +102,10 @@ public class SQL {
 			System.exit(0);
 		}
 	}
-
 	// SQL method for checking if the table exists and if not create it (not used
 	// anymore good for initializing a table)
 	public void checkTable() {
 		try {
-			Class.forName("org.postgresql.Driver");
 			db.connectDB();
 			Statement statement = db.connection.createStatement();
 			// connection.createStatement().execute("CREATE SCHEMA accounts");
@@ -128,7 +114,6 @@ public class SQL {
 					   + "(USERNAME     varchar(255)    NOT NULL, "
 					   + " BALANCE		varchar(255)	 NOT NULL," 
 					   + " ID  SERIAL PRIMARY KEY)";
-
 			statement.executeUpdate(sql);
 			statement.close();
 			db.closeDB();
