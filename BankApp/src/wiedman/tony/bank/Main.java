@@ -26,11 +26,18 @@ public class Main {
 		boolean usingBank = true;
 		while (usingBank) {
 			if (!user.isLoggedin()) {
-
-				System.out.println("----------------------------\n" + " | MyBank Inc. - Home\n"
-						+ "----------------------------\n\n" + " 1.] Login to MyBank" + "\n"
-						+ " 2.] Open an Account ($25 Min. Deposit)" + "\n" + "\n" + " 3.] Exit Bank" + "\n"
-						+ "\n Type an option:");
+				System.out.println(
+				"----------------------------\n" 
+				+ " | MyBank Inc. - Home\n"
+				+ "----------------------------\n\n" 
+				+ " 1.] Login to MyBank" + "\n"
+				+ " 2.] Open an Account ($25 Min. Deposit)" 
+				+ "\n" 
+				+ "\n" 
+				+ " 3.] Exit Bank" 
+				+ "\n"
+				+ "\n Type an option:");
+				
 				String input = scanner.nextLine();
 
 				switch (input) {
@@ -47,13 +54,24 @@ public class Main {
 					System.out.println("Thank you for banking with MyBank Inc.");
 				}
 			}
-
 			// The menu displayed when user has successfully logged in.
 			else {
-				System.out.println("----------------------------\n" + " | MyBank Inc. - Your Account\n"
-						+ "----------------------------\n\n" + " Welcome back, " + user.getName() + "\n"
-						+ "\n Account Balance: $" + user.getBalance() + "\n\n" + " 1.] Make Deposit" + "\n"
-						+ " 2.] Make Withdrawal" + "\n" + "\n" + " 3.] Logout" + "\n" + "\nType an option:");
+				System.out.println(	
+			    "----------------------------\n" 
+			  + " | MyBank Inc. - Your Account\n"
+			  + "----------------------------\n\n" 
+			  + " Welcome back, " + user.getName() 
+			  + "\n"
+			  + "\n Account Balance: $" + user.getBalance() 
+			  + "\n\n" 
+			  + " 1.] Make Deposit" 
+			  + "\n"
+			  + " 2.] Make Withdrawal"
+			  + "\n" 
+			  + "\n" 
+			  + " 3.] Logout" 
+			  + "\n" 
+			  + "\nType an option:");
 
 				String input = scanner.nextLine();
 
@@ -76,15 +94,11 @@ public class Main {
 
 		}
 		scanner.close();
-
 	}
-
 	// The login menu
 	public static User logIn() {
 		boolean loggingIn = true;
-
 		while (loggingIn) {
-
 			System.out.println("Username: ");
 			String username = scanner.nextLine();
 			user.setUsername(username);
@@ -98,16 +112,13 @@ public class Main {
 			} else {
 				loggingIn = false;
 				System.out.println("Could not find an account with supplied credentials.\n[Press anything to return to home]");
-				String back = scanner.nextLine();
-				
+				scanner.nextLine();
 			}
-
 		}
 		return user;
 	}
-
+	// Create/open account menu
 	public static void openAccount() {
-
 		boolean openingAccount = true;
 		while (openingAccount) {
 			// add a new user
@@ -117,7 +128,6 @@ public class Main {
 			String usern = scanner.nextLine();
 			System.out.println("Enter a password: ");
 			String pass = scanner.nextLine();
-
 			System.out.println("Type \"y\" to confirm, \"n\" to reset registration, any other key to return.");
 			String input = scanner.nextLine().toLowerCase();
 
@@ -139,9 +149,7 @@ public class Main {
 				System.out.println("Returning to main menu.");
 				openingAccount = false;
 			}
-
 		}
 
 	}
-
 }
