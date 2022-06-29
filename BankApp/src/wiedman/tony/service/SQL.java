@@ -89,7 +89,7 @@ public class SQL {
 						
 							user.setFailed(true);
 							user.setLoggedin(false);
-						
+							System.out.println("Ｕｓｅｒ Ｎｏｔ Ｆｏｕｎｄ");
 					}
 				}
 				
