@@ -14,15 +14,15 @@ public class SQL {
 	
 	
 	
-	// SQL method for creating a new user in the database
+	// SQL QUERY FOR INERSTING A NEW USER INTO THE DATABASE
 	public static User insertUser(User user) throws Exception {
 		
 		db.connectDB();
 		
-			// insert into bank.users table
+			// BANK.USERS TABLE
 			String usersQuery = "INSERT INTO bank.users (NAME, USERNAME, PASSWORD)" + "VALUES ('" + user.getName() + "', '" + user.getUsername() + "', '" + user.getPassword() + "');";
 		
-			// insert into bank.accounts table
+			// BANK.ACCOUNTS TABLE
 			String accountNumber = generateNumber();
 			String accountQuery = "INSERT INTO bank.accounts (USERNAME, BALANCE, ACCOUNT_NUM, ACCOUNT_TYPE)" + "VALUES ('" + user.getUsername() + "', '" + user.getBalance() + "', '"+accountNumber+"', '"+user.getAccountType()+"');";
 		
@@ -39,8 +39,7 @@ public class SQL {
 	
 	
 	
-	// SQL method for processing deposits and withdrawals and updating the balance
-	// in the database.
+	// SQL QUERY FOR UPDATING THE ACCOUNT BALANCE FOR A USER
 	public static void updateFunds(User user, double amount) throws Exception {
 		
 		DecimalFormat decim = new DecimalFormat("#.00");
@@ -63,7 +62,7 @@ public class SQL {
 	
 	
 	
-	// SQL method for logging in and checking credentials
+	// SQL QUERY FOR LOGGING A USER IN (CHECK CREDENTIALS, ASSIGN VALUES)
 	public static void selectUser(User user) throws Exception {
 			
 		db.connectDB();
@@ -72,24 +71,25 @@ public class SQL {
 			ResultSet result = statement.executeQuery("SELECT * FROM bank.users WHERE username='"+user.getUsername()+"'");
 				while (result.next()) {
 					// pull data from database and assign to variables
-					String nameDB = result.getString("NAME");
-					String usernameDB = result.getString("USERNAME");
-					String passwordDB = result.getString("PASSWORD");
 					int idDB = result.getInt("ID");
+					String nameDB = result.getString("NAME"), usernameDB = result.getString("USERNAME"), passwordDB = result.getString("PASSWORD");
 					
-					if ((user.getUsername().equals(usernameDB)) && (user.getPassword().equals(passwordDB))) {
-						// account was found now lets apply the DB data to the objects variables
-						selectBalance(user);
-						user.setName(nameDB);
-						user.setUsername(usernameDB);
-						user.setPassword(passwordDB);
-						user.setId(idDB);
-						user.setFailed(false);
-						user.setLoggedin(true);
+						if ((user.getUsername().equals(usernameDB)) && (user.getPassword().equals(passwordDB))) {
+						
+								selectAccountTable(user);
+						
+							user.setName(nameDB);
+							user.setUsername(usernameDB);
+							user.setPassword(passwordDB);
+							user.setId(idDB);
+							user.setFailed(false);
+							user.setLoggedin(true);
+						
 					} else {
-						// user not found set booleans failed login to true and logged in state to false
-						user.setFailed(true);
-						user.setLoggedin(false);
+						
+							user.setFailed(true);
+							user.setLoggedin(false);
+						
 					}
 				}
 				
@@ -102,21 +102,23 @@ public class SQL {
 	
 		
 		
-		// get the users balance from the DB and apply it to their user object
-	public static void selectBalance(User user) throws Exception {
+	// SQL QUERY FOR ASSIGNING ACCOUNT TABLE INFORMATION SUCH AS BALANCE, ACCOUNT NUMBER, AND ACCOUNT TYPE
+	public static void selectAccountTable(User user) throws Exception {
 			
 		db.connectDB();
 				
 			Statement statement = db.connection.createStatement();
 			ResultSet result = statement.executeQuery("SELECT * FROM bank.accounts WHERE username='" + user.getUsername() + "'");
+			
 				while (result.next()) {
+					
 					double balanceDB = result.getDouble("BALANCE");
-					String accountNumDB = result.getString("ACCOUNT_NUM");
-					String accountTypeDB = result.getString("ACCOUNT_TYPE");
+					String accountNumDB = result.getString("ACCOUNT_NUM"), accountTypeDB = result.getString("ACCOUNT_TYPE");
 				
-					user.setBalance(balanceDB);
-					user.setAccountNumber(accountNumDB);
-					user.setAccountType(accountTypeDB);
+						user.setBalance(balanceDB);
+						user.setAccountNumber(accountNumDB);
+						user.setAccountType(accountTypeDB);
+						
 				}
 				
 				result.close();
@@ -128,14 +130,11 @@ public class SQL {
 	
 		
 		
-	// SQL method for checking if the table exists and if not create it (not used
-	// anymore good for initializing a table)
+	// CREATE TABLE METHOD (TESTING PURPOSES)
 	public static void createTable() throws Exception {
 		
 		db.connectDB();
 
-				// connection.createStatement().execute("CREATE SCHEMA accounts");
-				// create table if it doesn't exist
 				String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" 
 					   + "(USERNAME     varchar(255)    NOT NULL, "
 					   + " BALANCE		varchar(255)	NOT NULL," 
