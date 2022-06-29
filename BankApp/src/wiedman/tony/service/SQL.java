@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import wiedman.tony.models.User;
-//import wiedman.tony.service.DB;
 
 public class SQL {
 	public static DB db = new DB();
