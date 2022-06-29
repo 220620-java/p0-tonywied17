@@ -1,7 +1,6 @@
 package wiedman.tony.service;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -10,145 +9,164 @@ import wiedman.tony.models.User;
 
 public class SQL {
 	
+	
+	
 	public static DB db = new DB();
 	
+	
+	
 	// SQL method for creating a new user in the database
-	public static User insertUser(User user) throws SQLException {
+	public static User insertUser(User user) throws Exception {
+		
 		db.connectDB();
+		
+			// insert into bank.users table
+			String usersQuery = "INSERT INTO bank.users (NAME, USERNAME, PASSWORD)" + "VALUES ('" + user.getName() + "', '" + user.getUsername() + "', '" + user.getPassword() + "');";
+		
+			// insert into bank.accounts table
+			String accountNumber = generateNumber();
+			String accountQuery = "INSERT INTO bank.accounts (USERNAME, BALANCE, ACCOUNT_NUM, ACCOUNT_TYPE)" + "VALUES ('" + user.getUsername() + "', '" + user.getBalance() + "', '"+accountNumber+"', '"+user.getAccountType()+"');";
+		
 		Statement statement = db.connection.createStatement();
-		String accountNumber = getSaltString();
+			statement.executeUpdate(usersQuery);
+			statement.executeUpdate(accountQuery);
+			statement.close();
+			db.connection.commit();
 		
-		// insert into bank.users table
-		String usersQuery = "INSERT INTO bank.users (NAME, USERNAME, PASSWORD)" 
-		+ "VALUES ('" + user.getName() + "', '" + user.getUsername() + "', '" + user.getPassword() + "');";
-		
-		// insert into bank.accounts table
-		String accountQuery = 
-		  "INSERT INTO bank.accounts (USERNAME, BALANCE, ACCOUNT_NUM, ACCOUNT_TYPE)" 
-		+ "VALUES ('" + user.getUsername() + "', '" + user.getBalance() + "', '"+accountNumber+"', '"+user.getAccountType()+"');";
-		
-		statement.executeUpdate(usersQuery);
-		statement.executeUpdate(accountQuery);
-		db.connection.commit();
-		statement.close();
 		db.closeDB();
 		return user;
+		
 	}
-	// SQL method for logging in and checking credentials
-	public static User selectUser(User user) {
-		try {
-			db.connectDB();
-			Statement statement = db.connection.createStatement();
-			ResultSet result = statement.executeQuery("SELECT * FROM bank.users WHERE username='"+user.getUsername()+"'");
-			while (result.next()) {
-				// pull data from database and assign to variables
-				String nameDB = result.getString("NAME");
-				String usernameDB = result.getString("USERNAME");
-				String passwordDB = result.getString("PASSWORD");
-				int idDB = result.getInt("ID");
-				
-				if ((user.getUsername().equals(usernameDB)) && (user.getPassword().equals(passwordDB))) {
-					// account was found now lets apply the DB data to the objects variables
-					selectBalance(user);
-					user.setName(nameDB);
-					user.setUsername(usernameDB);
-					user.setPassword(passwordDB);
-					user.setId(idDB);
-					user.setFailed(false);
-					user.setLoggedin(true);
-				} else {
-					// user not found set booleans failed login to true and logged in state to false
-					user.setFailed(true);
-					user.setLoggedin(false);
-				}
-				
-			}
-			result.close();
-			statement.close();
-			db.closeDB();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		}
-		return user;
-	}
-	// get the users balance from the DB and apply it to their user object
-	public static User selectBalance(User user) {
-		try {
-			db.connectDB();
-			Statement statement = db.connection.createStatement();
-			ResultSet result = statement.executeQuery("SELECT * FROM bank.accounts WHERE username='" + user.getUsername() + "'");
-			while (result.next()) {
-				double balanceDB = result.getDouble("BALANCE");
-				String accountNumDB = result.getString("ACCOUNT_NUM");
-				String accountTypeDB = result.getString("ACCOUNT_TYPE");
-			
-				user.setBalance(balanceDB);
-				user.setAccountNumber(accountNumDB);
-				user.setAccountType(accountTypeDB);
-			}
-			result.close();
-			statement.close();
-			db.closeDB();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		}
-		return user;
-	}
+	
+	
 	// SQL method for processing deposits and withdrawals and updating the balance
 	// in the database.
-	public static void updateFunds(User user, double amount) {
-		// decimal formatter
+	public static void updateFunds(User user, double amount) throws Exception {
+		
 		DecimalFormat decim = new DecimalFormat("#.00");
-		// apply format
 		double formattedBalance = Double.parseDouble(decim.format(amount));
-		try {
-			db.connectDB();
-			Statement statement = db.connection.createStatement();
-			String sql = "UPDATE bank.accounts SET balance='" + formattedBalance + "' WHERE username='"+ user.getUsername() + "'";
-			statement.executeUpdate(sql);
-			db.connection.commit();
-			statement.close();
-			db.closeDB();
+		
 			user.setBalance(formattedBalance);
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		}
+		
+		db.connectDB();
+
+			String balanceQuery = "UPDATE bank.accounts SET balance='" + formattedBalance + "' WHERE username='"+ user.getUsername() + "'";
+			
+		Statement statement = db.connection.createStatement();
+			statement.executeUpdate(balanceQuery);
+			statement.close();
+			db.connection.commit();
+			
+		db.closeDB();
+			
 	}
+	
+	
+	
+	// SQL method for logging in and checking credentials
+	public static void selectUser(User user) throws Exception {
+			
+		db.connectDB();
+				
+			Statement statement = db.connection.createStatement();
+			ResultSet result = statement.executeQuery("SELECT * FROM bank.users WHERE username='"+user.getUsername()+"'");
+				while (result.next()) {
+					// pull data from database and assign to variables
+					String nameDB = result.getString("NAME");
+					String usernameDB = result.getString("USERNAME");
+					String passwordDB = result.getString("PASSWORD");
+					int idDB = result.getInt("ID");
+					
+					if ((user.getUsername().equals(usernameDB)) && (user.getPassword().equals(passwordDB))) {
+						// account was found now lets apply the DB data to the objects variables
+						selectBalance(user);
+						user.setName(nameDB);
+						user.setUsername(usernameDB);
+						user.setPassword(passwordDB);
+						user.setId(idDB);
+						user.setFailed(false);
+						user.setLoggedin(true);
+					} else {
+						// user not found set booleans failed login to true and logged in state to false
+						user.setFailed(true);
+						user.setLoggedin(false);
+					}
+				}
+				
+				result.close();
+				statement.close();
+				
+		db.closeDB();
+				
+		}
+	
+		
+		
+		// get the users balance from the DB and apply it to their user object
+	public static void selectBalance(User user) throws Exception {
+			
+		db.connectDB();
+				
+			Statement statement = db.connection.createStatement();
+			ResultSet result = statement.executeQuery("SELECT * FROM bank.accounts WHERE username='" + user.getUsername() + "'");
+				while (result.next()) {
+					double balanceDB = result.getDouble("BALANCE");
+					String accountNumDB = result.getString("ACCOUNT_NUM");
+					String accountTypeDB = result.getString("ACCOUNT_TYPE");
+				
+					user.setBalance(balanceDB);
+					user.setAccountNumber(accountNumDB);
+					user.setAccountType(accountTypeDB);
+				}
+				
+				result.close();
+				statement.close();
+				
+		db.closeDB();
+
+		}
+	
+		
+		
 	// SQL method for checking if the table exists and if not create it (not used
 	// anymore good for initializing a table)
-	public static void checkTable() {
-		try {
-			db.connectDB();
-			Statement statement = db.connection.createStatement();
-			// connection.createStatement().execute("CREATE SCHEMA accounts");
-			// create table if it doesn't exist
-			String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" 
+	public static void createTable() throws Exception {
+		
+		db.connectDB();
+
+				// connection.createStatement().execute("CREATE SCHEMA accounts");
+				// create table if it doesn't exist
+				String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" 
 					   + "(USERNAME     varchar(255)    NOT NULL, "
 					   + " BALANCE		varchar(255)	NOT NULL," 
 					   + " ACCOUNT_NUM	varchar(255)	NOT NULL,"
 					   + " ACCOUNT_TYPE varchar(255)	NOT NULL,"
 					   + " ID  SERIAL PRIMARY KEY)";
-			statement.executeUpdate(sql);
-			db.connection.commit();
-			statement.close();
-			db.closeDB();
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
-		}
+				
+			Statement statement = db.connection.createStatement();
+				statement.executeUpdate(sql);
+				statement.close();
+				db.connection.commit();
+			
+		db.closeDB();
+		
 	}
-	protected static String getSaltString() {
+	
+	
+	
+	protected static String generateNumber() {
+		
 	    String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 	    StringBuilder salt = new StringBuilder();
 	    Random rnd = new Random();
-	    while (salt.length() < 18) { // length of the random string.
-	        int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-	        salt.append(SALTCHARS.charAt(index));
-	    }
-	    String saltStr = salt.toString();
+	    
+	    		while (salt.length() < 18) { 
+	    			int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+	    			salt.append(SALTCHARS.charAt(index));
+	    		}
+	    
+	    	String saltStr = salt.toString();
+	    
 	    return saltStr;
 
 	}
