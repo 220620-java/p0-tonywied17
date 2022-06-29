@@ -34,7 +34,7 @@ public class User {
 	public void makeWithdraw(User user, double amount) throws Exception {
 		
 		if (amount > user.getBalance()) {
-			System.out.println("Insufficient Funds! No Overdrafting Allowed!");
+			System.out.println("Ｉｎｓｕｆｆｉｃｉｅｎｔ Ｆｕｎｄｓ！");
 		} else {
 			double adjustedBalance = getBalance() - amount;
 			
