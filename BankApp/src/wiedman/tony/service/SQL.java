@@ -38,6 +38,7 @@ public class SQL {
 	}
 	
 	
+	
 	// SQL method for processing deposits and withdrawals and updating the balance
 	// in the database.
 	public static void updateFunds(User user, double amount) throws Exception {
