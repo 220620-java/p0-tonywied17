@@ -10,7 +10,7 @@ import wiedman.tony.models.User;
 import wiedman.tony.sql.*;
 
 
-public class Main {
+public class Bank {
 
 	public static User user = new User();
 	static Scanner scanner = new Scanner(System.in);
