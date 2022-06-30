@@ -1,6 +1,7 @@
 package wiedman.tony.sql;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -8,9 +9,28 @@ import wiedman.tony.models.User;
 
 public class Queries {
 	
-	
-	
 	public static Connect db = new Connect();
+	
+	
+	
+	public static void main (String[] args) {
+		try {
+			db.connectDB();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		try {
+			db.closeDB();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
@@ -135,12 +155,15 @@ public class Queries {
 		
 		db.connectDB();
 
-				String sql = "CREATE TABLE IF NOT EXISTS bank.accounts" 
-					   + "(USERNAME     varchar(255)    NOT NULL, "
-					   + " BALANCE		varchar(255)	NOT NULL," 
-					   + " ACCOUNT_NUM	varchar(255)	NOT NULL,"
-					   + " ACCOUNT_TYPE varchar(255)	NOT NULL,"
-					   + " ID  SERIAL PRIMARY KEY)";
+				String sql = 
+						"""
+						CREATE TABLE IF NOT EXISTS bank.test
+					   (USERNAME        varchar(255)    NOT NULL, 
+						BALANCE		    varchar(255)	NOT NULL,
+					    ACCOUNT_NUM		varchar(255)	NOT NULL,
+					    ACCOUNT_TYPE 	varchar(255)	NOT NULL,
+					    ID  SERIAL PRIMARY KEY)
+					   """;
 				
 			Statement statement = db.connection.createStatement();
 				statement.executeUpdate(sql);
