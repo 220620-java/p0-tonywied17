@@ -1,6 +1,9 @@
 package wiedman.tony.models;
 
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import wiedman.tony.service.SQL;
 
 public class User {
@@ -10,6 +13,7 @@ public class User {
 	private String name, username, password, accountNumber, accountType;
 	private boolean failed = false, loggedin = false;
 	private double balance;
+	Locale locale = new Locale("en", "US"); 
 
 	
 	
@@ -61,14 +65,21 @@ public class User {
 	
 	// GETTERS AND SETTERS
 
+	
 	// BALANCE
 	public double getBalance() {
 		
-		DecimalFormat decim = new DecimalFormat("#.00");
-		double roundedAmount = Double.parseDouble(decim.format(balance));
+		return balance;
+	
+	}
+
+	// CONVERT BALANCE TO LOCALE CURRENCY
+	public String convertCurrency(double d) {
+		BigDecimal toDecimal = new BigDecimal(d);
+		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+		String currencyBalance = currencyFormatter.format(toDecimal);
 		
-		return roundedAmount;
-		
+		return currencyBalance;
 	}
 
 	public void setBalance(double balance) {
