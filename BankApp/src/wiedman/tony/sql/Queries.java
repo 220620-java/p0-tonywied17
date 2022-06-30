@@ -1,4 +1,4 @@
-package wiedman.tony.service;
+package wiedman.tony.sql;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -6,11 +6,11 @@ import java.text.DecimalFormat;
 import java.util.Random;
 import wiedman.tony.models.User;
 
-public class SQL {
+public class Queries {
 	
 	
 	
-	public static DB db = new DB();
+	public static Connect db = new Connect();
 	
 	
 	
