@@ -2,12 +2,12 @@
  𝙿𝚛𝚘𝚓𝚎𝚌𝚝 𝟶 - 𝚃𝚘𝚗𝚢 𝚆𝚒𝚎𝚍𝚖𝚊𝚗
  */
 
-package wiedman.tony.bank;
+package wiedman.tony.app;
 
 //Java packages
 import java.util.Scanner;
 import wiedman.tony.models.User;
-//import wiedman.tony.service.SQL;
+import wiedman.tony.sql.*;
 
 
 public class Main {
@@ -19,7 +19,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 
 		// Table creator
-		// SQL.createTable();
+		// Queries.createTable();
 
 	
 		

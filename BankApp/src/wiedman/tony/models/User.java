@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import wiedman.tony.service.SQL;
+import wiedman.tony.sql.Queries;
 
 public class User {
 	
@@ -20,7 +20,7 @@ public class User {
 	// LOGIN METHOD
 	public void userLogin(User user) throws Exception {
 		
-		SQL.selectUser(user);
+		Queries.selectUser(user);
 	}
 	
 	
@@ -29,7 +29,7 @@ public class User {
 	public void makeDeposit(User user, double amount) throws Exception {
 		double adjustedBalance = user.getBalance() + amount;
 		
-			SQL.updateFunds(user, adjustedBalance);
+			Queries.updateFunds(user, adjustedBalance);
 	}
 	
 	
@@ -42,7 +42,7 @@ public class User {
 		} else {
 			double adjustedBalance = getBalance() - amount;
 			
-				SQL.updateFunds(user, adjustedBalance);
+				Queries.updateFunds(user, adjustedBalance);
 		}
 	}
 	
@@ -51,7 +51,7 @@ public class User {
 	// CREATE BANK ACCOUNT METHOD
 	public void createAccount(User user) throws Exception {
 		
-		SQL.insertUser(user);
+		Queries.insertUser(user);
 	}
 	
 	
@@ -63,7 +63,7 @@ public class User {
 
 	
 	
-	// GETTERS AND SETTERS
+	// -- GETTERS AND SETTERS --
 
 	
 	// BALANCE
