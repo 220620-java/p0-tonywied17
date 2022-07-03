@@ -8,7 +8,6 @@ INDEX VERSION 1.131+C:\Users\Molex\Desktop\New folder (2)\New folder\.metadata\.
 3673808868.index
 997323429.index
 2404718637.index
-3231032033.index
 4267421755.index
 1801531182.index
 4011787157.index
