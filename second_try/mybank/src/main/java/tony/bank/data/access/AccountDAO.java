@@ -10,4 +10,6 @@ public interface AccountDAO {
 	Account create(Account account, User user, double balance);
 
 	Account get(Account account, User user);
+
+	Account updateBalance(Account account, double amount);
 }

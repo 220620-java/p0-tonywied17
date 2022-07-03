@@ -40,6 +40,7 @@ public class AppMain {
 		 * 
 		 * EXIT BANK - Terminates the application
 		 */
+		System.out.println("-------------------------------------");
 		System.out.println("Welcome to MyBank!");
 		System.out.println("-------------------------------------");
 		System.out.println( "1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" + "\nType an option:\n" );
@@ -83,6 +84,7 @@ public class AppMain {
 				 * 
 				 * 
 				 */
+				System.out.println("-------------------------------------");
 				System.out.println("MyBank - My Account - Customer ID: " + user.getId());
 				System.out.println("-------------------------------------");
 				System.out.println( "\nAcc#: "+account.getId()+", Balance: " + accountService.convertCurrency(account.getBalance()) + "\n" );
@@ -94,7 +96,7 @@ public class AppMain {
 					depositMenu(account);
 					break;
 				case "2":
-					//withdrawMenu(account);
+					withdrawMenu(account);
 					break;
 				case "3":
 					user.setLoggedIn(false);
@@ -208,13 +210,26 @@ public class AppMain {
 		while(makingDeposit) {
 			
 		System.out.println("Please enter an amount");
-		double depositAmt = scanner.nextDouble();
+		double amount = scanner.nextDouble();
 		
-		accountService.makeDeposit(account, depositAmt);
+		accountService.makeDeposit(account, amount);
+		break;
 		}
-		
 
+	}
+	
+	private static void withdrawMenu(Account account) {
+		boolean makingWithdraw = true;
+
+		while(makingWithdraw) {
+			
+		System.out.println("Please enter an amount");
+		double amount = scanner.nextDouble();
 		
+		accountService.makeWithdraw(account, amount);
+		break;
+		}
+
 	}
 
 }
