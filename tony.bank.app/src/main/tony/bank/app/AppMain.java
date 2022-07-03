@@ -11,8 +11,10 @@ import tony.bank.service.UserService;
 public class AppMain {
 
 	private static Scanner scanner = new Scanner(System.in);
+
 	private static UserService userService;
 	private static AccountService accountService;
+
 	public static User user = new User();
 
 	public static void main(String[] args) {
@@ -33,7 +35,7 @@ public class AppMain {
 					user = logIn();
 					break;
 				case "2":
-					openAccount();
+					registerUser();
 					break;
 				default:
 					usingBank = false;
@@ -64,6 +66,40 @@ public class AppMain {
 
 	}
 
+	private static void registerUser() {
+		boolean registering = true;
+
+		while (registering) {
+			System.out.println("Enter a username: ");
+			String username = scanner.nextLine();
+			System.out.println("Enter a password: ");
+			String password = scanner.nextLine();
+
+			System.out.println("Type \"y\" to confirm, \"n\" to try again, or something " + "else to go back.");
+			String input = scanner.nextLine().toLowerCase();
+
+			switch (input) {
+			case "y":
+				user.setUsername(username);
+				user.setPassword(password);
+				try {
+					user =userService.registerUser(user);
+					registering = false;
+					System.out.println("Success!");
+				} catch (UsernameAlreadyExistsException e) {
+					System.out.println("Oh no, a user with that username already exists. " + "Let's try again.");
+				}
+				break;
+			case "n":
+				System.out.println("Okay, let's try again.");
+				break;
+			default:
+				System.out.println("Okay, let's go back.");
+				registering = false;
+			}
+		}
+	}
+
 	private static User logIn() {
 		boolean loggingIn = true;
 
@@ -72,8 +108,10 @@ public class AppMain {
 			String username = scanner.nextLine();
 			System.out.println("Enter your password: ");
 			String password = scanner.nextLine();
-
-			User user = userService.logIn(username, password);
+			user.setUsername(username);
+			user.setPassword(password);
+			
+			user = userService.logIn(username, password);
 
 			if (user == null) {
 				System.out.println("Hmm, we couldn't find a user matching those credentials.");
@@ -94,20 +132,20 @@ public class AppMain {
 		boolean opening = true;
 
 		while (opening) {
+
 			System.out.println("Initial Deposit: ");
-			double balance = scanner.nextDouble();
+			double deposit = scanner.nextDouble();
 
 			System.out.println("Type \"y\" to confirm, \"n\" to try again, or something " + "else to go back.");
-			String input = scanner.nextLine().toLowerCase();
+			String confirm = scanner.nextLine().toLowerCase();
 
-			switch (input) {
+			switch (confirm) {
 			case "y":
 				Account account = new Account();
-				account.setBalance(balance);
-				accountService.openAccount(account, user);
+				account.setBalance(deposit);
+				accountService.openAccount(account, user, deposit);
 				opening = false;
 				System.out.println("Success!");
-
 				break;
 			case "n":
 				System.out.println("Okay, let's try again.");
@@ -137,8 +175,8 @@ public class AppMain {
 		for (int i = 0; i < accounts.size(); i++) {
 			Account selectedAccount = accounts.get(i);
 			if (selectedAccount.getId() == id.intValue()) {
-				System.out
-						.println("Select Acc#: " + selectedAccount.getId() + " - Balance: " + selectedAccount.getBalance() + "? y/n");
+				System.out.println("Select Acc#: " + selectedAccount.getId() + " - Balance: "
+						+ selectedAccount.getBalance() + "? y/n");
 				input = scanner.nextLine().toLowerCase();
 				if ("y".equals(input)) {
 					boolean makingTransaction = true;

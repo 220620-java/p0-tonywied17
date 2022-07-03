@@ -10,7 +10,6 @@ import tony.bank.data.structure.List;
 public class UserServiceExec implements UserService {
 	
 	//private User DAO userDao = new UserPostgres;
-	private AccountDAO accountDao = new AccountPostgres();
 	private UserDAO userDao = new UserPostgres();
 	
 	@Override

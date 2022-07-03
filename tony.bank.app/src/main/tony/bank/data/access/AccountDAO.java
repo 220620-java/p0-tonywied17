@@ -7,8 +7,8 @@ import tony.bank.app.model.User;
 public interface AccountDAO {
 	
 
-	Account create(Account account, User user);
-
 	List<Account> findAll();
+
+	Account create(Account account, User user, double balance);
 	
 }
