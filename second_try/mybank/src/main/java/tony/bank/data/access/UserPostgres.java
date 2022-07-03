@@ -79,8 +79,10 @@ public class UserPostgres implements UserDAO {
 			if (resultSet.next()) {
 				String usernameDB = resultSet.getString("username");
 				String passwordDB = resultSet.getString("password");
+				int idDB = resultSet.getInt("id");
 
-				user = new User(usernameDB, passwordDB);
+				user = new User(idDB, usernameDB, passwordDB);
+				user.setLoggedIn(true);
 			}
 
 		} catch (SQLException e) {
