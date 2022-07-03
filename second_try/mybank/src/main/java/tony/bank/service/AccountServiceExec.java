@@ -5,9 +5,11 @@ import tony.bank.app.model.User;
 import tony.bank.data.access.AccountDAO;
 import tony.bank.data.access.AccountPostgres;
 import tony.bank.data.structure.List;
-
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 public class AccountServiceExec {
-
+	Locale locale = new Locale("en", "US"); 
 	private AccountDAO accountDao = new AccountPostgres();
 
 	public Account openAccount(Account account, User user, double deposit) {
@@ -37,5 +39,14 @@ public class AccountServiceExec {
 		return account;
 		
 	}
+	public String convertCurrency(double d) {
+
+		BigDecimal toDecimal = new BigDecimal(d);
+		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+		String currencyBalance = currencyFormatter.format(toDecimal);
+			
+		return currencyBalance;
+	}
+
 
 }

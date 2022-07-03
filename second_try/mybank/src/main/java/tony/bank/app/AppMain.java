@@ -8,6 +8,7 @@ import tony.bank.app.exceptions.*;
 import tony.bank.service.AccountServiceExec;
 import tony.bank.service.UserServiceExec;
 
+
 public class AppMain {
 
 	private static Scanner scanner = new Scanner(System.in);
@@ -23,7 +24,8 @@ public class AppMain {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Welcome to MyBank!");
-		System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" );
+		System.out.println("-------------------------------------");
+		System.out.println( "1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" + "\nType an option:\n" );
 		boolean isBanking = true;
 		while (isBanking) {
 
@@ -45,8 +47,10 @@ public class AppMain {
 				}
 
 			} else {
+				System.out.println("MyBank - My Account - Customer ID: " + user.getId());
+				System.out.println("-------------------------------------");
+				System.out.println( "\nAcc#: "+account.getId()+", Balance: " + accountService.convertCurrency(account.getBalance()) + "\n" );
 				System.out.println("Welcome, Please select an option:");
-				System.out.println(account.getBalance());
 				System.out.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. Logout");
 				String input = scanner.nextLine();
 				switch (input) {
@@ -144,12 +148,20 @@ public class AppMain {
 		while (opening) {
 			Account account = new Account();
 			System.out.println("Initial Deposit: ");
-			double deposit = scanner.nextDouble();
-
+			
+			
+			
+			if(scanner.hasNextDouble()) {
+				double deposit = scanner.nextDouble();
 				account.setBalance(deposit);
 				accountService.openAccount(account, user, deposit);
-				System.out.println("Success!");
+				System.out.println("Account has been opened with an initial balance of " + deposit);
 				opening = false;
+			}else {
+				System.out.println("You can only deposit money! Please try again!");
+				break;
+			}
+	
 	
 		}
 	}

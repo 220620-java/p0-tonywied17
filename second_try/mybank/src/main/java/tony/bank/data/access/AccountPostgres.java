@@ -58,7 +58,6 @@ public class AccountPostgres implements AccountDAO{
 					// set up the SQL statement that we want to execute
 					String sql = "SELECT * from bank3.account WHERE owner_id = ?;";
 					PreparedStatement stmt = conn.prepareStatement(sql);
-					System.out.println("ID: " + user.getId());
 					stmt.setInt(1, user.getId()); // parameter indexes start at 1 (the first ?)
 
 					// execute the statement
@@ -70,7 +69,6 @@ public class AccountPostgres implements AccountDAO{
 						double balanceDB = resultSet.getDouble("balance");
 						int idDB = resultSet.getInt("id");
 						
-						System.out.println("bal: " + balanceDB + ", id: " + idDB);
 						//account.setBalance(28);
 						account.setBalance(balanceDB);
 						account.setId(idDB);
