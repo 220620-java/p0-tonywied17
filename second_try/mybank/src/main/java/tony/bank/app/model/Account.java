@@ -1,12 +1,5 @@
 package tony.bank.app.model;
 
-import java.util.Objects;
-
-import org.postgresql.util.GT;
-
-import tony.bank.data.structure.ArrayList;
-import tony.bank.data.structure.List;
-
 
 public class Account {
 	private int id;

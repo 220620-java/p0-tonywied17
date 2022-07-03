@@ -1,9 +1,5 @@
 package tony.bank.data.access;
 
-import tony.bank.data.structure.List;
-
-import org.postgresql.util.GT;
-
 import tony.bank.app.model.Account;
 import tony.bank.app.model.User;
 

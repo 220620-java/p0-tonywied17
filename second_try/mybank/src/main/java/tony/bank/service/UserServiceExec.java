@@ -5,11 +5,11 @@ import tony.bank.app.exceptions.UsernameAlreadyExistsException;
 import tony.bank.app.model.User;
 
 
-public class UserServiceExec {
+public class UserServiceExec implements UserService {
 	
 	//private User DAO userDao = new UserPostgres;
 	private UserDAO userDao = new UserPostgres();
-	
+	@Override
 	public User registerUser(User user) throws UsernameAlreadyExistsException {
 		user = userDao.create(user);
 		if (user == null) {
@@ -18,7 +18,7 @@ public class UserServiceExec {
 		return user;
 
 	}
-
+	@Override
 	public User logIn(String username, String password) {
 		// TODO Auto-generated method stub
 		
