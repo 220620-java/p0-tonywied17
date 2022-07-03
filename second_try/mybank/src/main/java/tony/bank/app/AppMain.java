@@ -20,12 +20,11 @@ public class AppMain {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Welcome to MyBank!");
-
+		System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Register\n" + "Type quit to exit");
 		String input;
 		while ((input = scanner.nextLine()) != "quit") {
 
 			if (!user.isLoggedIn()) {
-				System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Register\n" + "x. Quit");
 
 				switch (input) {
 				case "1":
@@ -34,8 +33,8 @@ public class AppMain {
 				case "2":
 					registerUser();
 					break;
-				default:
-					System.out.println("Thank you for banking with MyBank Inc.");
+				case "quit":
+					break;
 				}
 
 			} else {
@@ -99,7 +98,7 @@ public class AppMain {
 			String username = scanner.nextLine();
 			System.out.println("Enter your password: ");
 			String password = scanner.nextLine();
-
+			System.out.println("Press enter to login");
 			user = userService.logIn(username, password);
 
 			if (user == null) {
