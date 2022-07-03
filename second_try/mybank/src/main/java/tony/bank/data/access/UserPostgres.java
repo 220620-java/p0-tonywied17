@@ -81,6 +81,8 @@ public class UserPostgres implements UserDAO {
 
 				user = new User(idDB, usernameDB, passwordDB);
 				user.setLoggedIn(true);
+			}else {
+				return null;
 			}
 
 		} catch (SQLException e) {

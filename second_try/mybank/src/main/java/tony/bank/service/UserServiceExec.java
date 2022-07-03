@@ -21,7 +21,9 @@ public class UserServiceExec {
 
 	public User logIn(String username, String password) {
 		// TODO Auto-generated method stub
+		
 		User user = userDao.findByUsername(username);
+		
 		if (user != null && (password!=null && password.equals(user.getPassword()))) {
 			return user;
 		} else {
