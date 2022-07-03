@@ -18,10 +18,12 @@ public class AppMain {
 	public static User user = new User();
 	public static Account account = new Account();
 	
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Welcome to MyBank!");
-		System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Register\n");
+		System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" );
 		boolean isBanking = true;
 		while (isBanking) {
 
@@ -36,27 +38,29 @@ public class AppMain {
 				case "2":
 					registerUser();
 					break;
-				default:
+				case "3":
 					isBanking = false;
-					System.out.println("Thanks for visiting! See you next time.");
+					break;
 
 				}
 
 			} else {
 				System.out.println("Welcome, Please select an option:");
 				System.out.println(account.getBalance());
-				System.out.println("1. Open an account\n" + "2. Make Deposit\n" + "3. Make Withdraw\n" + "Type quit to logout");
+				System.out.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. Logout");
 				String input = scanner.nextLine();
 				switch (input) {
 				case "1":
-					openAccount();
+					depositMenu(account);
 					break;
 				case "2":
-					depositMenu(account);
+					//withdrawMenu(account);
 					break;
 				case "3":
 					user.setLoggedIn(false);
 					System.out.println("Logging out.");
+					System.out.println("Welcome to MyBank!");
+					System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Register\n" + "3. Exit Bank\n" );
 				}
 			}
 		}
@@ -65,6 +69,8 @@ public class AppMain {
 
 	}
 
+	
+	
 	private static void registerUser() {
 		boolean registering = true;
 
@@ -73,7 +79,6 @@ public class AppMain {
 			String username = scanner.nextLine();
 			System.out.println("Enter a password: ");
 			String password = scanner.nextLine();
-
 			System.out.println("Type \"y\" to confirm, \"n\" to try again, or something " + "else to go back.");
 			String input = scanner.nextLine().toLowerCase();
 
@@ -82,9 +87,14 @@ public class AppMain {
 				user.setUsername(username);
 				user.setPassword(password);
 				try {
+					//register user in the banking system
 					user = userService.registerUser(user);
+					
+					//Open an account with an initial deposit
+					openAccount();
 					registering = false;
-					System.out.println("Success!");
+					System.out.println("You may now login with your credentials.");
+					System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Register\n" + "3. Exit Bank\n" );
 				} catch (UsernameAlreadyExistsException e) {
 					System.out.println("Oh no, a user with that username already exists. " + "Let's try again.");
 				}
@@ -99,6 +109,8 @@ public class AppMain {
 		}
 	}
 
+	
+	
 	private static User logIn() {
 		boolean loggingIn = true;
 
