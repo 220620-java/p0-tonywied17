@@ -82,7 +82,7 @@ public class AccountPostgres implements AccountDAO{
 	}
 
 	@Override
-	public Account updateBalance(Account account, double amount) {
+	public Account updateBalance(Account account, double amount, String type, double transaction) {
 		// TODO Auto-generated method stub
 
 		try (Connection conn = connUtil.getConnection()) {
@@ -90,10 +90,14 @@ public class AccountPostgres implements AccountDAO{
 			account.setBalance(amount);
 			String balanceQuery = "UPDATE bank3.account SET balance='" + amount + "' WHERE id='"+ account.getId() + "'";
 			
+			String transactionQuery = "INSERT INTO bank3.transactions (id, account_id, type, value, balance)" 
+			+ "VALUES (default, '" + account.getId() + "', '" + type + "', '" + transaction + "', '"+amount+"');";
+			
 			Statement statement = conn.createStatement();
 				statement.executeUpdate(balanceQuery);
+				statement.executeUpdate(transactionQuery);
 				statement.close();
-
+				
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -101,10 +105,39 @@ public class AccountPostgres implements AccountDAO{
 		return account;
 	}
 
+	@Override
+	public void printTrans(Account account) {
+		// TODO Auto-generated method stub
+		try (Connection conn = connUtil.getConnection()) {
+			// set up the SQL statement that we want to execute
+			String sql = "SELECT * FROM bank3.transactions WHERE account_id=?";
 
-	
+			// set up that statement with the database
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, account.getId()); 
+			// execute the statement
+			ResultSet resultSet = stmt.executeQuery();
 
-	
-	
+
+			// process the result set
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				int accountId = resultSet.getInt("account_id");
+				String type = resultSet.getString("type");
+				double value = resultSet.getDouble("value");
+				double balance = resultSet.getDouble("balance");
+				
+				System.out.println("Transaction ID" + id 
+						+ "\n-----------------------------\nType: " + type + "\nAmount: " + value + "\nBalance: " + balance);
+				System.out.println("\n");
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 
 }

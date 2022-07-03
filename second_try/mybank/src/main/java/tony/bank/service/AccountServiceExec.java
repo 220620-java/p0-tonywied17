@@ -27,15 +27,17 @@ public class AccountServiceExec {
 			System.out.println("Innsufficient funds!");
 		} else {
 			double withdrawBalance = account.getBalance() - amount;
-			accountDao.updateBalance(account, withdrawBalance);
+			accountDao.updateBalance(account, withdrawBalance, "withdrawal", amount);
 			System.out.println("Withdrawal Complete! New");
 		}
 		return account;
 	}
 
 	public Account makeDeposit(Account account, double amount) {
+		
 		double depositBalance = account.getBalance() + amount;
-		accountDao.updateBalance(account, depositBalance);
+		
+		accountDao.updateBalance(account, depositBalance, "deposit", amount);
 
 		System.out.println("Deposit has been received:\n");
 		return account;
@@ -56,4 +58,18 @@ public class AccountServiceExec {
 		return currencyBalance;
 	}
 
+	
+	public Account viewTransactions(Account account) {
+
+		
+		return null;
+
+	}
+
+	public void printTransactions(Account account) {
+		// TODO Auto-generated method stub
+		accountDao.printTrans(account);
+	}
+
+	
 }

@@ -88,8 +88,8 @@ public class AppMain {
 				System.out.println("MyBank - My Account - Customer ID: " + user.getId());
 				System.out.println("-------------------------------------");
 				System.out.println( "\nAcc#: "+account.getId()+", Balance: " + accountService.convertCurrency(account.getBalance()) + "\n" );
-				System.out.println("Welcome, Please select an option:");
-				System.out.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. Logout");
+				System.out.println("Welcome, Please select an option:\n");
+				System.out.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. View Transactions\n\n" + "4. Logout");
 				String input = scanner.nextLine();
 				switch (input) {
 				case "1":
@@ -99,6 +99,9 @@ public class AppMain {
 					withdrawMenu(account);
 					break;
 				case "3":
+					transactionPrint();
+					break;
+				case "4":
 					user.setLoggedIn(false);
 					System.out.println("Logging out.");
 					System.out.println("Welcome to MyBank!");
@@ -113,6 +116,25 @@ public class AppMain {
 
 	
 	
+	private static void transactionPrint() {
+		// TODO Auto-generated method stub
+		boolean viewTrans = true;
+		
+		accountService.printTransactions(account);
+		
+		while(viewTrans) {
+			System.out.println("Type anything to go back\n");
+			scanner.nextLine();
+
+			viewTrans = false;
+			break;
+			
+		}
+		
+	}
+
+
+
 	private static void registerUser() {
 		boolean registering = true;
 
@@ -131,9 +153,11 @@ public class AppMain {
 				try {
 					//register user in the banking system
 					user = userService.registerUser(user);
+					System.out.println("User account created, awaiting initial deposit.");
 					
 					//Open an account with an initial deposit
 					openAccount();
+					
 					registering = false;
 					System.out.println("You may now login with your credentials.");
 					System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Register\n" + "3. Exit Bank\n" );
