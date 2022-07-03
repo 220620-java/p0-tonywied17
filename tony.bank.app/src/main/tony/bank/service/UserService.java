@@ -12,10 +12,5 @@ public interface UserService {
 	public User registerUser(User user) throws UsernameAlreadyExistsException;
 	
 	public User logIn(String username, String password);
-	
-	public List<Account> viewAllAccounts();
-	
-	public User openAccount(Account account, User user);
-	
-	
+
 }
