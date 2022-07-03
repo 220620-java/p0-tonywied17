@@ -20,19 +20,22 @@ public class AccountServiceExec {
 
 	public Account makeWithdraw(Account account, double amount) {
 		// TODO Auto-generated method stub
+		account.setBalance(amount);
 		return null;
 	}
 
-	public List<Account> viewAccounts() {
-		// TODO Auto-generated method stub
-		accountDao.findAll();
-		return null;
-	}
 
 	public Account makeDeposit(Account account, double amount) {
 		// TODO Auto-generated method stub
+		account.setBalance(amount);
 		return null;
 	}
 
+	
+	public Account getAccountInfo(Account account, User user) {
+		accountDao.get(account, user);
+		return account;
+		
+	}
 
 }

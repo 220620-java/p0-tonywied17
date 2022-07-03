@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 
 import tony.bank.app.model.*;
@@ -49,48 +48,43 @@ public class AccountPostgres implements AccountDAO{
 
 	}
 
+	@Override
+	public Account get(Account account, User user) {
+
+		// TODO Auto-generated method stub
+				
+				// try-with-resources: sets up closing for closeable resources
+				try (Connection conn = connUtil.getConnection()) {
+					// set up the SQL statement that we want to execute
+					String sql = "SELECT * from bank3.account WHERE owner_id = ?;";
+					PreparedStatement stmt = conn.prepareStatement(sql);
+					System.out.println("ID: " + user.getId());
+					stmt.setInt(1, user.getId()); // parameter indexes start at 1 (the first ?)
+
+					// execute the statement
+					ResultSet resultSet = stmt.executeQuery();
+
+					// process the result set
+					if (resultSet.next()) {
+						
+						double balanceDB = resultSet.getDouble("balance");
+						int idDB = resultSet.getInt("id");
+						
+						System.out.println("bal: " + balanceDB + ", id: " + idDB);
+						//account.setBalance(28);
+						account.setBalance(balanceDB);
+						account.setId(idDB);
+					}
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				return account;
+	}
+
 
 	
-	@Override
-	public List<Account> findAll() {
-		
-		List<Account> allAccounts = new ArrayList<>();
-		
-		try (Connection conn = connUtil.getConnection()) {
-			// set up the SQL statement that we want to execute
-			String sql = """
-					
-					SELECT * 
-					
-					from bank3.account WHERE owner_id = ?;
-					
-					""";
-
-			// set up that statement with the database
-			Statement stmt = conn.createStatement();
-
-			// execute the statement
-			ResultSet resultSet = stmt.executeQuery(sql);
-
-			// process the result set
-			while (resultSet.next()) {
-				int accountNumber = resultSet.getInt("id");
-				double balance = resultSet.getDouble("balance");
-
-
-				Account account = new Account(accountNumber, balance);
-				account.setId(accountNumber);
-
-				allAccounts.add(account);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		
-		return allAccounts;
-	}
 
 	
 	
