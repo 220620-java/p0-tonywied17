@@ -82,7 +82,7 @@ public class UserPostgres implements UserDAO {
 				user = new User(idDB, usernameDB, passwordDB);
 				user.setLoggedIn(true);
 			}else {
-				return null;
+				return user;
 			}
 
 		} catch (SQLException e) {
