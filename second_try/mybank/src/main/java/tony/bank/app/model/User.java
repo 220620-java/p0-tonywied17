@@ -1,6 +1,5 @@
 package tony.bank.app.model;
 import java.util.Objects;
-import tony.bank.data.structure.*;
 
 public class User {
 	private int id;

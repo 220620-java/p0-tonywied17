@@ -4,15 +4,16 @@ import tony.bank.app.model.Account;
 import tony.bank.app.model.User;
 import tony.bank.data.access.AccountDAO;
 import tony.bank.data.access.AccountPostgres;
-import tony.bank.data.structure.List;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class AccountServiceExec {
+public class AccountServiceExec implements AccountService {
 	Locale locale = new Locale("en", "US");
 	private AccountDAO accountDao = new AccountPostgres();
-
+	
+	
+	@Override
 	public Account openAccount(Account account, User user, double deposit) {
 		// TODO Auto-generated method stub
 
@@ -20,6 +21,8 @@ public class AccountServiceExec {
 		return null;
 	}
 
+	
+	@Override
 	public Account makeWithdraw(Account account, double amount) {
 		// TODO Auto-generated method stub
 
@@ -33,6 +36,8 @@ public class AccountServiceExec {
 		return account;
 	}
 
+	
+	@Override
 	public Account makeDeposit(Account account, double amount) {
 		
 		double depositBalance = account.getBalance() + amount;
@@ -43,12 +48,16 @@ public class AccountServiceExec {
 		return account;
 	}
 
+	
+	@Override
 	public Account getAccountInfo(Account account, User user) {
 		accountDao.get(account, user);
 		return account;
 
 	}
 
+	
+	@Override
 	public String convertCurrency(double d) {
 
 		BigDecimal toDecimal = new BigDecimal(d);
@@ -58,18 +67,15 @@ public class AccountServiceExec {
 		return currencyBalance;
 	}
 
-	
+	@Override
 	public Account viewTransactions(Account account) {
-
-		
-		return null;
-
-	}
-
-	public void printTransactions(Account account) {
-		// TODO Auto-generated method stub
 		accountDao.printTrans(account);
+		
+		return account;
+
 	}
+	
+
 
 	
 }

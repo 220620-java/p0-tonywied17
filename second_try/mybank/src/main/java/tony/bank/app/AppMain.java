@@ -2,11 +2,10 @@ package tony.bank.app;
 
 import java.util.Scanner;
 
-import tony.bank.data.structure.List;
 import tony.bank.app.model.*;
 import tony.bank.app.exceptions.*;
 import tony.bank.service.AccountServiceExec;
-import tony.bank.service.UserServiceExec;
+import tony.bank.service.*;
 
 
 public class AppMain {
@@ -16,8 +15,9 @@ public class AppMain {
 	 */
 	
 	private static Scanner scanner = new Scanner(System.in);
-	private static UserServiceExec userService = new UserServiceExec();
-	private static AccountServiceExec accountService = new AccountServiceExec();
+	private static AccountService accountService = new AccountServiceExec();
+	private static UserService userService = new UserServiceExec();
+	
 
 	/* 
 	 * Instantiate the user and account model objects
@@ -120,7 +120,7 @@ public class AppMain {
 		// TODO Auto-generated method stub
 		boolean viewTrans = true;
 		
-		accountService.printTransactions(account);
+		accountService.viewTransactions(account);
 		
 		while(viewTrans) {
 			System.out.println("Type anything to go back\n");

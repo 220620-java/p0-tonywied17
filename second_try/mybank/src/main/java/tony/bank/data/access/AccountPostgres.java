@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import tony.bank.app.model.*;
-import tony.bank.data.structure.*;
 import tony.bank.db.*;
 
 public class AccountPostgres implements AccountDAO{
@@ -122,7 +121,7 @@ public class AccountPostgres implements AccountDAO{
 			// process the result set
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				int accountId = resultSet.getInt("account_id");
+				//int accountId = resultSet.getInt("account_id");
 				String type = resultSet.getString("type");
 				double value = resultSet.getDouble("value");
 				double balance = resultSet.getDouble("balance");
