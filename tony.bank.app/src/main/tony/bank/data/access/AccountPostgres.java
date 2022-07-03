@@ -61,7 +61,7 @@ public class AccountPostgres implements AccountDAO{
 					
 					SELECT * 
 					
-					from bank3.account WHERE account.owner_id = ?;
+					from bank3.account WHERE owner_id = ?;
 					
 					""";
 
