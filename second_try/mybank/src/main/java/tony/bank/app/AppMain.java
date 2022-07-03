@@ -194,6 +194,8 @@ public class AppMain {
 				String input = scanner.nextLine().toLowerCase();
 				// if they did not say "yes" to trying again
 				if (!("y".equals(input))) {
+					
+					user.setLoggedIn(false);
 					loggingIn = false;
 				}
 			} else {
@@ -201,7 +203,7 @@ public class AppMain {
 				return user;
 			}
 		}
-		return null;
+		return user;
 	}
 
 	private static void openAccount() {
