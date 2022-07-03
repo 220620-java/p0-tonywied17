@@ -1,2 +1,0 @@
-module tony.bank.app {
-}
