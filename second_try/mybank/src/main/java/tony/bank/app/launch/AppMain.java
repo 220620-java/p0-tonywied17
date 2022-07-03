@@ -12,7 +12,7 @@ import tony.bank.app.exceptions.*;
 public class AppMain {
 
 	/*
-	 * Instantiate the user and account models
+	 * Instantiate the user and account services
 	 */
 	
 	private static Scanner scanner = new Scanner(System.in);
