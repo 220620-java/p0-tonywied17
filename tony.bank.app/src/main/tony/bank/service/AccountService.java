@@ -10,7 +10,7 @@ public interface AccountService {
 	
 	public Account makeWithdraw(Account account, double amount);
 
-	public Account openAccount(Account account, User user);
+	public Account openAccount(Account account, User user, double deposit);
 	
 	public List<Account> viewAccounts();
 

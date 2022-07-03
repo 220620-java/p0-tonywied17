@@ -7,7 +7,7 @@ public interface UserDAO {
 	
 	public User findByUsername(String username);
 
-	public User create(User t);
+	public User create(User user);
 
 	public User findById(int id);
 

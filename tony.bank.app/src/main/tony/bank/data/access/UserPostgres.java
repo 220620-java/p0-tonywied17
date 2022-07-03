@@ -1,13 +1,52 @@
 package tony.bank.data.access;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import tony.bank.db.*;
+import tony.bank.app.model.Account;
 import tony.bank.app.model.User;
 import tony.bank.data.structure.List;
 
 public class UserPostgres implements UserDAO {
+	private ConnectDB connUtil = ConnectDB.getConnectionDB();
+	
+	
 	@Override
-	public User create(User t) {
+	public User create(User user) {
 		// TODO Auto-generated method stub
-		return null;
+		try (Connection conn = connUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			String sql = "insert into bank3.users"
+					+ "(id, username, password) "
+					+ "values (default, ?, ?)";
+
+			String[] keys = {"id"};
+			
+			PreparedStatement stmt = conn.prepareStatement(sql, keys);
+			stmt.setInt(1, user.getId());
+			stmt.setString(2, user.getUsername());
+			stmt.setString(3, user.getPassword());
+			
+			int rowsAffected = stmt.executeUpdate();
+			ResultSet resultSet = stmt.getGeneratedKeys();
+			if (resultSet.next() && rowsAffected==1) {
+				user.setId(resultSet.getInt("id"));
+				conn.commit();
+			} else {
+				conn.rollback();
+				return null;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
 	}
 
 	@Override
@@ -20,7 +59,40 @@ public class UserPostgres implements UserDAO {
 	@Override
 	public User findByUsername(String username) {
 		// TODO Auto-generated method stub
-		return null;
+		User user = null;
+		
+		// try-with-resources: sets up closing for closeable resources
+		try (Connection conn = connUtil.getConnection()) {
+			// set up the SQL statement that we want to execute
+			String sql = """
+					
+					SELECT * 
+					
+					from bank3.users WHERE username = ?;
+					
+					""";
+			// set up that statement with the database
+			// preparedstatement is pre-processed to prevent sql injection
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, username); // parameter indexes start at 1 (the first ?)
+
+			// execute the statement
+			ResultSet resultSet = stmt.executeQuery();
+
+			// process the result set
+			if (resultSet.next()) {
+				String usernameDB = resultSet.getString("username");
+				String passwordDB = resultSet.getString("password");
+
+				user = new User(usernameDB, passwordDB);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return user;
+
 	}
 
 

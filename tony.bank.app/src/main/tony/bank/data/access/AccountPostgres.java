@@ -14,21 +14,22 @@ import tony.bank.db.*;
 public class AccountPostgres implements AccountDAO{
 	
 	private ConnectDB connUtil = ConnectDB.getConnectionDB();
-	@Override
 	
-	public Account create(Account account, User user) {
+	@Override
+	public Account create(Account account, User user, double balance) {
 
 		try (Connection conn = connUtil.getConnection()) {
 			conn.setAutoCommit(false);
 			
 			String sql = "insert into bank3.account"
-					+ "(id, balance) "
-					+ "values (default, ?)";
+					+ "(id, owner_id, balance) "
+					+ "values (default, ?, ?)";
 
 			String[] keys = {"id"};
 			
 			PreparedStatement stmt = conn.prepareStatement(sql, keys);
-			stmt.setDouble(1, user.getId());
+			stmt.setInt(1, user.getId());
+			stmt.setDouble(2, balance);
 			
 			int rowsAffected = stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
