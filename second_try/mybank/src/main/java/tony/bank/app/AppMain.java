@@ -11,24 +11,44 @@ import tony.bank.service.UserServiceExec;
 
 public class AppMain {
 
+	/*
+	 * Instantiate the user and account models
+	 */
+	
 	private static Scanner scanner = new Scanner(System.in);
-
 	private static UserServiceExec userService = new UserServiceExec();
 	private static AccountServiceExec accountService = new AccountServiceExec();
 
+	/* 
+	 * Instantiate the user and account model objects
+	 */
 	public static User user = new User();
 	public static Account account = new Account();
 	
 	
 	
+	// MAIN METHOD - INITIATE BANK APPLICATION
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		
+		/* THE MAIN MENU
+		 * 
+		 * LOGIN - The use can login with existing credentials.
+		 * 
+		 * OPEN ACCOUNT - The user can open an account by registering a user name
+		 * and password followed by making an initial deposit.
+		 * 
+		 * EXIT BANK - Terminates the application
+		 */
 		System.out.println("Welcome to MyBank!");
 		System.out.println("-------------------------------------");
 		System.out.println( "1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" + "\nType an option:\n" );
 		boolean isBanking = true;
 		while (isBanking) {
 
+			/*
+			 * isLoggedIn, BOOLEAN(FALSE) - If the user is not logged in display the main menu.
+			 */
 			if (!user.isLoggedIn()) {
 				
 				String input = scanner.nextLine();
@@ -47,6 +67,22 @@ public class AppMain {
 				}
 
 			} else {
+				/*
+				 * MY ACCOUNT - USER IS LOGGED IN WITH EXISTING CREDENTIALS
+				 * 
+				 * CUSTOMER ID - 
+				 * 
+				 * ACCOUNT NUMBER -
+				 * 
+				 * BALANCE -
+				 * 
+				 * DEPOSIT -
+				 * 
+				 * WITHDRAW -
+				 * 
+				 * 
+				 * 
+				 */
 				System.out.println("MyBank - My Account - Customer ID: " + user.getId());
 				System.out.println("-------------------------------------");
 				System.out.println( "\nAcc#: "+account.getId()+", Balance: " + accountService.convertCurrency(account.getBalance()) + "\n" );
@@ -126,7 +162,6 @@ public class AppMain {
 			System.out.println("Press enter to login");
 			
 			user = userService.logIn(username, password);
-			accountService.getAccountInfo(account, user);
 			if (user == null) {
 				System.out.println("Hmm, we couldn't find a user matching those credentials.");
 				System.out.println("Do you want to try again? y/n");
@@ -136,6 +171,7 @@ public class AppMain {
 					loggingIn = false;
 				}
 			} else {
+				accountService.getAccountInfo(account, user);
 				return user;
 			}
 		}
