@@ -12,3 +12,14 @@
 1656873998000	Encapsulate field 'transactions'
 1656875201562	Encapsulate field 'transactions'
 1656879023830	Delete element
+1656881218522	Rename package 'tony.bank.data.structure'
+1656881225430	Delete element
+1656881243956	Rename package 'tony.bank.data.access'
+1656881262295	Move compilation unit
+1656881265351	Move compilation unit
+1656881296779	Rename package 'tony.bank.service'
+1656881310571	Move compilation unit
+1656881313657	Move compilation unit
+1656881338802	Rename package 'tony.bank.db'
+1656881404906	Rename package 'tony.bank.data.db'
+1656881437731	Rename package 'tony.bank.app'
