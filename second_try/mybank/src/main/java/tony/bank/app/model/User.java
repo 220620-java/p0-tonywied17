@@ -6,7 +6,6 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
-	private List<Account> accounts;
 	
 	private boolean isLoggedIn;
 
@@ -22,7 +21,6 @@ public class User {
 		this.id = 0;
 		this.username = username;
 		this.password = password;
-		this.accounts = new ArrayList<>();
 	}
 
 	public User(int id, String username, String password) {
@@ -30,7 +28,6 @@ public class User {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.accounts = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -66,21 +63,8 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
-
-	public List<Account> getAccounts() {
-		return accounts;
-	}
-
-
-
-	public void setAccounts(List<Account> accounts) {
-		this.accounts = accounts;
-	}
 	
-	
-	
+
 
 	public boolean isLoggedIn() {
 		return isLoggedIn;
@@ -103,13 +87,12 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return id == other.id && Objects.equals(password, other.password) && Objects.equals(accounts, other.accounts)
-				&& Objects.equals(username, other.username);
+		return id == other.id && Objects.equals(password, other.password) && Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", accounts=" + accounts + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
 	}
 
 	

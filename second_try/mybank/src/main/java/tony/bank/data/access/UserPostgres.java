@@ -62,9 +62,7 @@ public class UserPostgres implements UserDAO {
 			// set up the SQL statement that we want to execute
 			String sql = """
 					
-					SELECT * 
-					
-					from bank3.users WHERE username = ?;
+					SELECT * from bank3.users WHERE username = ?;
 					
 					""";
 			// set up that statement with the database

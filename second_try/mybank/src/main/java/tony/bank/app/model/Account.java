@@ -2,6 +2,9 @@ package tony.bank.app.model;
 
 import java.util.Objects;
 
+import tony.bank.data.structure.ArrayList;
+import tony.bank.data.structure.List;
+
 public class Account {
 	private int id;
 	private double balance;
@@ -64,6 +67,5 @@ public class Account {
 		return "Account [id=" + id + ", balance=" + balance + "]";
 	}
 
-	
 	
 }
