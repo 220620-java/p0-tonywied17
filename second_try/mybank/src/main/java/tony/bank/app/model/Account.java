@@ -2,14 +2,18 @@ package tony.bank.app.model;
 
 import java.util.Objects;
 
+import org.postgresql.util.GT;
+
 import tony.bank.data.structure.ArrayList;
 import tony.bank.data.structure.List;
+
 
 public class Account {
 	private int id;
 	private double balance;
 
-	
+
+
 	// No args constructor for account object
 	public Account() {
 		super();
@@ -66,6 +70,7 @@ public class Account {
 	public String toString() {
 		return "Account [id=" + id + ", balance=" + balance + "]";
 	}
+
 
 	
 }
