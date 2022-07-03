@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 
 import tony.bank.app.model.*;
 import tony.bank.data.structure.*;
@@ -47,7 +47,7 @@ public class AccountPostgres implements AccountDAO{
 		return account;
 
 	}
-
+	
 	@Override
 	public Account get(Account account, User user) {
 
@@ -79,6 +79,26 @@ public class AccountPostgres implements AccountDAO{
 				}
 				
 				return account;
+	}
+
+	@Override
+	public Account updateBalance(Account account, double amount) {
+		// TODO Auto-generated method stub
+
+		try (Connection conn = connUtil.getConnection()) {
+			
+			account.setBalance(amount);
+			String balanceQuery = "UPDATE bank3.account SET balance='" + amount + "' WHERE id='"+ account.getId() + "'";
+			
+			Statement statement = conn.createStatement();
+				statement.executeUpdate(balanceQuery);
+				statement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return account;
 	}
 
 
