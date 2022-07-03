@@ -7,15 +7,12 @@ public class User {
 	private String username;
 	private String password;
 	private List<Account> accounts;
+	
+	private boolean isLoggedIn;
 
 	
 	
 	public User() {
-		super();
-		this.id = 0;
-		this.username = "";
-		this.password = "";
-		this.accounts = new ArrayList<>();
 	}
 	
 	
@@ -28,7 +25,13 @@ public class User {
 		this.accounts = new ArrayList<>();
 	}
 
-
+	public User(int id, String username, String password) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.accounts = new ArrayList<>();
+	}
 
 	public int getId() {
 		return id;
@@ -75,6 +78,21 @@ public class User {
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
+	
+	
+	
+
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+
+
+
+	public void setLoggedIn(boolean isLoggedIn) {
+		this.isLoggedIn = isLoggedIn;
+	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {

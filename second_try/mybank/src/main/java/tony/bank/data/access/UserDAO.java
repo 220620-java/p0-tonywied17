@@ -1,7 +1,6 @@
 package tony.bank.data.access;
 
 import tony.bank.app.model.User;
-import tony.bank.data.structure.List;
 
 public interface UserDAO {
 	

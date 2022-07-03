@@ -22,10 +22,9 @@ public class AppMain {
 		boolean usingBank = true;
 		System.out.println("Welcome to MyBank!");
 
-		User user = null;
 
 		while (usingBank) {
-			if (user == null) {
+			if (!user.isLoggedIn()) {
 				System.out.println("What would you like to do?\n" + "1. Log in\n" + "2. Register\n" + "x. Quit");
 
 				String input = scanner.nextLine();
@@ -41,10 +40,7 @@ public class AppMain {
 					usingBank = false;
 					System.out.println("Thank you for banking with MyBank Inc.");
 				}
-			}
-
-			// if they logged in or were already logged in
-			if (user != null) {
+			} else {
 				System.out.println("Welcome, Please select an option:");
 				System.out.println("1. Open an account\n" + "2. View my accounts\n" + "x. Log out");
 				String input = scanner.nextLine();
@@ -108,9 +104,6 @@ public class AppMain {
 			String username = scanner.nextLine();
 			System.out.println("Enter your password: ");
 			String password = scanner.nextLine();
-			
-			user.setUsername(username);
-			user.setPassword(password);
 			
 			user = userService.logIn(username, password);
 
