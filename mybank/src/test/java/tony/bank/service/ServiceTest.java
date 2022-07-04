@@ -71,16 +71,13 @@ class ServiceTest {
 
 	@Test
 	public void logInFailed() {
-		// setup (inputs, mocks, etc.)
 		String username = "404";
 		String password = "notfound";
 
 		Mockito.when(userDao.findByUsername(username)).thenReturn(null);
 
-		// call the method that we're testing
 		User returnedUser = userService.logIn(username, password);
 
-		// assertion (checking for expected behavior)
 		assertNull(returnedUser);
 	}
 
@@ -136,7 +133,7 @@ class ServiceTest {
 
 		User mockUser = new User();
 		Account mockAccount = new Account();
-		
+
 		Mockito.when(accountDao.create(mockAccount, mockUser, 25)).thenReturn(mockAccount);
 
 		Account returnAccount = accountService.openAccount(mockAccount, mockUser, 25);
