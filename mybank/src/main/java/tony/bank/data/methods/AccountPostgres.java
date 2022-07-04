@@ -83,7 +83,6 @@ public class AccountPostgres implements AccountDAO {
 
 		try (Connection conn = connUtil.getConnection()) {
 
-			account.setBalance(amount);
 			String balanceQuery = "UPDATE bank3.account SET balance='" + amount + "' WHERE id='" + account.getId()
 					+ "'";
 
@@ -95,6 +94,7 @@ public class AccountPostgres implements AccountDAO {
 			statement.executeUpdate(balanceQuery);
 			statement.executeUpdate(transactionQuery);
 			statement.close();
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
