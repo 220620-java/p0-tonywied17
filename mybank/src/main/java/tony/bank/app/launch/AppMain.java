@@ -153,12 +153,29 @@ public class AppMain {
 		while (registering) {
 			System.out.println("Enter a username: ");
 			String username = scanner.nextLine();
+
 			if (username.isEmpty()) {
-				System.out.println("Invalid username");
+				System.out.println("Can not be empty!");
+				break;
+			} else if (!username.matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$")) {
+				System.out
+						.println("Username consists of alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.\n"
+								+ "Username allowed the dot (.), underscore (_), and hyphen (-).\n"
+								+ "The dot (.), underscore (_), or hyphen (-) must not be the first or last character.\n"
+								+ "The dot (.), underscore (_), or hyphen (-) does not appear consecutively, e.g., java..regex\n"
+								+ "The number of characters must be between 5 to 20.\n");
 				break;
 			}
+
 			System.out.println("Enter a password: ");
+
 			String password = scanner.nextLine();
+
+			if (password.isEmpty()) {
+				System.out.println("Can not be empty!");
+				break;
+			}
+
 			System.out.println("Type \"y\" to confirm, \"n\" to try again, or something " + "else to go back.");
 			String input = scanner.nextLine().toLowerCase();
 
@@ -198,8 +215,22 @@ public class AppMain {
 		while (loggingIn) {
 			System.out.println("Enter your username: ");
 			String username = scanner.nextLine();
+
+			if (username.isEmpty()) {
+				System.out.println("Can not be empty!");
+				mainMenuPrint();
+				break;
+			}
+
 			System.out.println("Enter your password: ");
 			String password = scanner.nextLine();
+
+			if (password.isEmpty()) {
+				System.out.println("Can not be empty!");
+				mainMenuPrint();
+				break;
+			}
+
 			System.out.println("Loading your account...");
 
 			user = userService.logIn(username, password);
@@ -231,9 +262,7 @@ public class AppMain {
 
 			if (scanner.hasNextDouble()) {
 				double deposit = scanner.nextDouble();
-				if (deposit != (double) deposit) {
-					System.out.println("Invalid number");
-				}
+
 				account.setBalance(deposit);
 				accountService.openAccount(account, user, deposit);
 				System.out.println("Account has been opened with an initial balance of " + deposit);
@@ -252,11 +281,14 @@ public class AppMain {
 		while (makingDeposit) {
 
 			System.out.println("Please enter an amount");
-			try {
+			if (scanner.hasNextDouble()) {
 				double amount = scanner.nextDouble();
-				accountService.makeWithdraw(account, amount);
-			} catch (InputMismatchException e) {
+
+				accountService.makeDeposit(account, amount);
+
+			} else {
 				System.out.println("We only accept cash");
+				accountMenuPrint();
 			}
 			break;
 		}
@@ -269,11 +301,15 @@ public class AppMain {
 		while (makingWithdraw) {
 
 			System.out.println("Please enter an amount");
-			try {
+			if (scanner.hasNextDouble()) {
+
 				double amount = scanner.nextDouble();
+
 				accountService.makeWithdraw(account, amount);
-			} catch (InputMismatchException e) {
+
+			} else {
 				System.out.println("We only accept cash");
+				accountMenuPrint();
 			}
 			break;
 		}
