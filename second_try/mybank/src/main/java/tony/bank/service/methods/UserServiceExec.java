@@ -6,11 +6,11 @@ import tony.bank.data.interfaces.*;
 import tony.bank.data.methods.UserPostgres;
 import tony.bank.service.interfaces.UserService;
 
-
 public class UserServiceExec implements UserService {
-	
-	//private User DAO userDao = new UserPostgres;
+
+	// private User DAO userDao = new UserPostgres;
 	private UserDAO userDao = new UserPostgres();
+
 	@Override
 	public User registerUser(User user) throws UsernameAlreadyExistsException {
 		user = userDao.create(user);
@@ -20,21 +20,19 @@ public class UserServiceExec implements UserService {
 		return user;
 
 	}
+
 	@Override
 	public User logIn(String username, String password) {
 		// TODO Auto-generated method stub
-		
+
 		User user = userDao.findByUsername(username);
-		
-		if (user != null && (password!=null && password.equals(user.getPassword()))) {
+
+		if (user != null && (password != null && password.equals(user.getPassword()))) {
 			return user;
 		} else {
 			return null;
 		}
 
 	}
-
-
-	
 
 }
