@@ -28,10 +28,14 @@ public class AccountServiceExec implements AccountService {
 
 		if (amount > account.getBalance()) {
 			System.out.println("Innsufficient funds!");
+
+		} else if (amount < 0) {
+			System.out.println("Can't withdraw negative money");
+
 		} else {
 			double withdrawBalance = account.getBalance() - amount;
 			accountDao.updateBalance(account, withdrawBalance, "withdrawal", amount);
-			//System.out.println("Withdrawal Complete!");
+			// System.out.println("Withdrawal Complete!");
 			account.setBalance(withdrawBalance);
 		}
 		return account;
@@ -41,11 +45,16 @@ public class AccountServiceExec implements AccountService {
 	public Account makeDeposit(Account account, double amount) {
 
 		double depositBalance = account.getBalance() + amount;
+		if (amount < 0) {
+			System.out.println("Can't deposit negative money");
 
-		accountDao.updateBalance(account, depositBalance, "deposit", amount);
-		account.setBalance(depositBalance);
-		//System.out.println("Deposit has been received!\n");
+		} else {
+			accountDao.updateBalance(account, depositBalance, "deposit", amount);
+			account.setBalance(depositBalance);
+			// System.out.println("Deposit has been received!\n");
+		}
 		return account;
+
 	}
 
 	@Override
