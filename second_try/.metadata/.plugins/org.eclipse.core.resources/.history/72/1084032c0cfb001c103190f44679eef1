@@ -1,5 +1,0 @@
-package tony.bank.app;
-
-public interface UserService {
-
-}
