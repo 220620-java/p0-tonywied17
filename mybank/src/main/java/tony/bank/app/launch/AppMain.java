@@ -158,22 +158,29 @@ public class AppMain {
 				System.out.println("Can not be empty!");
 				break;
 			} else if (!username.matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$")) {
-				System.out
-						.println("-- USERNAME REQUIREMENTS --\n"
-								+ "Alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.\n"
-								+ "Allowed the dot (.), underscore (_), and hyphen (-).\n"
-								+ "	-must not be the first or last character.\n"
-								+ "	-does not appear consecutively\n"
-								+ "Must be bewteen 5 to 20.\n");
+				System.out.println("-- USERNAME REQUIREMENTS --\n"
+						+ "Alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.\n"
+						+ "Allowed the dot (.), underscore (_), and hyphen (-).\n"
+						+ "	-must not be the first or last character.\n" + "	-does not appear consecutively\n"
+						+ "Must be bewteen 5 to 20.\n");
+				mainMenuPrint();
 				break;
 			}
 
 			System.out.println("Enter a password: ");
 
 			String password = scanner.nextLine();
-
+			
 			if (password.isEmpty()) {
 				System.out.println("Can not be empty!");
+				break;
+				
+			} else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$")) {
+				System.out.println("-- PASSWORD REQUIREMENTS --\n"
+						+ "At least 6 characters\n"
+						+ "At least one letter\n"
+						+ "At least one number\n");
+				mainMenuPrint();
 				break;
 			}
 
@@ -218,7 +225,7 @@ public class AppMain {
 			String username = scanner.nextLine();
 
 			if (username.isEmpty()) {
-				System.out.println("Can not be empty!");
+				System.out.println("Username field is required!");
 				mainMenuPrint();
 				break;
 			}
@@ -227,7 +234,7 @@ public class AppMain {
 			String password = scanner.nextLine();
 
 			if (password.isEmpty()) {
-				System.out.println("Can not be empty!");
+				System.out.println("Password field is reuqired!");
 				mainMenuPrint();
 				break;
 			}
