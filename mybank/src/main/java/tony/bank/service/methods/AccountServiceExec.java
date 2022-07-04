@@ -31,7 +31,8 @@ public class AccountServiceExec implements AccountService {
 		} else {
 			double withdrawBalance = account.getBalance() - amount;
 			accountDao.updateBalance(account, withdrawBalance, "withdrawal", amount);
-			System.out.println("Withdrawal Complete! New");
+			//System.out.println("Withdrawal Complete!");
+			account.setBalance(withdrawBalance);
 		}
 		return account;
 	}
@@ -42,8 +43,8 @@ public class AccountServiceExec implements AccountService {
 		double depositBalance = account.getBalance() + amount;
 
 		accountDao.updateBalance(account, depositBalance, "deposit", amount);
-
-		System.out.println("Deposit has been received:\n");
+		account.setBalance(depositBalance);
+		//System.out.println("Deposit has been received!\n");
 		return account;
 	}
 

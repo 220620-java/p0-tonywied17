@@ -55,7 +55,7 @@ class ServiceTest {
 	 * 
 	 */
 	@Test
-	void loginSuccess() {
+	void loginSuccessTest() {
 
 		String username = "test", password = "test";
 
@@ -70,7 +70,7 @@ class ServiceTest {
 	}
 
 	@Test
-	public void logInFailed() {
+	public void logInFailedTest() {
 		String username = "404";
 		String password = "notfound";
 
@@ -82,7 +82,7 @@ class ServiceTest {
 	}
 
 	@Test
-	void registerUser() {
+	void registerUserTest() {
 
 		User mockUser = new User();
 
@@ -129,7 +129,7 @@ class ServiceTest {
 	 */
 
 	@Test
-	void openAccount() {
+	void openAccountTest() {
 
 		User mockUser = new User();
 		Account mockAccount = new Account();
@@ -140,5 +140,61 @@ class ServiceTest {
 
 		assertNotNull(returnAccount);
 	}
+	
+	
+	@Test
+	void makeWithdrawTest() {
 
+		Account mockAccount = new Account();
+		mockAccount.setBalance(100);
+
+		Mockito.when(accountDao.updateBalance(mockAccount, 75, "withdrawal", 25)).thenReturn(mockAccount);
+
+		Account returnAccount = accountService.makeWithdraw(mockAccount, 25);
+
+		assertEquals(75, returnAccount.getBalance());
+	}
+
+	
+	@Test
+	void makeDepositTest() {
+
+		Account mockAccount = new Account();
+		mockAccount.setBalance(100);
+
+		Mockito.when(accountDao.updateBalance(mockAccount, 125, "deposit", 25)).thenReturn(mockAccount);
+
+		Account returnAccount = accountService.makeDeposit(mockAccount, 25);
+
+		assertEquals(125, returnAccount.getBalance());
+	}
+	
+
+	@Test
+	void getAccountInfoTest() {
+		User mockUser = new User();
+		Account mockAccount = new Account();
+		
+		mockAccount.setBalance(100);
+		mockAccount.setId(1);
+		
+		Mockito.when(accountDao.get(mockAccount, mockUser)).thenReturn(mockAccount);
+
+		Account returnAccount = accountDao.get(mockAccount, mockUser);
+
+		assertEquals(100, returnAccount.getBalance());
+	}
+	
+	@Test
+	public void viewTransactionsTest() {
+		
+		Account mockAccount = new Account();
+
+		Mockito.doNothing().when(accountDao).printTrans(mockAccount);
+
+		Account returnedAccount = accountService.viewTransactions(mockAccount);
+
+		assertNotNull(returnedAccount);
+	}
+	
 }
