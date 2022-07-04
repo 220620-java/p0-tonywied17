@@ -159,11 +159,12 @@ public class AppMain {
 				break;
 			} else if (!username.matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$")) {
 				System.out
-						.println("Username consists of alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.\n"
-								+ "Username allowed the dot (.), underscore (_), and hyphen (-).\n"
-								+ "The dot (.), underscore (_), or hyphen (-) must not be the first or last character.\n"
-								+ "The dot (.), underscore (_), or hyphen (-) does not appear consecutively, e.g., java..regex\n"
-								+ "The number of characters must be between 5 to 20.\n");
+						.println("-- USERNAME REQUIREMENTS --\n"
+								+ "Alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.\n"
+								+ "Allowed the dot (.), underscore (_), and hyphen (-).\n"
+								+ "	-must not be the first or last character.\n"
+								+ "	-does not appear consecutively\n"
+								+ "Must be bewteen 5 to 20.\n");
 				break;
 			}
 
