@@ -13,8 +13,7 @@ import java.util.Locale;
 public class AccountServiceExec implements AccountService {
 	Locale locale = new Locale("en", "US");
 	private AccountDAO accountDao = new AccountPostgres();
-	
-	
+
 	@Override
 	public Account openAccount(Account account, User user, double deposit) {
 		// TODO Auto-generated method stub
@@ -23,7 +22,6 @@ public class AccountServiceExec implements AccountService {
 		return null;
 	}
 
-	
 	@Override
 	public Account makeWithdraw(Account account, double amount) {
 		// TODO Auto-generated method stub
@@ -38,19 +36,17 @@ public class AccountServiceExec implements AccountService {
 		return account;
 	}
 
-	
 	@Override
 	public Account makeDeposit(Account account, double amount) {
-		
+
 		double depositBalance = account.getBalance() + amount;
-		
+
 		accountDao.updateBalance(account, depositBalance, "deposit", amount);
 
 		System.out.println("Deposit has been received:\n");
 		return account;
 	}
 
-	
 	@Override
 	public Account getAccountInfo(Account account, User user) {
 		accountDao.get(account, user);
@@ -58,7 +54,6 @@ public class AccountServiceExec implements AccountService {
 
 	}
 
-	
 	@Override
 	public String convertCurrency(double d) {
 
@@ -72,12 +67,9 @@ public class AccountServiceExec implements AccountService {
 	@Override
 	public Account viewTransactions(Account account) {
 		accountDao.printTrans(account);
-		
+
 		return account;
 
 	}
-	
 
-
-	
 }
