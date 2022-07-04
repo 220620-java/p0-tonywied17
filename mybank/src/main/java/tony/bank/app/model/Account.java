@@ -1,12 +1,15 @@
 package tony.bank.app.model;
 
 public class Account {
+	// Account ID
 	private int id;
+	// Account Balance
 	private double balance;
 
 	// No args constructor for account object
 	public Account() {
 		super();
+
 		this.id = 0;
 		this.balance = 0;
 	}

@@ -3,7 +3,9 @@ package tony.bank.app.model;
 import java.util.Objects;
 
 public class User {
+	// User/Customer ID
 	private int id;
+	// Username and Password
 	private String username, password;
 
 	private boolean isLoggedIn;
