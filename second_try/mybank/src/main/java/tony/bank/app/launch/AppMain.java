@@ -100,10 +100,10 @@ public class AppMain {
 				String input = scanner.nextLine();
 				switch (input) {
 				case "1":
-					depositMenu(account);
+					depositMenu();
 					break;
 				case "2":
-					withdrawMenu(account);
+					withdrawMenu();
 					break;
 				case "3":
 					transactionPrint();
@@ -243,7 +243,7 @@ public class AppMain {
 		}
 	}
 
-	private static void depositMenu(Account account) {
+	private static void depositMenu() {
 		boolean makingDeposit = true;
 
 		while (makingDeposit) {
@@ -257,7 +257,7 @@ public class AppMain {
 
 	}
 
-	private static void withdrawMenu(Account account) {
+	private static void withdrawMenu() {
 		boolean makingWithdraw = true;
 
 		while (makingWithdraw) {
