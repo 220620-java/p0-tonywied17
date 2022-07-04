@@ -1,5 +1,6 @@
 package tony.bank.app.launch;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import tony.bank.app.model.*;
@@ -36,11 +37,9 @@ public class AppMain {
 		 * 
 		 * EXIT BANK - Terminates the application.
 		 */
-		System.out.println("-------------------------------------");
-		System.out.println("Welcome to MyBank!");
-		System.out.println("-------------------------------------");
-		System.out.println(
-				"1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" + "\nType an option:\n");
+
+		mainMenuPrint(); // 1. Login, 2. Open Account (Deposit Required) 3. Exit Bank
+
 		boolean isBanking = true;
 		while (isBanking) {
 
@@ -89,14 +88,9 @@ public class AppMain {
 				 * completed from their account.
 				 * 
 				 */
-				System.out.println("-------------------------------------");
-				System.out.println("MyBank - My Account - Customer ID: " + user.getId());
-				System.out.println("-------------------------------------");
-				System.out.println("\nAcc#: " + account.getId() + ", Balance: "
-						+ accountService.convertCurrency(account.getBalance()) + "\n");
-				System.out.println("Welcome, Please select an option:\n");
-				System.out
-						.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. View Transactions\n\n" + "4. Logout");
+
+				accountMenuPrint(); // 1. Make Deposit, 2. Make Withdraw 3. View Transactions, 4. Logout
+
 				String input = scanner.nextLine();
 				switch (input) {
 				case "1":
@@ -111,9 +105,10 @@ public class AppMain {
 				case "4":
 					user.setLoggedIn(false);
 					System.out.println("Logging out.");
-					System.out.println("Welcome to MyBank!");
-					System.out.println(
-							"What would you like to do?\n" + "1. Log in\n" + "2. Register\n" + "3. Exit Bank\n");
+
+					mainMenuPrint();
+
+					break;
 				}
 			}
 		}
@@ -158,6 +153,10 @@ public class AppMain {
 		while (registering) {
 			System.out.println("Enter a username: ");
 			String username = scanner.nextLine();
+			if (username.isEmpty()) {
+				System.out.println("Invalid username");
+				break;
+			}
 			System.out.println("Enter a password: ");
 			String password = scanner.nextLine();
 			System.out.println("Type \"y\" to confirm, \"n\" to try again, or something " + "else to go back.");
@@ -223,6 +222,7 @@ public class AppMain {
 	}
 
 	private static void openAccount() {
+
 		boolean opening = true;
 
 		while (opening) {
@@ -231,6 +231,9 @@ public class AppMain {
 
 			if (scanner.hasNextDouble()) {
 				double deposit = scanner.nextDouble();
+				if (deposit != (double) deposit) {
+					System.out.println("Invalid number");
+				}
 				account.setBalance(deposit);
 				accountService.openAccount(account, user, deposit);
 				System.out.println("Account has been opened with an initial balance of " + deposit);
@@ -249,9 +252,12 @@ public class AppMain {
 		while (makingDeposit) {
 
 			System.out.println("Please enter an amount");
-			double amount = scanner.nextDouble();
-
-			accountService.makeDeposit(account, amount);
+			try {
+				double amount = scanner.nextDouble();
+				accountService.makeWithdraw(account, amount);
+			} catch (InputMismatchException e) {
+				System.out.println("We only accept cash");
+			}
 			break;
 		}
 
@@ -263,12 +269,32 @@ public class AppMain {
 		while (makingWithdraw) {
 
 			System.out.println("Please enter an amount");
-			double amount = scanner.nextDouble();
-
-			accountService.makeWithdraw(account, amount);
+			try {
+				double amount = scanner.nextDouble();
+				accountService.makeWithdraw(account, amount);
+			} catch (InputMismatchException e) {
+				System.out.println("We only accept cash");
+			}
 			break;
 		}
 
 	}
 
+	private static void mainMenuPrint() {
+		System.out.println("-------------------------------------");
+		System.out.println("Welcome to MyBank!");
+		System.out.println("-------------------------------------");
+		System.out.println(
+				"1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" + "\nType an option:\n");
+	}
+
+	private static void accountMenuPrint() {
+		System.out.println("-------------------------------------");
+		System.out.println("MyBank - My Account - Customer ID: " + user.getId());
+		System.out.println("-------------------------------------");
+		System.out.println("\nAcc#: " + account.getId() + ", Balance: "
+				+ accountService.convertCurrency(account.getBalance()) + "\n");
+		System.out.println("Welcome, Please select an option:\n");
+		System.out.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. View Transactions\n\n" + "4. Logout");
+	}
 }
