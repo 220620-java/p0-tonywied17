@@ -22,7 +22,7 @@ import tony.bank.service.methods.AccountServiceExec;
 import tony.bank.service.methods.UserServiceExec;
 
 @ExtendWith(MockitoExtension.class)
-class ServiceTest {
+class BankAppUnitTest {
 
 	@InjectMocks
 	private static AccountService accountService = new AccountServiceExec();
@@ -92,7 +92,6 @@ class ServiceTest {
 		try {
 			Mockito.when(userDao.create(mockUser)).thenReturn(mockUser);
 		} catch (UsernameAlreadyExistsException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -100,7 +99,6 @@ class ServiceTest {
 		try {
 			returnUser = userService.registerUser(mockUser);
 		} catch (UsernameAlreadyExistsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -140,8 +138,7 @@ class ServiceTest {
 
 		assertNotNull(returnAccount);
 	}
-	
-	
+
 	@Test
 	void makeWithdrawTest() {
 
@@ -155,7 +152,6 @@ class ServiceTest {
 		assertEquals(75, returnAccount.getBalance());
 	}
 
-	
 	@Test
 	void makeDepositTest() {
 
@@ -168,26 +164,25 @@ class ServiceTest {
 
 		assertEquals(125, returnAccount.getBalance());
 	}
-	
 
 	@Test
 	void getAccountInfoTest() {
 		User mockUser = new User();
 		Account mockAccount = new Account();
-		
+
 		mockAccount.setBalance(100);
 		mockAccount.setId(1);
-		
+
 		Mockito.when(accountDao.get(mockAccount, mockUser)).thenReturn(mockAccount);
 
 		Account returnAccount = accountDao.get(mockAccount, mockUser);
 
 		assertEquals(100, returnAccount.getBalance());
 	}
-	
+
 	@Test
 	public void viewTransactionsTest() {
-		
+
 		Account mockAccount = new Account();
 
 		Mockito.doNothing().when(accountDao).printTrans(mockAccount);
@@ -196,5 +191,5 @@ class ServiceTest {
 
 		assertNotNull(returnedAccount);
 	}
-	
+
 }
