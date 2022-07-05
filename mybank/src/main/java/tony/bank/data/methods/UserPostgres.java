@@ -61,7 +61,7 @@ public class UserPostgres implements UserDAO {
 			// set up the SQL statement that we want to execute
 			String sql = """
 
-					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance
+					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance, account.account_type
 					FROM bank3.users
 					LEFT JOIN bank3.account ON users.id  = account.owner_id
 					where users.username = ?;
@@ -82,8 +82,9 @@ public class UserPostgres implements UserDAO {
 
 				double balance = resultSet.getDouble("balance");
 				int accountNumber = resultSet.getInt("account_number");
+				String accountType = resultSet.getString("account_type");
 
-				Account account = new Account(accountNumber, balance);
+				Account account = new Account(accountNumber, balance, accountType);
 
 				allAccounts.add(account);
 			} else {
@@ -105,7 +106,7 @@ public class UserPostgres implements UserDAO {
 		try (Connection conn = connUtil.getConnection()) {
 			String sql = """
 
-					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance
+					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance, account.account_type
 					FROM bank3.Users
 					LEFT JOIN bank3.Account ON users.id  = account.owner_id
 					where users.username = ?;
@@ -120,8 +121,8 @@ public class UserPostgres implements UserDAO {
 			while (resultSet.next()) {
 				double balance = resultSet.getDouble("balance");
 				int accountNumber = resultSet.getInt("account_number");
-
-				Account account = new Account(accountNumber, balance);
+				String accountType = resultSet.getString("account_type");
+				Account account = new Account(accountNumber, balance, accountType);
 
 				allAccounts.add(account);
 

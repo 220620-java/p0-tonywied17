@@ -19,26 +19,26 @@ public class AccountPostgres implements AccountDAO {
 	private ConnectDB connUtil = ConnectDB.getConnectionDB();
 
 	@Override
-	public Account create(Account account, User user, double balance) {
+	public Account create(Account account, User user, double balance, String accountType) {
 		List<Account> allAccounts = new ArrayList<>();
 		try (Connection conn = connUtil.getConnection()) {
 			conn.setAutoCommit(false);
 
-			String sql = "insert into bank3.account" + "(id, owner_id, balance) " + "values (default, ?, ?)";
+			String sql = "insert into bank3.account" + "(id, owner_id, balance, account_type) " + "values (default, ?, ?, ?)";
 
 			String[] keys = { "id" };
 
 			PreparedStatement stmt = conn.prepareStatement(sql, keys);
 			stmt.setInt(1, user.getId());
 			stmt.setDouble(2, balance);
-
+			stmt.setString(3, accountType);
 			int rowsAffected = stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.next() && rowsAffected == 1) {
 
 				conn.commit();
 				
-				Account account1 = new Account(resultSet.getInt("id"), balance);
+				Account account1 = new Account(resultSet.getInt("id"), balance, accountType);
 				
 				allAccounts.add(account1);
 			} else {
@@ -59,12 +59,12 @@ public class AccountPostgres implements AccountDAO {
 
 		try (Connection conn = connUtil.getConnection()) {
 
-			String sql = "SELECT account.id as account_number , transactions.type, transactions.amount ,transactions.balance_after , transactions.id as transaction_id"
+			String sql = "SELECT account.id as account_number, account.account_type , transactions.type, transactions.amount ,transactions.balance_after , transactions.id as transaction_id"
 					+ "FROM Account"
 					+ "LEFT JOIN transactions  ON account.id  = transactions.account_id"
-					+ "where transactions.account_id ='25' ORDER BY account.owner_id ;";
+					+ "where transactions.account_id ='?'";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, user.getId()); 
+			stmt.setInt(1, account.getId()); 
 
 			ResultSet resultSet = stmt.executeQuery();
 

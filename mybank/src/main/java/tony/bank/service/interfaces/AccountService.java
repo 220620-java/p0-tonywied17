@@ -5,7 +5,7 @@ import tony.bank.app.model.User;
 
 public interface AccountService {
 	
-	public Account openAccount(Account account, User user, double deposit);
+	public Account openAccount(Account account, User user, double deposit, String accountType);
 
 	String convertCurrency(double d);
 

@@ -132,9 +132,9 @@ class BankAppUnitTest {
 		User mockUser = new User();
 		Account mockAccount = new Account();
 
-		Mockito.when(accountDao.create(mockAccount, mockUser, 25)).thenReturn(mockAccount);
+		Mockito.when(accountDao.create(mockAccount, mockUser, 25, "Checking")).thenReturn(mockAccount);
 
-		Account returnAccount = accountService.openAccount(mockAccount, mockUser, 25);
+		Account returnAccount = accountService.openAccount(mockAccount, mockUser, 25, "Checking");
 
 		assertNotNull(returnAccount);
 	}
