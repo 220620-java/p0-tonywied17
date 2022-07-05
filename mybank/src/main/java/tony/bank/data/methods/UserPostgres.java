@@ -6,9 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tony.bank.app.exceptions.UsernameAlreadyExistsException;
+import tony.bank.app.model.Account;
 import tony.bank.app.model.User;
 import tony.bank.data.connect.*;
 import tony.bank.data.interfaces.UserDAO;
+import tony.bank.data.structures.ArrayList;
+import tony.bank.data.structures.List;
 
 public class UserPostgres implements UserDAO {
 	private ConnectDB connUtil = ConnectDB.getConnectionDB();
@@ -18,7 +21,8 @@ public class UserPostgres implements UserDAO {
 		try (Connection conn = connUtil.getConnection()) {
 			conn.setAutoCommit(false);
 
-			String sql = "insert into bank3.users" + "(id, username, password, name, phone, email) " + "values (default, ?, ?, ?, ?, ?)";
+			String sql = "insert into bank3.users" + "(id, username, password, fullname, phone, email) "
+					+ "values (default, ?, ?, ?, ?, ?)";
 
 			String[] keys = { "id" };
 
@@ -46,9 +50,9 @@ public class UserPostgres implements UserDAO {
 		return user;
 	}
 
-
 	@Override
 	public User findByUsername(String username) {
+		List<Account> allAccounts = new ArrayList<>();
 		// TODO Auto-generated method stub
 		User user = null;
 
@@ -57,28 +61,31 @@ public class UserPostgres implements UserDAO {
 			// set up the SQL statement that we want to execute
 			String sql = """
 
-					SELECT * from bank3.users WHERE username = ?;
+					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance
+					FROM bank3.users
+					LEFT JOIN bank3.account ON users.id  = account.owner_id
+					where users.username = ?;
 
 					""";
-			// set up that statement with the database
-			// preparedstatement is pre-processed to prevent sql injection
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, username); // parameter indexes start at 1 (the first ?)
+			stmt.setString(1, username);
 
-			// execute the statement
 			ResultSet resultSet = stmt.executeQuery();
-
-			// process the result set
 			if (resultSet.next()) {
-				String usernameDB = resultSet.getString("username");
-				String passwordDB = resultSet.getString("password");
-				String nameDB = resultSet.getString("name");
-				String phoneDB = resultSet.getString("phone");
-				String emailDB = resultSet.getString("email");
-				int idDB = resultSet.getInt("id");
+				String usernameDB = resultSet.getString("username"), passwordDB = resultSet.getString("password"),
+						nameDB = resultSet.getString("fullname"), phoneDB = resultSet.getString("phone"),
+						emailDB = resultSet.getString("email");
+				int idDB = resultSet.getInt("user_id");
 
 				user = new User(idDB, usernameDB, passwordDB, nameDB, phoneDB, emailDB);
 				user.setLoggedIn(true);
+
+				double balance = resultSet.getDouble("balance");
+				int accountNumber = resultSet.getInt("account_number");
+
+				Account account = new Account(accountNumber, balance);
+
+				allAccounts.add(account);
 			} else {
 				return user;
 			}
@@ -89,6 +96,42 @@ public class UserPostgres implements UserDAO {
 
 		return user;
 
+	}
+
+	@Override
+	public List<Account> findAllAccounts(User user) {
+		List<Account> allAccounts = new ArrayList<>();
+
+		try (Connection conn = connUtil.getConnection()) {
+			String sql = """
+
+					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance
+					FROM bank3.Users
+					LEFT JOIN bank3.Account ON users.id  = account.owner_id
+					where users.username = ?;
+
+					""";
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, user.getUsername());
+
+			ResultSet resultSet = stmt.executeQuery();
+
+			while (resultSet.next()) {
+				double balance = resultSet.getDouble("balance");
+				int accountNumber = resultSet.getInt("account_number");
+
+				Account account = new Account(accountNumber, balance);
+
+				allAccounts.add(account);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return allAccounts;
 	}
 
 }

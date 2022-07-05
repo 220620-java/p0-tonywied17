@@ -1,9 +1,11 @@
 package tony.bank.service.methods;
 
 import tony.bank.app.exceptions.UsernameAlreadyExistsException;
+import tony.bank.app.model.Account;
 import tony.bank.app.model.User;
 import tony.bank.data.interfaces.*;
 import tony.bank.data.methods.UserPostgres;
+import tony.bank.data.structures.List;
 import tony.bank.service.interfaces.UserService;
 
 public class UserServiceExec implements UserService {
@@ -34,5 +36,9 @@ public class UserServiceExec implements UserService {
 		}
 
 	}
-
+	
+	@Override
+	public List<Account> getAccountInfo(User user) {
+		return userDao.findAllAccounts(user);
+	}
 }
