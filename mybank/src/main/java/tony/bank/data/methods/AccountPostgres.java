@@ -124,11 +124,11 @@ public class AccountPostgres implements AccountDAO {
 				double value = resultSet.getDouble("value");
 				double balance = resultSet.getDouble("balance");
 
-				System.out.println("Transaction ID " + id + "\n-----------------------------\nType: " + type
-						+ "\nTransaction Amount: " + accountService.convertCurrency(value) + "\nAvailable Balance: "
+				System.out.println("🆔 𝗧𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻 𝗜𝗗 " + id + "\n                                                                                                                       \n🪢 𝗧𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻 𝗠𝗲𝘁𝗵𝗼𝗱 " + type
+						+ "\n💳 𝗧𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻 𝗔𝗺𝗼𝘂𝗻𝘁 " + accountService.convertCurrency(value) + "\n💰 𝗔𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 "
 						+ accountService.convertCurrency(balance));
 				System.out.println("\n");
-
+	
 			}
 
 		} catch (SQLException e) {
