@@ -1,10 +1,15 @@
 package tony.bank.app.model;
 
+import tony.bank.service.interfaces.AccountService;
+import tony.bank.service.methods.AccountServiceExec;
+
 public class Account {
 	// Account ID
 	private int id;
 	// Account Balance
 	private double balance;
+	private String accountType;
+	
 
 	// No args constructor for account object
 	public Account() {
@@ -14,10 +19,11 @@ public class Account {
 		this.balance = 0;
 	}
 
-	public Account(int id, double balance) {
+	public Account(int id, double balance, String accountType) {
 		super();
 		this.id = id;
 		this.balance = balance;
+		this.accountType = accountType;
 	}
 
 	public int getId() {
@@ -47,10 +53,20 @@ public class Account {
 		Account other = (Account) obj;
 		return id == other.id && balance == other.balance;
 	}
-
+	private static AccountService accountService = new AccountServiceExec();
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", balance=" + balance + "]";
+		return  "🆔 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗜𝗗:  [" + id + "]  	💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: " + accountService.convertCurrency(balance)
+			+ "\n\n📒 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗧𝘆𝗽𝗲: " + accountType
+		+ "\n                                                                                                                                      \n";
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 }

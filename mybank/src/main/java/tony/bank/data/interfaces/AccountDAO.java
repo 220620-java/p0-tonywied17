@@ -5,12 +5,13 @@ import tony.bank.app.model.User;
 
 public interface AccountDAO {
 
-	Account create(Account account, User user, double balance);
-
 	Account get(Account account, User user);
 
 	void printTrans(Account account);
 
-	Account updateBalance(Account account, double depositBalance, String string, double amount);
+	Account updateBalance(Account account, double adjustedBalance, String type, double transAmount);
+
+	Account create(Account account, User user, double balance, String accountType);
+
 
 }
