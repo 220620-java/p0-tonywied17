@@ -18,13 +18,16 @@ public class UserPostgres implements UserDAO {
 		try (Connection conn = connUtil.getConnection()) {
 			conn.setAutoCommit(false);
 
-			String sql = "insert into bank3.users" + "(id, username, password) " + "values (default, ?, ?)";
+			String sql = "insert into bank3.users" + "(id, username, password, name, phone, email) " + "values (default, ?, ?, ?, ?, ?)";
 
 			String[] keys = { "id" };
 
 			PreparedStatement stmt = conn.prepareStatement(sql, keys);
 			stmt.setString(1, user.getUsername());
 			stmt.setString(2, user.getPassword());
+			stmt.setString(3, user.getName());
+			stmt.setString(4, user.getPhone());
+			stmt.setString(5, user.getEmail());
 
 			int rowsAffected = stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
@@ -69,9 +72,12 @@ public class UserPostgres implements UserDAO {
 			if (resultSet.next()) {
 				String usernameDB = resultSet.getString("username");
 				String passwordDB = resultSet.getString("password");
+				String nameDB = resultSet.getString("name");
+				String phoneDB = resultSet.getString("phone");
+				String emailDB = resultSet.getString("email");
 				int idDB = resultSet.getInt("id");
 
-				user = new User(idDB, usernameDB, passwordDB);
+				user = new User(idDB, usernameDB, passwordDB, nameDB, phoneDB, emailDB);
 				user.setLoggedIn(true);
 			} else {
 				return user;
