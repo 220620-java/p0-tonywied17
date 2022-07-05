@@ -6,7 +6,7 @@ public class User {
 	// User/Customer ID
 	private int id;
 	// Username and Password
-	private String username, password;
+	private String username, password, name, phone, email;
 
 	private boolean isLoggedIn;
 
@@ -20,11 +20,15 @@ public class User {
 		this.password = password;
 	}
 
-	public User(int id, String username, String password) {
+
+	public User(int id, String username, String password, String name, String phone, String email) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
+		this.name = name;
+		this.phone = phone;
+		this.email = email;
 	}
 
 	public int getId() {
@@ -57,6 +61,32 @@ public class User {
 
 	public void setLoggedIn(boolean isLoggedIn) {
 		this.isLoggedIn = isLoggedIn;
+	}
+
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhone() {
+		return phone.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3");
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override

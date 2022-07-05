@@ -155,7 +155,7 @@ public class AppMain {
 			String username = scanner.nextLine();
 
 			if (username.isEmpty()) {
-				System.out.println("Can not be empty!");
+				System.out.println("Username field is required!");
 				break;
 			} else if (!username.matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$")) {
 				System.out.println("-- USERNAME REQUIREMENTS --\n"
@@ -172,7 +172,7 @@ public class AppMain {
 			String password = scanner.nextLine();
 			
 			if (password.isEmpty()) {
-				System.out.println("Can not be empty!");
+				System.out.println("Password field is required!");
 				break;
 				
 			} else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$")) {
@@ -184,6 +184,35 @@ public class AppMain {
 				break;
 			}
 
+			
+			System.out.println("Enter your name: ");
+
+			String name = scanner.nextLine();
+			if (name.isEmpty()) {
+				System.out.println("Name field is required!");
+				mainMenuPrint();
+				break;
+			}
+			
+			
+			System.out.println("Enter your phone number: ");
+
+			String phone = scanner.nextLine();
+			if (phone.isEmpty()) {
+				System.out.println("Phone is a required field");
+				mainMenuPrint();
+				break;
+			}
+			
+			System.out.println("Enter your email: ");
+
+			String email = scanner.nextLine();
+			if (email.isEmpty()) {
+				System.out.println("Phone is a required field");
+				mainMenuPrint();
+				break;
+			}
+			
 			System.out.println("Type \"y\" to confirm, \"n\" to try again, or something " + "else to go back.");
 			String input = scanner.nextLine().toLowerCase();
 
@@ -191,6 +220,9 @@ public class AppMain {
 			case "y":
 				user.setUsername(username);
 				user.setPassword(password);
+				user.setName(name);
+				user.setPhone(phone);
+				user.setEmail(email);
 				try {
 					// register user in the banking system
 					user = userService.registerUser(user);
@@ -333,11 +365,15 @@ public class AppMain {
 	}
 
 	private static void accountMenuPrint() {
-		System.out.println("-------------------------------------");
-		System.out.println("MyBank - My Account - Customer ID: " + user.getId());
-		System.out.println("-------------------------------------");
-		System.out.println("\nAcc#: " + account.getId() + ", Balance: "
-				+ accountService.convertCurrency(account.getBalance()) + "\n");
+		
+		System.out.println(
+				 "--------------------------------------------------------------------------\n"
+				+ "\\	                  MyBank Inc. - My Account\n"
+				+ "--------------------------------------------------------------------------\n"
+				+ user.getName() + "\n"
+				+ user.getPhone() + "                   Balance " + accountService.convertCurrency(account.getBalance()) + "\n"
+				+ user.getEmail() + "\n\n"
+				);
 		System.out.println("Welcome, Please select an option:\n");
 		System.out.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. View Transactions\n\n" + "4. Logout");
 	}
