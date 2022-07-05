@@ -357,24 +357,27 @@ public class AppMain {
 	}
 
 	private static void mainMenuPrint() {
-		System.out.println("-------------------------------------");
-		System.out.println("Welcome to MyBank!");
-		System.out.println("-------------------------------------");
 		System.out.println(
-				"1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" + "\nType an option:\n");
+				  "\n"
+				+ "                                                                                                                       \n"
+				+ "⡷⠂                      🏦 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜.                         ⠐⢾\n"
+				+ "                                                                                                                       \n");
+		System.out.println(
+				" 𝟭. 𝗟𝗼𝗴𝗶𝗻\n" + " 𝟮. 𝗢𝗽𝗲𝗻 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 (𝗗𝗲𝗽𝗼𝘀𝗶𝘁 𝗥𝗲𝗾𝘂𝗶𝗿𝗲𝗱)\n" + " 𝟯. 𝗘𝘅𝗶𝘁 𝗕𝗮𝗻𝗸\n" + "\n𝘾𝙝𝙤𝙤𝙨𝙚 𝙖𝙣 𝙤𝙥𝙩𝙞𝙤𝙣\n");
 	}
 
 	private static void accountMenuPrint() {
-		
 		System.out.println(
-				 "--------------------------------------------------------------------------\n"
-				+ "\\	                  MyBank Inc. - My Account\n"
-				+ "--------------------------------------------------------------------------\n"
-				+ user.getName() + "\n"
-				+ user.getPhone() + "                   Balance " + accountService.convertCurrency(account.getBalance()) + "\n"
-				+ user.getEmail() + "\n\n"
+				  "                                                                                                                       \n"
+				+ "⡷⠂                     🏦 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜. - 𝐌𝐲 𝐀𝐜𝐜𝐨𝐮𝐧𝐭                        ⠐⢾\n"
+				+ "                                                                                                                       \n"
+				+ "👤 " + user.getName() + "\n"
+				+ "📞 " + user.getPhone() + "                   💰 " + accountService.convertCurrency(account.getBalance()) + "\n"
+				+ "✉️ " + user.getEmail() + "\n\n"
 				);
-		System.out.println("Welcome, Please select an option:\n");
-		System.out.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. View Transactions\n\n" + "4. Logout");
+		System.out.println(
+				  "                            🔌𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐅𝐮𝐧𝐜𝐭𝐢𝐨𝐧𝐬\n"
+				+ "                                                                                                                       \n");
+		System.out.println(" 𝟭. 𝗠𝗮𝗸𝗲 𝗗𝗲𝗽𝗼𝘀𝗶𝘁 \n" + " 𝟮. 𝗠𝗮𝗸𝗲 𝗪𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹\n" + " 𝟯. 𝗧𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻𝘀\n\n" + " 𝟰. 𝗟𝗼𝗴𝗼𝘂𝘁");
 	}
 }
