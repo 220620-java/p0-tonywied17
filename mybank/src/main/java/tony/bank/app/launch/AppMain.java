@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import tony.bank.app.model.*;
+import tony.bank.data.structures.List;
 import tony.bank.service.interfaces.*;
 import tony.bank.service.methods.*;
 import tony.bank.app.exceptions.*;
@@ -38,7 +39,7 @@ public class AppMain {
 		 * EXIT BANK - Terminates the application.
 		 */
 
-		mainMenuPrint(); // 1. Login, 2. Open Account (Deposit Required) 3. Exit Bank
+		mainMenuPrint(); // 1. Login, 2. Register User 3. Exit Bank
 
 		boolean isBanking = true;
 		while (isBanking) {
@@ -84,25 +85,25 @@ public class AppMain {
 				 * their account, they are not allowed to exceed their balance (overdraft
 				 * disabled).
 				 * 
-				 * VIEW TRANSACTIONS - A user can see a complete list of the transactions
-				 * completed from their account.
-				 * 
 				 */
 
-				accountMenuPrint(); // 1. Make Deposit, 2. Make Withdraw 3. View Transactions, 4. Logout
+				accountMenuPrint(); // 1. Make Deposit, 2. Make Withdraw, 3. Open Account, 4. Logout
 
 				String input = scanner.nextLine();
 				switch (input) {
 				case "1":
-					depositMenu();
+					viewAccounts();
 					break;
 				case "2":
-					withdrawMenu();
+					depositMenu();
 					break;
 				case "3":
-					transactionPrint();
+					withdrawMenu();
 					break;
 				case "4":
+					openAccount();
+					break;
+				case "5":
 					user.setLoggedIn(false);
 					System.out.println("Logging out.");
 
@@ -118,28 +119,6 @@ public class AppMain {
 	}
 
 	/*
-	 * VIEW TRANSACTIONS METHOD - Prints the current users transaction history for
-	 * their bank account.
-	 */
-
-	private static void transactionPrint() {
-		// TODO Auto-generated method stub
-		boolean viewTrans = true;
-
-		accountService.viewTransactions(account);
-
-		while (viewTrans) {
-			System.out.println("Type anything to go back\n");
-			scanner.nextLine();
-
-			viewTrans = false;
-			break;
-
-		}
-
-	}
-
-	/*
 	 * REGISTER USER - Creates a user account with a supplied input of a user name
 	 * and password.
 	 * 
@@ -151,7 +130,7 @@ public class AppMain {
 		boolean registering = true;
 
 		while (registering) {
-			System.out.println("Enter a username: ");
+			System.out.println("🆔 𝗘𝗻𝘁𝗲𝗿 𝗮 [𝘂𝘀𝗲𝗿𝗻𝗮𝗺𝗲] ");
 			String username = scanner.nextLine();
 
 			if (username.isEmpty()) {
@@ -167,25 +146,22 @@ public class AppMain {
 				break;
 			}
 
-			System.out.println("Enter a password: ");
+			System.out.println("🔐 𝗘𝗻𝘁𝗲𝗿 𝗮 [𝗽𝗮𝘀𝘀𝘄𝗼𝗿𝗱] ");
 
 			String password = scanner.nextLine();
-			
+
 			if (password.isEmpty()) {
 				System.out.println("Password field is required!");
 				break;
-				
+
 			} else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$")) {
-				System.out.println("-- PASSWORD REQUIREMENTS --\n"
-						+ "At least 6 characters\n"
-						+ "At least one letter\n"
+				System.out.println("-- PASSWORD REQUIREMENTS --\n" + "At least 6 characters\n" + "At least one letter\n"
 						+ "At least one number\n");
 				mainMenuPrint();
 				break;
 			}
 
-			
-			System.out.println("Enter your name: ");
+			System.out.println("👤 𝗘𝗻𝘁𝗲𝗿 𝘆𝗼𝘂𝗿 [𝗙𝘂𝗹𝗹 𝗡𝗮𝗺𝗲] ");
 
 			String name = scanner.nextLine();
 			if (name.isEmpty()) {
@@ -193,9 +169,8 @@ public class AppMain {
 				mainMenuPrint();
 				break;
 			}
-			
-			
-			System.out.println("Enter your phone number: ");
+
+			System.out.println("📞 𝗘𝗻𝘁𝗲𝗿 𝘆𝗼𝘂𝗿 [𝗣𝗵𝗼𝗻𝗲 #] ");
 
 			String phone = scanner.nextLine();
 			if (phone.isEmpty()) {
@@ -203,8 +178,8 @@ public class AppMain {
 				mainMenuPrint();
 				break;
 			}
-			
-			System.out.println("Enter your email: ");
+
+			System.out.println("✉️ 𝗘𝗻𝘁𝗲𝗿 𝘆𝗼𝘂𝗿 [𝗘-𝗺𝗮𝗶𝗹] ");
 
 			String email = scanner.nextLine();
 			if (email.isEmpty()) {
@@ -212,8 +187,8 @@ public class AppMain {
 				mainMenuPrint();
 				break;
 			}
-			
-			System.out.println("Type \"y\" to confirm, \"n\" to try again, or something " + "else to go back.");
+
+			System.out.println("𝗧𝘆𝗽𝗲 [𝘆] 𝘁𝗼 𝗰𝗼𝗻𝗳𝗶𝗿𝗺, [𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹.");
 			String input = scanner.nextLine().toLowerCase();
 
 			switch (input) {
@@ -233,14 +208,10 @@ public class AppMain {
 
 					registering = false;
 					System.out.println("You may now login with your credentials.");
-					System.out.println(
-							"What would you like to do?\n" + "1. Log in\n" + "2. Register\n" + "3. Exit Bank\n");
+					mainMenuPrint();
 				} catch (UsernameAlreadyExistsException e) {
 					System.out.println("Oh no, a user with that username already exists. " + "Let's try again.");
 				}
-				break;
-			case "n":
-				System.out.println("Okay, let's try again.");
 				break;
 			default:
 				System.out.println("Okay, let's go back.");
@@ -285,7 +256,7 @@ public class AppMain {
 					loggingIn = false;
 				}
 			} else {
-				accountService.getAccountInfo(account, user);
+				userService.getAccountInfo(user);
 				return user;
 			}
 		}
@@ -315,66 +286,147 @@ public class AppMain {
 		}
 	}
 
-	private static void depositMenu() {
-		boolean makingDeposit = true;
+	private static User depositMenu() {
+		// TODO Auto-generated method stub
 
-		while (makingDeposit) {
+		List<Account> accounts = userService.getAccountInfo(user);
 
-			System.out.println("Please enter an amount");
-			if (scanner.hasNextDouble()) {
-				double amount = scanner.nextDouble();
+		System.out.println("🏦 𝗬𝗼𝘂𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀");
+		System.out.println(accounts);
 
-				accountService.makeDeposit(account, amount);
-
-			} else {
-				System.out.println("We only accept cash");
-				accountMenuPrint();
-			}
-			break;
+		System.out.println("[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝗺𝗮𝗸𝗲 𝘄𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹."
+				+ "	[𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹");
+		String input = scanner.nextLine();
+		Integer id = -1;
+		try {
+			id = Integer.parseInt(input);
+		} catch (NumberFormatException e) {
+			System.out.println("𝗥𝗲𝘁𝘂𝗿𝗻𝗶𝗻𝗴...");
+			return user;
 		}
+
+		for (int i = 0; i < accounts.size(); i++) {
+			Account acc = accounts.get(i);
+
+			if (acc.getId() == id.intValue()) {
+
+				System.out.println("\n\n🏦 𝗔𝗰𝗰𝗼𝘂𝗻𝘁# [" + acc.getId() + "]" + "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 "
+						+ acc.getBalance() + "\n                \n" + "𝗖𝗼𝗻𝗳𝗶𝗿𝗺 𝗮𝗰𝗰𝗼𝘂𝗻𝘁 [𝘆/𝗻]/𝗻");
+
+				input = scanner.nextLine().toLowerCase();
+				if ("y".equals(input)) {
+					System.out.println("𝗘𝗻𝘁𝗲𝗿 [𝗮𝗺𝗼𝘂𝗻𝘁] 𝘁𝗼 𝗱𝗲𝗽𝗼𝘀𝗶𝘁");
+					if (scanner.hasNextDouble()) {
+
+						double amount = scanner.nextDouble();
+
+						accountService.makeDeposit(acc, amount);
+
+						System.out.println("☑️ 𝗗𝗲𝗽𝗼𝘀𝗶𝘁 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹!");
+					} else {
+						System.out.println("❌ 𝗪𝗲 𝗼𝗻𝗹𝘆 𝗮𝗰𝗰𝗲𝗽𝘁 𝗺𝗼𝗻𝗲𝘆!");
+						break;
+					}
+
+				} else {
+					System.out.println("𝗥𝗲𝘁𝘂𝗿𝗻𝗶𝗻𝗴 𝘁𝗼 𝘂𝘀𝗲𝗿 𝗺𝗲𝗻𝘂...");
+				}
+				break;
+			}
+		}
+		return user;
 
 	}
 
-	private static void withdrawMenu() {
-		boolean makingWithdraw = true;
+	private static User withdrawMenu() {
+		// TODO Auto-generated method stub
 
-		while (makingWithdraw) {
+		List<Account> accounts = userService.getAccountInfo(user);
 
-			System.out.println("Please enter an amount");
-			if (scanner.hasNextDouble()) {
+		System.out.println("🏦 𝗬𝗼𝘂𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀");
+		System.out.println(accounts);
 
-				double amount = scanner.nextDouble();
-
-				accountService.makeWithdraw(account, amount);
-
-			} else {
-				System.out.println("We only accept cash");
-				accountMenuPrint();
-			}
-			break;
+		System.out.println(
+				"[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝗺𝗮𝗸𝗲 𝗱𝗲𝗽𝗼𝘀𝗶𝘁." + "	[𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹");
+		String input = scanner.nextLine();
+		Integer id = -1;
+		try {
+			id = Integer.parseInt(input);
+		} catch (NumberFormatException e) {
+			System.out.println("𝗥𝗲𝘁𝘂𝗿𝗻𝗶𝗻𝗴...");
+			return user;
 		}
+
+		for (int i = 0; i < accounts.size(); i++) {
+			Account acc = accounts.get(i);
+
+			if (acc.getId() == id.intValue()) {
+
+				System.out.println("\n\n🏦 𝗔𝗰𝗰𝗼𝘂𝗻𝘁# [" + acc.getId() + "]" + "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 "
+						+ acc.getBalance() + "\n                \n" + "𝗖𝗼𝗻𝗳𝗶𝗿𝗺 𝗮𝗰𝗰𝗼𝘂𝗻𝘁 [𝘆/𝗻]/𝗻");
+
+				input = scanner.nextLine().toLowerCase();
+				if ("y".equals(input)) {
+					System.out.println("𝗘𝗻𝘁𝗲𝗿 [𝗮𝗺𝗼𝘂𝗻𝘁] 𝘁𝗼 𝘄𝗶𝘁𝗵𝗱𝗿𝗮𝘄");
+					if (scanner.hasNextDouble()) {
+
+						double amount = scanner.nextDouble();
+
+						accountService.makeWithdraw(acc, amount);
+
+						System.out.println("☑️ 𝗪𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹!");
+					} else {
+						System.out.println("❌ 𝗪𝗲 𝗼𝗻𝗹𝘆 𝗮𝗰𝗰𝗲𝗽𝘁 𝗺𝗼𝗻𝗲𝘆!");
+						break;
+					}
+
+				} else {
+					System.out.println("𝗥𝗲𝘁𝘂𝗿𝗻𝗶𝗻𝗴 𝘁𝗼 𝘂𝘀𝗲𝗿 𝗺𝗲𝗻𝘂...");
+				}
+				break;
+			}
+		}
+		return user;
+
+	}
+
+	private static User viewAccounts() {
+		// TODO Auto-generated method stub
+
+		List<Account> accounts = userService.getAccountInfo(user);
+
+		System.out.println("\n🏦 𝗬𝗼𝘂𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀");
+		System.out.println(accounts);
+
+		System.out.println("𝗘𝗻𝘁𝗲𝗿 [𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗿𝗲𝘁𝘂𝗿𝗻");
+
+		String input = scanner.nextLine();
+		System.out.println("𝗥𝗲𝘁𝘂𝗿𝗻𝗶𝗻𝗴 𝘁𝗼 𝘂𝘀𝗲𝗿 𝗺𝗲𝗻𝘂...");
+
+		return user;
 
 	}
 
 	private static void mainMenuPrint() {
-		System.out.println("-------------------------------------");
-		System.out.println("Welcome to MyBank!");
-		System.out.println("-------------------------------------");
-		System.out.println(
-				"1. Log in\n" + "2. Open Account (Deposit Required)\n" + "3. Exit Bank\n" + "\nType an option:\n");
+		System.out.println("\n"
+				+ "                                                                                                                       \n"
+				+ "⡷⠂                      🏦 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜.                         ⠐⢾\n"
+				+ "                                                                                                                       \n");
+		System.out.println(" 𝟭. 𝗟𝗼𝗴𝗶𝗻\n" + " 𝟮. 𝗥𝗲𝗴𝗶𝘀𝘁𝗲𝗿 𝗨𝘀𝗲𝗿\n\n" + " 𝟯. 𝗘𝘅𝗶𝘁 𝗕𝗮𝗻𝗸\n"
+				+ "\n𝘾𝙝𝙤𝙤𝙨𝙚 𝙖𝙣 𝙤𝙥𝙩𝙞𝙤𝙣\n");
 	}
 
 	private static void accountMenuPrint() {
-		
 		System.out.println(
-				 "--------------------------------------------------------------------------\n"
-				+ "\\	                  MyBank Inc. - My Account\n"
-				+ "--------------------------------------------------------------------------\n"
-				+ user.getName() + "\n"
-				+ user.getPhone() + "                   Balance " + accountService.convertCurrency(account.getBalance()) + "\n"
-				+ user.getEmail() + "\n\n"
-				);
-		System.out.println("Welcome, Please select an option:\n");
-		System.out.println("1. Make Deposit\n" + "2. Make Withdraw\n" + "3. View Transactions\n\n" + "4. Logout");
+				"                                                                                                                       \n"
+						+ "⡷⠂                     🏦 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜. - 𝐌𝐲 𝐀𝐜𝐜𝐨𝐮𝐧𝐭                        ⠐⢾\n"
+						+ "                                                                                                                       \n"
+						+ "👤 " + user.getName() + "\n" + "📞 " + user.getPhone() + "\n" + "✉️ " + user.getEmail()
+						+ "\n\n");
+		System.out.println("                            🔌𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐅𝐮𝐧𝐜𝐭𝐢𝐨𝐧𝐬\n"
+				+ "                                                                                                                       \n");
+		System.out.println(" 𝟭. 𝗩𝗶𝗲𝘄 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀\n" + " 𝟮. 𝗠𝗮𝗸𝗲 𝗗𝗲𝗽𝗼𝘀𝗶𝘁 \n"
+				+ " 𝟯. 𝗠𝗮𝗸𝗲 𝗪𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹\n\n" + " 𝟰. 𝗢𝗽𝗲𝗻 𝗮𝗻 𝗔𝗰𝗰𝗼𝘂𝗻𝘁\n\n"
+				+ " 𝟱. 𝗟𝗼𝗴𝗼𝘂𝘁");
 	}
 }

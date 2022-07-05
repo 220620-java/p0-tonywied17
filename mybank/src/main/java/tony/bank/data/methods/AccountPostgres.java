@@ -10,6 +10,8 @@ import java.sql.Statement;
 import tony.bank.app.model.*;
 import tony.bank.data.connect.*;
 import tony.bank.data.interfaces.AccountDAO;
+import tony.bank.data.structures.ArrayList;
+import tony.bank.data.structures.List;
 import tony.bank.service.interfaces.AccountService;
 import tony.bank.service.methods.AccountServiceExec;
 
@@ -19,7 +21,7 @@ public class AccountPostgres implements AccountDAO {
 
 	@Override
 	public Account create(Account account, User user, double balance) {
-
+		List<Account> allAccounts = new ArrayList<>();
 		try (Connection conn = connUtil.getConnection()) {
 			conn.setAutoCommit(false);
 
@@ -34,9 +36,12 @@ public class AccountPostgres implements AccountDAO {
 			int rowsAffected = stmt.executeUpdate();
 			ResultSet resultSet = stmt.getGeneratedKeys();
 			if (resultSet.next() && rowsAffected == 1) {
-				account.setId(resultSet.getInt("id"));
-				account.setBalance(balance);
+
 				conn.commit();
+				
+				Account account1 = new Account(resultSet.getInt("id"), balance);
+				
+				allAccounts.add(account1);
 			} else {
 				conn.rollback();
 				return null;
@@ -55,7 +60,10 @@ public class AccountPostgres implements AccountDAO {
 
 		try (Connection conn = connUtil.getConnection()) {
 
-			String sql = "SELECT * from bank3.account WHERE owner_id = ?;";
+			String sql = "SELECT account.id as account_number , transactions.type, transactions.amount ,transactions.balance_after , transactions.id as transaction_id"
+					+ "FROM Account"
+					+ "LEFT JOIN transactions  ON account.id  = transactions.account_id"
+					+ "where transactions.account_id ='25' ORDER BY account.owner_id ;";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, user.getId()); 
 
@@ -78,57 +86,97 @@ public class AccountPostgres implements AccountDAO {
 	}
 
 	@Override
-	public Account updateBalance(Account account, double amount, String type, double transaction) {
-		// TODO Auto-generated method stub
+	public Account updateBalance(Account account, double adjustedBalance, String type, double transAmount) {
+		
+		
+		try (Connection conn = connUtil.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			String sql = "UPDATE bank3.account SET balance=? WHERE id=?;";
+			
+			PreparedStatement transStmt = conn.prepareStatement(sql);
+			
+			transStmt.setDouble(1, adjustedBalance);	
+			transStmt.setInt(2, account.getId());
 
+			transStmt.executeUpdate();
+		
+			conn.commit();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return account;
+
+		
+		// TODO Auto-generated method stub
+/*
 		try (Connection conn = connUtil.getConnection()) {
 
-			String balanceQuery = "UPDATE bank3.account SET balance='" + amount + "' WHERE id='" + account.getId()
-					+ "'";
+			String balanceQuery = "UPDATE bank3.account SET balance='?' WHERE id='?'";
 
-			String transactionQuery = "INSERT INTO bank3.transactions (id, account_id, type, value, balance)"
-					+ "VALUES (default, '" + account.getId() + "', '" + type + "', '" + transaction + "', '" + amount
-					+ "');";
+			PreparedStatement balanceStmt = conn.prepareStatement(balanceQuery);
+			balanceStmt.setDouble(1, amount);
+			balanceStmt.setInt(2, account.getId());	
+			
+			balanceStmt.executeUpdate();
+			
+			
 
-			Statement statement = conn.createStatement();
-			statement.executeUpdate(balanceQuery);
-			statement.executeUpdate(transactionQuery);
-			statement.close();
+		
+			String sql = "INSERT INTO bank3.transactions (id, account_id, type, amount, balance_after) VALUES (default, '?', '?', '?', '?');";
+			PreparedStatement transStmt = conn.prepareStatement(sql);
+			transStmt.setInt(1, account.getId());	
+			transStmt.setString(2, type);
+			transStmt.setDouble(3, transaction);
+			transStmt.setDouble(4, amount);
+
+			int rowsAffected = transStmt.executeUpdate();
+			ResultSet resultSet = transStmt.getGeneratedKeys();
+			if (resultSet.next() && rowsAffected==1) {
+				account.setId(resultSet.getInt("id"));
+				conn.commit();
+			} else {
+				conn.rollback();
+				return null;
+			}
+
 
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return account;
+		return account;*/
+		
 	}
 
+	
+	
 	@Override
 	public void printTrans(Account account) {
-		// TODO Auto-generated method stub
+
 		try (Connection conn = connUtil.getConnection()) {
-			// set up the SQL statement that we want to execute
+
 			String sql = "SELECT * FROM bank3.transactions WHERE account_id=?";
 
-			// set up that statement with the database
+
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, account.getId());
-			// execute the statement
 			ResultSet resultSet = stmt.executeQuery();
 
-			// process the result set
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				// int accountId = resultSet.getInt("account_id");
 				String type = resultSet.getString("type");
 				double value = resultSet.getDouble("value");
 				double balance = resultSet.getDouble("balance");
 
-				System.out.println("Transaction ID " + id + "\n-----------------------------\nType: " + type
-						+ "\nTransaction Amount: " + accountService.convertCurrency(value) + "\nAvailable Balance: "
+				System.out.println("🆔 𝗧𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻 𝗜𝗗 " + id + "\n                                                                                                                       \n🪢 𝗧𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻 𝗠𝗲𝘁𝗵𝗼𝗱 " + type
+						+ "\n💳 𝗧𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻 𝗔𝗺𝗼𝘂𝗻𝘁 " + accountService.convertCurrency(value) + "\n💰 𝗔𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 "
 						+ accountService.convertCurrency(balance));
 				System.out.println("\n");
-
+	
 			}
 
 		} catch (SQLException e) {
@@ -136,5 +184,7 @@ public class AccountPostgres implements AccountDAO {
 		}
 
 	}
+
+
 
 }

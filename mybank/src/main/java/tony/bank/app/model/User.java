@@ -2,12 +2,15 @@ package tony.bank.app.model;
 
 import java.util.Objects;
 
+import tony.bank.data.structures.ArrayList;
+import tony.bank.data.structures.List;
+
 public class User {
 	// User/Customer ID
 	private int id;
 	// Username and Password
 	private String username, password, name, phone, email;
-
+	List<Account> accounts = new ArrayList<>();
 	private boolean isLoggedIn;
 
 	public User() {

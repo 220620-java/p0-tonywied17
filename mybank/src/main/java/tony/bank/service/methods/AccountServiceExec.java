@@ -57,12 +57,6 @@ public class AccountServiceExec implements AccountService {
 
 	}
 
-	@Override
-	public Account getAccountInfo(Account account, User user) {
-		accountDao.get(account, user);
-		return account;
-
-	}
 
 	@Override
 	public String convertCurrency(double d) {
