@@ -2,7 +2,6 @@ package tony.bank.data.interfaces;
 
 import tony.bank.app.model.Account;
 import tony.bank.app.model.User;
-import tony.bank.data.structures.List;
 
 public interface AccountDAO {
 

@@ -1,6 +1,5 @@
 package tony.bank.app.launch;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import tony.bank.app.model.*;
@@ -92,7 +91,7 @@ public class AppMain {
 				String input = scanner.nextLine();
 				switch (input) {
 				case "1":
-					viewAccounts();
+					openAccount();
 					break;
 				case "2":
 					depositMenu();
@@ -101,9 +100,6 @@ public class AppMain {
 					withdrawMenu();
 					break;
 				case "4":
-					openAccount();
-					break;
-				case "5":
 					user.setLoggedIn(false);
 					System.out.println("Logging out.");
 
@@ -291,9 +287,6 @@ public class AppMain {
 
 		List<Account> accounts = userService.getAccountInfo(user);
 
-		System.out.println("🏦 𝗬𝗼𝘂𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀");
-		System.out.println(accounts);
-
 		System.out.println("[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝗺𝗮𝗸𝗲 𝘄𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹."
 				+ "	[𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹");
 		String input = scanner.nextLine();
@@ -310,8 +303,9 @@ public class AppMain {
 
 			if (acc.getId() == id.intValue()) {
 
-				System.out.println("\n\n🏦 𝗔𝗰𝗰𝗼𝘂𝗻𝘁# [" + acc.getId() + "]" + "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 "
-						+ acc.getBalance() + "\n                \n" + "𝗖𝗼𝗻𝗳𝗶𝗿𝗺 𝗮𝗰𝗰𝗼𝘂𝗻𝘁 [𝘆/𝗻]/𝗻");
+				System.out.println("\n                          \n" + "🏦 𝗔𝗰𝗰𝗼𝘂𝗻𝘁# [" + acc.getId() + "]"
+						+ "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 " + acc.getBalance() + "\n                          \n"
+						+ "𝗖𝗼𝗻𝗳𝗶𝗿𝗺 𝗮𝗰𝗰𝗼𝘂𝗻𝘁 [𝘆/𝗻]");
 
 				input = scanner.nextLine().toLowerCase();
 				if ("y".equals(input)) {
@@ -343,9 +337,6 @@ public class AppMain {
 
 		List<Account> accounts = userService.getAccountInfo(user);
 
-		System.out.println("🏦 𝗬𝗼𝘂𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀");
-		System.out.println(accounts);
-
 		System.out.println(
 				"[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝗺𝗮𝗸𝗲 𝗱𝗲𝗽𝗼𝘀𝗶𝘁." + "	[𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹");
 		String input = scanner.nextLine();
@@ -362,8 +353,9 @@ public class AppMain {
 
 			if (acc.getId() == id.intValue()) {
 
-				System.out.println("\n\n🏦 𝗔𝗰𝗰𝗼𝘂𝗻𝘁# [" + acc.getId() + "]" + "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 "
-						+ acc.getBalance() + "\n                \n" + "𝗖𝗼𝗻𝗳𝗶𝗿𝗺 𝗮𝗰𝗰𝗼𝘂𝗻𝘁 [𝘆/𝗻]/𝗻");
+				System.out.println("\n                          \n" + "🏦 𝗔𝗰𝗰𝗼𝘂𝗻𝘁# " + acc.getId()
+						+ "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 " + acc.getBalance() + "\n                          \n"
+						+ "𝗖𝗼𝗻𝗳𝗶𝗿𝗺 𝗮𝗰𝗰𝗼𝘂𝗻𝘁 [𝘆/𝗻]");
 
 				input = scanner.nextLine().toLowerCase();
 				if ("y".equals(input)) {
@@ -408,7 +400,6 @@ public class AppMain {
 	}
 
 	private static void mainMenuPrint() {
-
 		System.out.println("\n"
 				+ "                                                                                                                       \n"
 				+ "⡷⠂                      🏦 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜.                         ⠐⢾\n"
@@ -419,17 +410,20 @@ public class AppMain {
 
 	private static void accountMenuPrint() {
 		System.out.println(
-
 				"                                                                                                                       \n"
 						+ "⡷⠂                     🏦 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜. - 𝐌𝐲 𝐀𝐜𝐜𝐨𝐮𝐧𝐭                        ⠐⢾\n"
 						+ "                                                                                                                       \n"
 						+ "👤 " + user.getName() + "\n" + "📞 " + user.getPhone() + "\n" + "✉️ " + user.getEmail()
-						+ "\n\n");
+						+ "\n");
 		System.out.println("                            🔌𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐅𝐮𝐧𝐜𝐭𝐢𝐨𝐧𝐬\n"
 				+ "                                                                                                                       \n");
-		System.out.println(" 𝟭. 𝗩𝗶𝗲𝘄 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀\n" + " 𝟮. 𝗠𝗮𝗸𝗲 𝗗𝗲𝗽𝗼𝘀𝗶𝘁 \n"
-				+ " 𝟯. 𝗠𝗮𝗸𝗲 𝗪𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹\n\n" + " 𝟰. 𝗢𝗽𝗲𝗻 𝗮𝗻 𝗔𝗰𝗰𝗼𝘂𝗻𝘁\n\n"
-				+ " 𝟱. 𝗟𝗼𝗴𝗼𝘂𝘁");
+		System.out.println(" 𝟭. 𝗢𝗽𝗲𝗻 𝗮𝗻 𝗔𝗰𝗰𝗼𝘂𝗻𝘁\n" + " 𝟮. 𝗠𝗮𝗸𝗲 𝗗𝗲𝗽𝗼𝘀𝗶𝘁\n"
+				+ " 𝟯. 𝗠𝗮𝗸𝗲 𝗪𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹\n\n" + " 𝟰. 𝗟𝗼𝗴𝗼𝘂𝘁");
 
+		List<Account> accounts = userService.getAccountInfo(user);
+
+		System.out.println("\n🏦 𝗬𝗼𝘂𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀"
+				+ "\n                                                                                                                       \n");
+		System.out.println(accounts);
 	}
 }
