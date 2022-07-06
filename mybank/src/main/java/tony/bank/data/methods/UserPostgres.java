@@ -64,13 +64,13 @@ public class UserPostgres implements UserDAO {
 		// TODO Auto-generated method stub
 		User user = null;
 
-		// try-with-resources: sets up closing for closeable resources
+		// try-with-resources: sets up closing for closable resources
 		try (Connection conn = connUtil.getConnection()) {
 			// set up the SQL statement that we want to execute
 			String sql = """
 					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance, account.account_type
 					FROM bank3.users
-					LEFT JOIN bank3.account ON users.id  = account.owner_id
+					LEFT JOIN bank3.account ON clients.id  = account.owner_id
 					where users.username = ?;
 					""";
 			PreparedStatement stmt = conn.prepareStatement(sql);
