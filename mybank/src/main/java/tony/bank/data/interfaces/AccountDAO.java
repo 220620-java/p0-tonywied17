@@ -9,9 +9,9 @@ public interface AccountDAO {
 
 	void printTrans(Account account);
 
-	Account updateBalance(Account account, double adjustedBalance, String type, double transAmount);
-
 	Account create(Account account, User user, double balance, String accountType);
 
+	Account updateBalance(Account account, double adjustedBalance);
 
+	public Account insertTrans(Account account, double adjustedBalance, String type, double transAmount);
 }

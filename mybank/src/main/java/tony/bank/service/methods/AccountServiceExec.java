@@ -34,7 +34,8 @@ public class AccountServiceExec implements AccountService {
 
 		} else {
 			double withdrawBalance = account.getBalance() - amount;
-			accountDao.updateBalance(account, withdrawBalance, "withdrawal", amount);
+			accountDao.updateBalance(account, withdrawBalance);
+			accountDao.insertTrans(account, withdrawBalance, "Withdrawal", amount);
 			// System.out.println("Withdrawal Complete!");
 			account.setBalance(withdrawBalance);
 		}
@@ -49,14 +50,14 @@ public class AccountServiceExec implements AccountService {
 			System.out.println("Can't deposit negative money");
 
 		} else {
-			accountDao.updateBalance(account, depositBalance, "deposit", amount);
+			accountDao.updateBalance(account, depositBalance);
+			accountDao.insertTrans(account, depositBalance, "Deposit", amount);
 			account.setBalance(depositBalance);
 			// System.out.println("Deposit has been received!\n");
 		}
 		return account;
 
 	}
-
 
 	@Override
 	public String convertCurrency(double d) {

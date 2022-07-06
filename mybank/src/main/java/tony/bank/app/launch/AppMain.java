@@ -69,24 +69,20 @@ public class AppMain {
 				 * isLoggedIn, BOOLEAN(TRUE) - If the user is logged in display the account
 				 * menu.
 				 * 
-				 * CUSTOMER ID - (The id column of the user database, also references the
-				 * owner_id in the account table.)
+				 * OPEN ACCOUNT - The user is able to open a new banking account pending an
+				 * initial deposit
 				 * 
-				 * ACCOUNT NUMBER - (The id column of the account database, also references the
-				 * account_id in the transactions table.)
+				 * MAKE DEPOSIT - Prompt user with which account id to deposit funds to.
 				 * 
-				 * BALANCE - The current available balance of the users account.
+				 * MAKE WITHDRAWAL - Prompt user with which account id to withdraw funds to, no
+				 * overdrafting or withdrawing negative money!
 				 * 
-				 * DEPOSIT - The user is able to make a transaction to deposit funds into their
-				 * account.
-				 * 
-				 * WITHDRAW - The user is able to make a transaction to withdraw funds from
-				 * their account, they are not allowed to exceed their balance (overdraft
-				 * disabled).
+				 * VIEW BALANCE AND TRANSACTIONS - View the balances and past transactions for
+				 * each user account.
 				 * 
 				 */
 
-				accountMenuPrint(); // 1. Make Deposit, 2. Make Withdraw, 3. Open Account, 4. Logout
+				accountMenuPrint(); // 1. Open an Account, 2. Make Deposit, 3. Make Withdrawal, 4. View Balances & Transactions, 5. Logout
 
 				String input = scanner.nextLine();
 				switch (input) {
@@ -118,11 +114,8 @@ public class AppMain {
 	}
 
 	/*
-	 * REGISTER USER - Creates a user account with a supplied input of a user name
-	 * and password.
+	 * REGISTER USER - Creates a user account with supplied user input.
 	 * 
-	 * TODO The user name that is supplied is throws error if user name exists, but
-	 * doesn't catch and throw a normal message.
 	 */
 
 	private static void registerUser() {
@@ -218,6 +211,12 @@ public class AppMain {
 		}
 	}
 
+	
+	/*
+	 * 
+	 * LOGIN PROMPTS
+	 * 
+	 */
 	private static User logIn() {
 		boolean loggingIn = true;
 
@@ -260,6 +259,12 @@ public class AppMain {
 		return user;
 	}
 
+	
+	/*
+	 * 
+	 * OPEN ACCOUNT PROMPTS
+	 * 
+	 */
 	private static void openAccount() {
 
 		boolean opening = true;
@@ -268,7 +273,8 @@ public class AppMain {
 
 			Account account = new Account();
 
-			System.out.println("𝗢𝗽𝗲𝗻 𝘄𝗵𝗮𝘁 𝗸𝗶𝗻𝗱 𝗼𝗳 𝗔𝗰𝗰𝗼𝘂𝗻𝘁?\n [𝟭] 𝗖𝗵𝗲𝗰𝗸𝗶𝗻𝗴 𝗔𝗰𝗰𝗼𝘂𝗻𝘁\n [2] Savings\n");
+			System.out.println(
+					"𝗢𝗽𝗲𝗻 𝘄𝗵𝗮𝘁 𝗸𝗶𝗻𝗱 𝗼𝗳 𝗔𝗰𝗰𝗼𝘂𝗻𝘁?\n [𝟭] 𝗖𝗵𝗲𝗰𝗸𝗶𝗻𝗴 𝗔𝗰𝗰𝗼𝘂𝗻𝘁\n [2] Savings\n");
 			String accountChoice = scanner.nextLine();
 
 			System.out.println("Initial Deposit: ");
@@ -298,6 +304,11 @@ public class AppMain {
 		}
 	}
 
+	/*
+	 * 
+	 * DEPOSIT MONEY PROMPTS
+	 * 
+	 */
 	private static User depositMenu() {
 		List<Account> accounts = userService.getAccountInfo(user);
 		System.out.println("\n🏦 𝗬𝗼𝘂𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀\n"
@@ -348,6 +359,12 @@ public class AppMain {
 		return user;
 
 	}
+	
+	/*
+	 * 
+	 *  WITHDRAW MONEY PROMTPS
+	 * 
+	 */
 
 	private static User withdrawMenu() {
 		List<Account> accounts = userService.getAccountInfo(user);
@@ -398,22 +415,52 @@ public class AppMain {
 		return user;
 
 	}
-	private static void viewAccounts() {
+
+	
+	/*
+	 * 
+	 * VIEW ACCOUNTS - Lists all accounts assigned to users account with the option to expand that accounts transaction history.
+	 * 
+	 */
+	private static User viewAccounts() {
 		// TODO Auto-generated method stub
 
 		List<Account> accounts = userService.getAccountInfo(user);
-
 		System.out.println("\n🏦 𝗬𝗼𝘂𝗿 𝗔𝗰𝗰𝗼𝘂𝗻𝘁𝘀\n"
 				+ "                                                                                                                                      \n");
 		System.out.println(accounts);
-		
-		System.out.println("𝗘𝗻𝘁𝗲𝗿 [𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗿𝗲𝘁𝘂𝗿𝗻");
-
+		System.out.println("[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝘃𝗶𝗲𝘄 𝘁𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻𝘀."
+				+ "	[𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹");
 		String input = scanner.nextLine();
-		System.out.println("𝗥𝗲𝘁𝘂𝗿𝗻𝗶𝗻𝗴 𝘁𝗼 𝘂𝘀𝗲𝗿 𝗺𝗲𝗻𝘂...");
+		Integer id = -1;
+		try {
+			id = Integer.parseInt(input);
+		} catch (NumberFormatException e) {
+			System.out.println("𝗥𝗲𝘁𝘂𝗿𝗻𝗶𝗻𝗴...");
+			return user;
+		}
+
+		for (int i = 0; i < accounts.size(); i++) {
+			Account acc = accounts.get(i);
+
+			if (acc.getId() == id.intValue()) {
+
+				accountService.viewTransactions(acc);
+
+				scanner.nextLine();
+				break;
+			}
+		}
+		return user;
 
 	}
 
+	
+	/*
+	 * 
+	 * MENU DESIGNS LOCATED AT BOTTOM OF MAIN CLASS
+	 * 
+	 */
 	private static void mainMenuPrint() {
 		System.out.println("\n"
 				+ "                                                                                                                                      \n"
@@ -426,14 +473,16 @@ public class AppMain {
 	private static void accountMenuPrint() {
 		System.out.println(
 				"                                                                                                                                      \n"
-			  + "⡷⠂                     🏦 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜. - 𝐌𝐲 𝐀𝐜𝐜𝐨𝐮𝐧𝐭                                  ⠐⢾\n"
-			  + "                                                                                                                                      \n"
+						+ "⡷⠂                     🏦 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜. - 𝐌𝐲 𝐀𝐜𝐜𝐨𝐮𝐧𝐭                                  ⠐⢾\n"
+						+ "                                                                                                                                      \n"
 						+ "👤 " + user.getName() + "\n" + "📞 " + user.getPhone() + "\n" + "✉️ " + user.getEmail()
 						+ "\n");
-		
+
 		System.out.println("🔌𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐅𝐮𝐧𝐜𝐭𝐢𝐨𝐧𝐬\n"
 				+ "                                                                                                                                      \n");
 		System.out.println(" [𝟭] 𝗢𝗽𝗲𝗻 𝗮𝗻 𝗔𝗰𝗰𝗼𝘂𝗻𝘁\n" + " [𝟮] 𝗠𝗮𝗸𝗲 𝗗𝗲𝗽𝗼𝘀𝗶𝘁\n"
-				+ " [𝟯] 𝗠𝗮𝗸𝗲 𝗪𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹\n" + " [𝟰] 𝗩𝗶𝗲𝘄 𝗕𝗮𝗹𝗮𝗻𝗰𝗲𝘀\n\n" + " [𝟱] 𝗟𝗼𝗴𝗼𝘂𝘁\n\n [𝗖𝗵𝗼𝗼𝘀𝗲 𝗮𝗻 𝗼𝗽𝘁𝗶𝗼𝗻]\n\n");
+				+ " [𝟯] 𝗠𝗮𝗸𝗲 𝗪𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹\n"
+				+ " [𝟰] 𝗩𝗶𝗲𝘄 𝗕𝗮𝗹𝗮𝗻𝗻𝗰𝗲𝘀 & 𝗧𝗿𝗮𝗻𝘀𝗮𝗰𝘁𝗶𝗼𝗻𝘀\n\n"
+				+ " [𝟱] 𝗟𝗼𝗴𝗼𝘂𝘁\n\n [𝗖𝗵𝗼𝗼𝘀𝗲 𝗮𝗻 𝗼𝗽𝘁𝗶𝗼𝗻]\n\n");
 	}
 }
