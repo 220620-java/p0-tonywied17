@@ -10,6 +10,15 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+
+/*
+ * ACCOUNT SERVICE INTERFACE IMPLEMENTED HERE
+ * 
+ * PRE-DEFINED FUNCTIONS WRITTEN AND OVERRIDDEN
+ * 
+ */
+
+
 public class AccountServiceExec implements AccountService {
 	Locale locale = new Locale("en", "US");
 	private AccountDAO accountDao = new AccountPostgres();

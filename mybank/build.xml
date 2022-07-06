@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="mybank">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../scoop/apps/eclipse-jee/current/"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="15"/>
+    <property name="source" value="15"/>
+    <path id="Maven Dependencies.libraryclasspath">
+        <pathelement location="../../../../.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar"/>
+        <pathelement location="../../../../.m2/repository/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar"/>
+        <pathelement location="../../../../.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar"/>
+        <pathelement location="../../../../.m2/repository/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar"/>
+        <pathelement location="../../../../.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar"/>
+        <pathelement location="../../../../.m2/repository/org/mockito/mockito-junit-jupiter/2.23.0/mockito-junit-jupiter-2.23.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/postgresql/postgresql/42.4.0/postgresql-42.4.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/checkerframework/checker-qual/3.5.0/checker-qual-3.5.0.jar"/>
+        <pathelement location="../../../../.m2/repository/org/mockito/mockito-core/4.6.1/mockito-core-4.6.1.jar"/>
+        <pathelement location="../../../../.m2/repository/net/bytebuddy/byte-buddy/1.12.10/byte-buddy-1.12.10.jar"/>
+        <pathelement location="../../../../.m2/repository/net/bytebuddy/byte-buddy-agent/1.12.10/byte-buddy-agent-1.12.10.jar"/>
+        <pathelement location="../../../../.m2/repository/org/objenesis/objenesis/3.2/objenesis-3.2.jar"/>
+    </path>
+    <path id="JUnit 5.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.jupiter.api_5.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.jupiter.engine_5.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.jupiter.migrationsupport_5.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.jupiter.params_5.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.commons_1.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.engine_1.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.launcher_1.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.runner_1.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.suite.api_1.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.suite.engine_1.8.1.v20211028-1957.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.platform.suite.commons_1.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit.vintage.engine_5.8.1.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.opentest4j_1.2.0.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.apiguardian_1.1.2.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.13.2.v20211018-1956.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v20180420-1519.jar"/>
+    </path>
+    <path id="mybank.classpath">
+        <pathelement location="target/classes"/>
+        <pathelement location="target/test-classes"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+        <path refid="JUnit 5.libraryclasspath"/>
+    </path>
+    <path id="run.AppMain.classpath">
+        <path refid="mybank.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="run.BankAppUnitTest.classpath">
+        <path refid="mybank.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="target/classes"/>
+        <mkdir dir="target/test-classes"/>
+        <copy includeemptydirs="false" todir="target/classes">
+            <fileset dir="src/main/java">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="target/test-classes">
+            <fileset dir="src/test/java">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="target/classes"/>
+        <delete dir="target/test-classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/main/java"/>
+            <classpath refid="mybank.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/test-classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/test/java"/>
+            <classpath refid="mybank.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="AppMain">
+        <java classname="tony.bank.app.launch.AppMain" failonerror="true" fork="yes">
+            <classpath refid="run.AppMain.classpath"/>
+        </java>
+    </target>
+    <target name="BankAppUnitTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="tony.bank.service.BankAppUnitTest" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="run.BankAppUnitTest.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+</project>

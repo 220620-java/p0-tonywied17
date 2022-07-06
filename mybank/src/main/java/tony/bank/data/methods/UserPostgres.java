@@ -13,6 +13,14 @@ import tony.bank.data.interfaces.UserDAO;
 import tony.bank.data.structures.ArrayList;
 import tony.bank.data.structures.List;
 
+/*
+ * USER INTERFACE IMPLEMENTED HERE
+ * 
+ * PRE-DEFINED FUNCTIONS WRITTEN AND OVERRIDDEN
+ * 
+ */
+
+
 public class UserPostgres implements UserDAO {
 	private ConnectDB connUtil = ConnectDB.getConnectionDB();
 

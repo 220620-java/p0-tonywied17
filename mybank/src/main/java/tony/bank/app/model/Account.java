@@ -5,13 +5,21 @@ import tony.bank.data.structures.List;
 import tony.bank.service.interfaces.AccountService;
 import tony.bank.service.methods.AccountServiceExec;
 
+
+/*
+ * ACCOUNT MODEL
+ * 
+ * FIELDS: ID, BALANCE, ACCOUNT TYPE
+ * 
+ */
+
 public class Account {
 	// Account ID
 	private int id;
 	// Account Balance
 	private double balance;
 	private String accountType;
-	List<Account> transactions = new ArrayList<>();
+
 
 
 	// No args constructor for account object
@@ -43,14 +51,6 @@ public class Account {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
-	}
-
-	public List<Account> getTransactions() {
-		return transactions;
-	}
-
-	public void setTransactions(List<Account> transactions) {
-		this.transactions = transactions;
 	}
 	
 	@Override

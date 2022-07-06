@@ -7,6 +7,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+
+/*
+ * 
+ * DATABASE CONNECTION CLASS
+ * 
+ */
+
+
 public class ConnectDB {
 	private static ConnectDB connDB;
 	static final String endpoint = "jdbc:postgresql://bankapp.cwhrhowdulyu.us-east-1.rds.amazonaws.com:5432/postgres",

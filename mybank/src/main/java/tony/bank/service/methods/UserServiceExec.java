@@ -8,6 +8,14 @@ import tony.bank.data.methods.UserPostgres;
 import tony.bank.data.structures.List;
 import tony.bank.service.interfaces.UserService;
 
+
+/*
+ * USER SERVICE INTERFACE IMPLEMENTED HERE
+ * 
+ * PRE-DEFINED FUNCTIONS WRITTEN AND OVERRIDDEN
+ * 
+ */
+
 public class UserServiceExec implements UserService {
 
 	// private User DAO userDao = new UserPostgres;

@@ -14,6 +14,15 @@ import tony.bank.data.structures.List;
 import tony.bank.service.interfaces.AccountService;
 import tony.bank.service.methods.AccountServiceExec;
 
+
+
+/*
+ * ACCOUNT INTERFACE IMPLEMENTED HERE
+ * 
+ * PRE-DEFINED FUNCTIONS WRITTEN AND OVERRIDDEN
+ * 
+ */
+
 public class AccountPostgres implements AccountDAO {
 	private static AccountService accountService = new AccountServiceExec();
 	private ConnectDB connUtil = ConnectDB.getConnectionDB();

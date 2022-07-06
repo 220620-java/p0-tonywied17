@@ -5,10 +5,18 @@ import java.util.Objects;
 import tony.bank.data.structures.ArrayList;
 import tony.bank.data.structures.List;
 
+
+/*
+ * 
+ * USER MODEL
+ * 
+ * FIELDS: ID, USERNAME, PASSWORD, NAME, PHONE, EMAIL
+ * 
+ */
+
+
 public class User {
-	// User/Customer ID
 	private int id;
-	// Username and Password
 	private String username, password, name, phone, email;
 	List<Account> accounts = new ArrayList<>();
 	private boolean isLoggedIn;
