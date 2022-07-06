@@ -68,30 +68,38 @@ public class UserPostgres implements UserDAO {
 		try (Connection conn = connUtil.getConnection()) {
 			// set up the SQL statement that we want to execute
 			String sql = """
-
 					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance, account.account_type
 					FROM bank3.users
 					LEFT JOIN bank3.account ON users.id  = account.owner_id
 					where users.username = ?;
-
 					""";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, username);
 
 			ResultSet resultSet = stmt.executeQuery();
 			if (resultSet.next()) {
+				
 				String usernameDB = resultSet.getString("username"), passwordDB = resultSet.getString("password"),
 						nameDB = resultSet.getString("fullname"), phoneDB = resultSet.getString("phone"),
 						emailDB = resultSet.getString("email");
 				int idDB = resultSet.getInt("user_id");
 
+				
+				// Since the credentials match we can use the overloaded user constructor to assign the users properties
 				user = new User(idDB, usernameDB, passwordDB, nameDB, phoneDB, emailDB);
+				
+				//Set logged in boolean to true
 				user.setLoggedIn(true);
 
+				// Also grab the account information from the accounts table with a left left join
 				double balance = resultSet.getDouble("balance");
 				int accountNumber = resultSet.getInt("account_number");
 				String accountType = resultSet.getString("account_type");
 
+				/*
+				 * Use the overloaded account model constructor to create an account for each found 
+				 * result and add to the Array list
+				 */
 				Account account = new Account(accountNumber, balance, accountType);
 
 				allAccounts.add(account);
@@ -112,13 +120,14 @@ public class UserPostgres implements UserDAO {
 		List<Account> allAccounts = new ArrayList<>();
 
 		try (Connection conn = connUtil.getConnection()) {
+			
+			// Same SQL query as the find by user name as it still returns the values I need
+			// TODO Change this to a select from account query
 			String sql = """
-
 					SELECT users.id as user_id, users.username , users.password , users.fullname , users.phone , users.email , account.id as account_number, account.balance, account.account_type
 					FROM bank3.Users
 					LEFT JOIN bank3.Account ON users.id  = account.owner_id
 					where users.username = ?;
-
 					""";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
