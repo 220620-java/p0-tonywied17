@@ -11,18 +11,22 @@ import tony.bank.service.methods.AccountServiceExec;
  * 
  * FIELDS: ID, BALANCE, ACCOUNT TYPE
  * 
+ * The account model acts as a blueprint for what will be stored inside an ArrayList in the User model
+ * 
  */
 
 public class Account {
-	// Account ID
+	
+	/*
+	 * ACCOUNT MODEL PROPERTIES
+	 */
 	private int id;
-	// Account Balance
 	private double balance;
 	private String accountType;
 
 
 
-	// No args constructor for account object
+	// NO-ARGS CONSTRUCTOR FOR ACCOUNT MODEL
 	public Account() {
 		super();
 
@@ -30,6 +34,8 @@ public class Account {
 		this.balance = 0;
 	}
 
+	// OVERLOADED ACCOUNT MODEL CONSTRUCTOR - 
+	// USED FOR INSTANIATING AN ACCOUNT MODEL WITH ALL VALUES APPLIED TO THE CLASS PROPERTIES
 	public Account(int id, double balance, String accountType) {
 		super();
 		this.id = id;
@@ -37,6 +43,10 @@ public class Account {
 		this.accountType = accountType;
 	}
 
+	
+	/*
+	 * Account getters and setters (encapsulation)
+	 */
 	public int getId() {
 		return id;
 	}
@@ -53,6 +63,24 @@ public class Account {
 		this.balance = balance;
 	}
 	
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+	
+	
+	/*
+	 * CUSTOM DATA STRUCTURE ARRAY(
+	 * 
+	 * EQUALS - A method used to compare account properties elsewhere
+	 * 
+	 * TO STRING - Used to display an output of the account ArrayList
+	 * 
+	 */
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -64,19 +92,14 @@ public class Account {
 		Account other = (Account) obj;
 		return id == other.id && balance == other.balance;
 	}
+	
 	private static AccountService accountService = new AccountServiceExec();
+	
+	
 	@Override
 	public String toString() {
 		return  "🆔 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗜𝗗:  [" + id + "]  	💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲: " + accountService.convertCurrency(balance) + "\n\n📒 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗧𝘆𝗽𝗲: " + accountType
 				+ "\n                                                                                                                                      \n";
-	}
-
-	public String getAccountType() {
-		return accountType;
-	}
-
-	public void setAccountType(String accountType) {
-		this.accountType = accountType;
 	}
 
 }

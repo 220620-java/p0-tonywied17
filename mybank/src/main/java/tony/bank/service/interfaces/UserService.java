@@ -12,6 +12,8 @@ import tony.bank.data.structures.List;
  * 
  * USER SERVICE FUNCTIONS DEFINED HERE WITH NO BODIES
  * 
+ * This user service acts as a intermediary between the user model and the users data access object.
+ * 
  */
 
 

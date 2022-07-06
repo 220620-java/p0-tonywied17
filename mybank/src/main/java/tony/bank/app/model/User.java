@@ -16,14 +16,26 @@ import tony.bank.data.structures.List;
 
 
 public class User {
+	
+	/*
+	 * USER MODEL PROPERTIES
+	 */
 	private int id;
 	private String username, password, name, phone, email;
-	List<Account> accounts = new ArrayList<>();
 	private boolean isLoggedIn;
+	
+	// ACCOUNT MODELS FOR EACH USER ARE STORED IN THIS ARRAY LIST
+	List<Account> accounts = new ArrayList<>();
 
+	// NO-ARGS USER MODEL CONSTRUCTOR
 	public User() {
 	}
 
+	/**
+	 * Two argument user model constructor used for logging the user
+	 * @param username
+	 * @param password
+	 */
 	public User(String username, String password) {
 		super();
 		this.id = 0;
@@ -31,7 +43,19 @@ public class User {
 		this.password = password;
 	}
 
-
+/**
+ * OVERLOADED CONSTRUCTOR
+ * 
+ * This method is used to construct the user model after successfully logging in. The parameters are
+ * applied through data retrieved via SQL.
+ * 
+ * @param id
+ * @param username
+ * @param password
+ * @param name
+ * @param phone
+ * @param email
+ */
 	public User(int id, String username, String password, String name, String phone, String email) {
 		super();
 		this.id = id;
@@ -42,6 +66,18 @@ public class User {
 		this.email = email;
 	}
 
+	
+	
+	/*
+	 * SETTERS AND GETTERS
+	 * 
+	 * This is what we refer to as encapsulation
+	 * 
+	 * Allows access to the modifying private class variables via public get and set methods
+	 * 
+	 */
+	
+	
 	public int getId() {
 		return id;
 	}

@@ -10,6 +10,8 @@ import tony.bank.app.model.User;
  * 
  * ACCOUNT DATABASE FUNCTIONS DEFINED HERE WITH NO BODIES
  * 
+ * An abstract class used to define functions and their arguments to be later implemented in the PostgreSQL methods
+ * 
  */
 
 

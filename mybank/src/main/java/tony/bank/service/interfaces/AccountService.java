@@ -9,6 +9,8 @@ import tony.bank.app.model.User;
  * 
  * ACCOUNT SERVICE FUNCTIONS DEFINED HERE WITH NO BODIES
  * 
+ * This user service acts as a intermediary between the account model and the account data access object.
+ * 
  */
 
 public interface AccountService {
