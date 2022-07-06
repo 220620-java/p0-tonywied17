@@ -129,11 +129,11 @@ public class AppMain {
 				System.out.println("Username field is required!");
 				break;
 			} else if (!username.matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$")) {
-				System.out.println("-- USERNAME REQUIREMENTS --\n"
-						+ "Alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase.\n"
-						+ "Allowed the dot (.), underscore (_), and hyphen (-).\n"
-						+ "	-must not be the first or last character.\n" + "	-does not appear consecutively\n"
-						+ "Must be bewteen 5 to 20.\n");
+				System.out.println("❗ 𝗨𝗦𝗘𝗥𝗡𝗔𝗠𝗘 𝗥𝗘𝗤𝗨𝗜𝗥𝗘𝗠𝗘𝗡𝗧𝗦\n                                                                                                                                      \n"
+						+ " 𝗔𝗹𝗽𝗵𝗮𝗻𝘂𝗺𝗲𝗿𝗶𝗰 𝗰𝗵𝗮𝗿𝗮𝗰𝘁𝗲𝗿𝘀 (𝗮-𝘇𝗔-𝗭𝟬-𝟵), 𝗹𝗼𝘄𝗲𝗿𝗰𝗮𝘀𝗲, 𝗼𝗿 𝘂𝗽𝗽𝗲𝗿𝗰𝗮𝘀𝗲.\n"
+						+ " 𝗔𝗹𝗹𝗼𝘄𝗲𝗱 𝘁𝗵𝗲 𝗱𝗼𝘁 '.', 𝘂𝗻𝗱𝗲𝗿𝘀𝗰𝗼𝗿𝗲 '_', 𝗮𝗻𝗱 𝗵𝘆𝗽𝗵𝗲𝗻 '-'.\n"
+						+ "   -𝗺𝘂𝘀𝘁 𝗻𝗼𝘁 𝗯𝗲 𝘁𝗵𝗲 𝗳𝗶𝗿𝘀𝘁 𝗼𝗿 𝗹𝗮𝘀𝘁 𝗰𝗵𝗮𝗿𝗮𝗰𝘁𝗲𝗿.\n" + "   -𝗱𝗼𝗲𝘀 𝗻𝗼𝘁 𝗮𝗽𝗽𝗲𝗮𝗿 𝗰𝗼𝗻𝘀𝗲𝗰𝘂𝘁𝗶𝘃𝗲𝗹𝘆\n"
+						+ " 𝗠𝘂𝘀𝘁 𝗯𝗲 𝗯𝗲𝘄𝘁𝗲𝗲𝗻 𝟱 𝘁𝗼 𝟮𝟬.\n\n 🚨 𝗙𝗿𝗮𝘂𝗱𝘂𝗹𝗲𝗻𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻 𝗱𝗲𝘁𝗲𝗰𝘁𝗲𝗱, 𝗰𝗮𝗻𝗰𝗲𝗹𝗶𝗻𝗴 𝗮𝗽𝗽𝗹𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗮𝗻𝗱 𝗰𝗮𝗹𝗹𝗶𝗻𝗴 𝘁𝗵𝗲 𝗽𝗼𝗹𝗶𝗰𝗲! 🚨");
 				mainMenuPrint();
 				break;
 			}
@@ -147,8 +147,8 @@ public class AppMain {
 				break;
 
 			} else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$")) {
-				System.out.println("-- PASSWORD REQUIREMENTS --\n" + "At least 6 characters\n" + "At least one letter\n"
-						+ "At least one number\n");
+				System.out.println("❗ 𝗣𝗔𝗦𝗦𝗪𝗢𝗥𝗗 𝗥𝗘𝗤𝗨𝗜𝗥𝗘𝗠𝗘𝗡𝗧𝗦\n                                                                                                                                      \n" + " 𝗔𝘁 𝗹𝗲𝗮𝘀𝘁 𝟲 𝗰𝗵𝗮𝗿𝗮𝗰𝘁𝗲𝗿𝘀\n" + " 𝗔𝘁 𝗹𝗲𝗮𝘀𝘁 𝗼𝗻𝗲 𝗹𝗲𝘁𝘁𝗲𝗿\n"
+						+ " 𝗔𝘁 𝗹𝗲𝗮𝘀𝘁 𝗼𝗻𝗲 𝗻𝘂𝗺𝗯𝗲𝗿\n\n 🚨 𝗙𝗿𝗮𝘂𝗱𝘂𝗹𝗲𝗻𝘁 𝗶𝗻𝗳𝗼𝗿𝗺𝗮𝘁𝗶𝗼𝗻 𝗱𝗲𝘁𝗲𝗰𝘁𝗲𝗱, 𝗰𝗮𝗻𝗰𝗲𝗹𝗶𝗻𝗴 𝗮𝗽𝗽𝗹𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗮𝗻𝗱 𝗰𝗮𝗹𝗹𝗶𝗻𝗴 𝘁𝗵𝗲 𝗽𝗼𝗹𝗶𝗰𝗲! 🚨");
 				mainMenuPrint();
 				break;
 			}
@@ -274,10 +274,10 @@ public class AppMain {
 			Account account = new Account();
 
 			System.out.println(
-					"𝗢𝗽𝗲𝗻 𝘄𝗵𝗮𝘁 𝗸𝗶𝗻𝗱 𝗼𝗳 𝗔𝗰𝗰𝗼𝘂𝗻𝘁?\n [𝟭] 𝗖𝗵𝗲𝗰𝗸𝗶𝗻𝗴 𝗔𝗰𝗰𝗼𝘂𝗻𝘁\n [2] Savings\n");
+					"𝗢𝗽𝗲𝗻 𝘄𝗵𝗮𝘁 𝗸𝗶𝗻𝗱 𝗼𝗳 𝗔𝗰𝗰𝗼𝘂𝗻𝘁?\n [𝟭] 𝗖𝗵𝗲𝗰𝗸𝗶𝗻𝗴 𝗔𝗰𝗰𝗼𝘂𝗻𝘁\n [𝟮] 𝗦𝗮𝘃𝗶𝗻𝗴𝘀\n");
 			String accountChoice = scanner.nextLine();
 
-			System.out.println("Initial Deposit: ");
+			System.out.println("➡️ 𝗜𝗻𝗶𝘁𝗶𝗮𝗹 𝗗𝗲𝗽𝗼𝘀𝗶𝘁 ");
 
 			if (scanner.hasNextDouble()) {
 				double deposit = scanner.nextDouble();
@@ -315,7 +315,7 @@ public class AppMain {
 				+ "                                                                                                                                      \n");
 		System.out.println(accounts);
 
-		System.out.println("[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝗺𝗮𝗸𝗲 𝘄𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹."
+		System.out.println("[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝗺𝗮𝗸𝗲 𝗱𝗲𝗽𝗼𝘀𝗶𝘁."
 				+ "	[𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹");
 		String input = scanner.nextLine();
 		Integer id = -1;
@@ -332,7 +332,7 @@ public class AppMain {
 			if (acc.getId() == id.intValue()) {
 
 				System.out.println("\n                          \n" + "🏦 𝗔𝗰𝗰𝗼𝘂𝗻𝘁# [" + acc.getId() + "]"
-						+ "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 " + acc.getBalance() + "\n                          \n"
+						+ "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 " + accountService.convertCurrency(acc.getBalance()) + "\n                          \n"
 						+ "𝗖𝗼𝗻𝗳𝗶𝗿𝗺 𝗮𝗰𝗰𝗼𝘂𝗻𝘁 [𝘆/𝗻]");
 
 				input = scanner.nextLine().toLowerCase();
@@ -372,7 +372,7 @@ public class AppMain {
 				+ "                                                                                                                                      \n");
 		System.out.println(accounts);
 		System.out.println(
-				"[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝗺𝗮𝗸𝗲 𝗱𝗲𝗽𝗼𝘀𝗶𝘁." + "	[𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹");
+				"[𝗘𝗻𝘁𝗲𝗿 𝗜𝗗] 𝘁𝗼 𝗺𝗮𝗸𝗲 𝘄𝗶𝘁𝗵𝗱𝗿𝗮𝘄𝗮𝗹." + "	[𝗮𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗲𝗹𝘀𝗲] 𝘁𝗼 𝗰𝗮𝗻𝗰𝗲𝗹");
 		String input = scanner.nextLine();
 		Integer id = -1;
 		try {
@@ -388,7 +388,7 @@ public class AppMain {
 			if (acc.getId() == id.intValue()) {
 
 				System.out.println("\n                          \n" + "🏦 𝗔𝗰𝗰𝗼𝘂𝗻𝘁# " + acc.getId()
-						+ "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 " + acc.getBalance() + "\n                          \n"
+						+ "\n💰 𝗕𝗮𝗹𝗮𝗻𝗰𝗲 " + accountService.convertCurrency(acc.getBalance()) + "\n                          \n"
 						+ "𝗖𝗼𝗻𝗳𝗶𝗿𝗺 𝗮𝗰𝗰𝗼𝘂𝗻𝘁 [𝘆/𝗻]");
 
 				input = scanner.nextLine().toLowerCase();
@@ -464,16 +464,16 @@ public class AppMain {
 	private static void mainMenuPrint() {
 		System.out.println("\n"
 				+ "                                                                                                                                      \n"
-				+ "⡷⠂                           🏦 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜.                             ⠐⢾\n"
+				+ "⡷⠂  🏦 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜.                                                      ⠐⢾\n"
 				+ "                                                                                                                                      \n");
-		System.out.println(" [𝟭] 𝗟𝗼𝗴𝗶𝗻\n" + " [𝟮] 𝗥𝗲𝗴𝗶𝘀𝘁𝗲𝗿 𝗨𝘀𝗲𝗿\n\n" + " [𝟯] 𝗘𝘅𝗶𝘁 𝗕𝗮𝗻𝗸\n"
+		System.out.println(" [𝟭] 🔒 𝗟𝗼𝗴𝗶𝗻\n" + " [𝟮] 👤 𝗥𝗲𝗴𝗶𝘀𝘁𝗲𝗿 𝗨𝘀𝗲𝗿\n\n" + " [𝟯] ❌ 𝗘𝘅𝗶𝘁 𝗕𝗮𝗻𝗸\n"
 				+ "\n𝘾𝙝𝙤𝙤𝙨𝙚 𝙖𝙣 𝙤𝙥𝙩𝙞𝙤𝙣\n");
 	}
 
 	private static void accountMenuPrint() {
 		System.out.println(
 				"                                                                                                                                      \n"
-						+ "⡷⠂                     🏦 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜. - 𝐌𝐲 𝐀𝐜𝐜𝐨𝐮𝐧𝐭                                  ⠐⢾\n"
+						+ "⡷⠂  🏦 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐲𝐁𝐚𝐧𝐤 𝐈𝐧𝐜.                                                      ⠐⢾\n"
 						+ "                                                                                                                                      \n"
 						+ "👤 " + user.getName() + "\n" + "📞 " + user.getPhone() + "\n" + "✉️ " + user.getEmail()
 						+ "\n");
