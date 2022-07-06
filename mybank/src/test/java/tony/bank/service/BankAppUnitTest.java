@@ -145,7 +145,7 @@ class BankAppUnitTest {
 		Account mockAccount = new Account();
 		mockAccount.setBalance(100);
 
-		Mockito.when(accountDao.updateBalance(mockAccount, 75, "withdrawal", 25)).thenReturn(mockAccount);
+		Mockito.when(accountDao.updateBalance(mockAccount, 75)).thenReturn(mockAccount);
 
 		Account returnAccount = accountService.makeWithdraw(mockAccount, 25);
 
@@ -158,7 +158,7 @@ class BankAppUnitTest {
 		Account mockAccount = new Account();
 		mockAccount.setBalance(100);
 
-		Mockito.when(accountDao.updateBalance(mockAccount, 125, "deposit", 25)).thenReturn(mockAccount);
+		Mockito.when(accountDao.updateBalance(mockAccount, 125)).thenReturn(mockAccount);
 
 		Account returnAccount = accountService.makeDeposit(mockAccount, 25);
 
