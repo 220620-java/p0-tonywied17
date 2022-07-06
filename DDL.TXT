@@ -1,0 +1,78 @@
+-- DROP SCHEMA bank3;
+
+CREATE SCHEMA bank3 AUTHORIZATION postgres;
+
+-- DROP SEQUENCE bank3.account_id_seq;
+
+CREATE SEQUENCE bank3.account_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE bank3.transactions_id_seq;
+
+CREATE SEQUENCE bank3.transactions_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;
+-- DROP SEQUENCE bank3.users_id_seq;
+
+CREATE SEQUENCE bank3.users_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;-- bank3.transactions definition
+
+-- Drop table
+
+-- DROP TABLE bank3.transactions;
+
+CREATE TABLE bank3.transactions (
+	id serial4 NOT NULL,
+	acc_type varchar(50) NOT NULL,
+	amount varchar(100) NOT NULL,
+	balance_after varchar(100) NOT NULL,
+	account_id int4 NOT NULL,
+	CONSTRAINT transactions_pkey PRIMARY KEY (id)
+);
+
+
+-- bank3.users definition
+
+-- Drop table
+
+-- DROP TABLE bank3.users;
+
+CREATE TABLE bank3.users (
+	id serial4 NOT NULL,
+	username varchar(30) NOT NULL,
+	"password" varchar(30) NOT NULL,
+	fullname varchar(75) NOT NULL,
+	phone varchar(20) NOT NULL,
+	email varchar(100) NOT NULL,
+	CONSTRAINT users_pkey PRIMARY KEY (id),
+	CONSTRAINT users_username_key UNIQUE (username)
+);
+
+
+-- bank3.account definition
+
+-- Drop table
+
+-- DROP TABLE bank3.account;
+
+CREATE TABLE bank3.account (
+	id serial4 NOT NULL,
+	owner_id int4 NULL,
+	balance varchar(255) NOT NULL,
+	account_type varchar(20) NOT NULL,
+	CONSTRAINT account_pkey PRIMARY KEY (id),
+	CONSTRAINT account_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES bank3.users(id)
+);
