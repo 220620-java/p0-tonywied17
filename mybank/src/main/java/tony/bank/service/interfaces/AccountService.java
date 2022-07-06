@@ -3,6 +3,14 @@ package tony.bank.service.interfaces;
 import tony.bank.app.model.Account;
 import tony.bank.app.model.User;
 
+/*
+ * 
+ * ACCOUNT SERVICE INTERFACE (ABSTRACT CLASS)
+ * 
+ * ACCOUNT SERVICE FUNCTIONS DEFINED HERE WITH NO BODIES
+ * 
+ */
+
 public interface AccountService {
 	
 	public Account openAccount(Account account, User user, double deposit, String accountType);

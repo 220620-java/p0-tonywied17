@@ -3,6 +3,15 @@ package tony.bank.data.structures;
 import java.util.Arrays;
 import java.util.Objects;
 
+
+/*
+ * CUSTOM ARRAY LIST DATA STRUCTURE
+ * 
+ * THE CUSTOM ARRAY LIST DATA STRUCTURE IS USED TO ASSIGN MULITPLE BANK ACCOUNTS TO ONE USER
+ * 
+ */
+
+
 public class ArrayList<T> implements List<T> {
 	private T[] array;
 	private int nextIndex;
